@@ -1,0 +1,20 @@
+#installer {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    text-align: center;
+    transition: opacity 300ms ease-in-out;
+    .available {
+        opacity: 1;
+    }
+    .button {
+         border: white 1px solid;
+         margin:10px;
+         padding: 10px;
+         color: white;
+         background-color: transparent;
+     }
+}
+
+
