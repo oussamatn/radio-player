@@ -75,9 +75,9 @@
                                             <div class="pad-left fx fx-slide-left fx-delay-2">
                                                 <h3 class="text-clip">{{ channel.name }}</h3>
                                                 <div class="text-nowrap">
-                                                    <span class="text-clip text-uppercase">{{ channel.shortcode | toText }} &nbsp;</span>
-                                                    <fav-btn :id="channel.id" :active="channel.favorite"
-                                                             @change="toggleFavorite"></fav-btn>
+                                                    <span class="text-clip text-uppercase">a {{ channel.shortcode | toText }} &nbsp;</span>
+                                                    <favBtn :id="channel.id" :active="channel.favorite"
+                                                             @change="toggleFavorite"></favBtn>
                                                 </div>
                                             </div>
                                         </div>
@@ -256,7 +256,7 @@
                                         <div class="player-stations-list-title text-bright text-clip">{{ c.name }}</div>
                                         <div class="text-nowrap">
                                             <!--  <span class="text-secondary"><i class="fa fa-headphones"></i> {{ c.listeners | toCommas( 0 ) }} &nbsp;</span> -->
-                                            <fav-btn :id="c.id" :active="c.favorite" @change="toggleFavorite"></fav-btn>
+                                            <favBtn :id="c.id" :active="c.favorite" @change="toggleFavorite"></favBtn>
                                         </div>
                                     </div>
                                     <div class="text-small">
@@ -280,10 +280,12 @@
     /**
      * Main app JS entry file.
      */
+
+
     // import '../js/serviceWorker';
     import '../scss/app.scss';
     import '../js/filters';
-    import '../js/favorite';
+    //import '../js/favorite';
     // import "../js/PWAinstaller";
     //import "../js/init-firebase";
 
@@ -292,9 +294,13 @@
     //import _scene from '../js/scene';
     import _utils from '../js/utils';
     import _store from '../js/store';
+    import favBtn from "@/views/favBtn";
 
     export default {
         name: 'home',
+        components: {
+            favBtn
+        },
         data: () => {
             return {
                 // toggles

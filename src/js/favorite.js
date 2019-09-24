@@ -1,7 +1,7 @@
 /**
  * Vue component used to toggle channel favorite
  */
-
+/*
 import Vue from 'vue'
 
 Vue.component( 'fav-btn', {
@@ -15,3 +15,4 @@ Vue.component( 'fav-btn', {
       <i v-else class="fa fa-heart-o fx fx-drop-in" key="off"></i>
     </button>`,
 });
+*/
