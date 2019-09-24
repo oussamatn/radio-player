@@ -1,6 +1,8 @@
 /**
  * Soma-FM API handler
  */
+import axios from 'axios';
+
 var API= 'https://jelliti.me';
 export default {
 

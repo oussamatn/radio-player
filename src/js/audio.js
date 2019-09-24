@@ -4,7 +4,7 @@
 export default {
   _audio: new Audio(),
   _audioContext: AudioContext || window.webkitAudioContext,
-  _context: new this._audioContext(),
+  _context: new (AudioContext || window.webkitAudioContext),
   _freq: new Uint8Array(),
   _source: null,
   _gain: null,

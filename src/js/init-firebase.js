@@ -1,4 +1,4 @@
-
+import * as firebase from 'firebase';
 
 let firebaseConfig;
 firebaseConfig = {

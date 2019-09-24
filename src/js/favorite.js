@@ -1,9 +1,12 @@
 /**
  * Vue component used to toggle channel favorite
  */
+
+import Vue from 'vue'
+
 Vue.component( 'fav-btn', {
   props: {
-    id: { type: String, default: '', required: true },
+    id: { type: Number, default: '', required: true },
     active: { type: Boolean, default: false },
   },
   template: `

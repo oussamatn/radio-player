@@ -2,6 +2,8 @@
  * Vue custom filters
  */
 
+import Vue from 'vue'
+
 // comma separate long numerical values
 Vue.filter( 'toCommas', ( num, decimals ) => {
   let o = { style: 'decimal', minimumFractionDigits: decimals, maximumFractionDigits: decimals };
