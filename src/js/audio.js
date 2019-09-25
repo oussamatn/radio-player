@@ -32,22 +32,19 @@ export default {
 
 
         this._audio.addEventListener('canplaythrough', e => {
-            console.log('canplaythrough');
-            console.log(this._context.state);
-
+            console.log('canplaythrough: ' +this._context.state);
             if (this._context.state === 'running') {
                 this._freq = new Uint8Array(this._analyser.frequencyBinCount);
+                try {
+                    this._audio.play();
+                } catch (e) {
+                    console.log(e);
+                }
 
-                this._audio.play();
             }
-            ;
-
         });
         return this._audio;
-
     },
-
-
     // update and return analyser frequency data
     getFreqData() {
         this._analyser.getByteFrequencyData(this._freq);
@@ -76,14 +73,17 @@ export default {
         try {
             this._audio.pause();
         } catch (e) {
+            //console.log(e);
         }
         try {
             this._audio.stop();
         } catch (e) {
+            //console.log(e);
         }
         try {
             this._audio.close();
         } catch (e) {
+            //console.log(e);
         }
     },
 }

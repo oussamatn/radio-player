@@ -11,15 +11,9 @@
                     <circle cx="50" cy="50" fill="none" r="40" stroke="#1e1f30" stroke-width="6" stroke-linecap="round"
                             stroke-dasharray="150 100"></circle>
                 </svg>
-                <noscript>
-                    This applications requires Javascript to run.
-                    Make sure Javascript is enabled in your web browser settings and try again.
-                    <a href="https://www.enable-javascript.com/" target="_blank">Visit this link</a>
-                    for more information on how to enable Javascript.
-                </noscript>
             </div>
             <!-- app player container -->
-            <main id="player-wrap" class="player-wrap" style="opacity: 0;">
+            <main id="player-wrap" class="player-wrap" style="opacity: 0;" v-hammer:swipe.horizontal="onSwipe">
 
                 <!-- bg absolute elements -->
                 <!-- <figure id="player-bg" class="player-bg" style="background-image: url( img/bg.jpg );"></figure> -->
@@ -38,7 +32,7 @@
                     </header>
 
                     <!-- player middle content area -->
-                    <main class="player-content flex-row">
+                    <main class="player-content flex-row" v-hammer:swipe.horizontal="onSwipe">
 
                         <!-- default greet message -->
                         <section class="player-greet" v-if="!hasChannel && !hasError">
@@ -480,7 +474,14 @@
             toggleSidebar(toggle) {
                 this.sidebar = (typeof toggle === 'boolean') ? toggle : false;
             },
-
+            onSwipe(event){
+                console.log(event.type);
+                if (event.type == "swipeleft") {
+                    this.toggleSidebar(true)
+                } else {
+                    this.toggleSidebar(false)
+                }
+            },
             // show sidebar at startup if there are no errors
             initSidebar() {
                 if (this.hasError) return;
