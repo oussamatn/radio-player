@@ -18,7 +18,7 @@
                 <!-- bg absolute elements -->
                 <!-- <figure id="player-bg" class="player-bg" style="background-image: url( img/bg.jpg );"></figure> -->
                 <figure id="player-bg" class="player-bg" style="background-image: url( img/icon.png );"></figure>
-                <canvas id="player-canvas" class="player-canvas"></canvas>
+                <canvas id="player-canvas" class="player-canvas" ></canvas>
 
                 <!-- main player layout -->
                 <section class="player-layout">
@@ -242,7 +242,7 @@
                             <li class="player-stations-list-item flex-row flex-top flex-stretch"
                                 v-for="c of channelsList"
                                 :key="c.id" @click="setRoute( c.route )" :class="{ 'active': c.active }">
-                                <figure class="push-right if-small">
+                                <figure class="push-right ">
                                     <img class="img-round" width="70" height="70" :src="c.image" :alt="c.name"/>
                                 </figure>
                                 <aside class="flex-1">
@@ -254,8 +254,7 @@
                                         </div>
                                     </div>
                                     <div class="text-small">
-                                        <!-- <span class="text-faded text-uppercase text-small">{{ c.genre | toText }}</span> <br /> -->
-                                        {{ c.description }}
+                                        <span class="text-faded text-uppercase text-small">{{ c.description | toText}}</span> <br />
                                     </div>
                                 </aside>
                             </li>
@@ -365,6 +364,7 @@
                         return i;
                     });
                 }
+                console.log(list);
                 return list;
             },
 
