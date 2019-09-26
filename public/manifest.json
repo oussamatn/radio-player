@@ -8,6 +8,7 @@
   "description": "Joujma FM webplayer",
   "background_color": "#222336",
   "theme_color": "#222336",
+  "gcm_sender_id": "269224550083",
   "icons": [
     {
       "src": "./img/icons/icon_1024x1024.eaecdb5fcf39546860fdcb38e204c749.png",

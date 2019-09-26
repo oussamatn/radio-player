@@ -278,9 +278,9 @@
     // import '../js/serviceWorker';
     import '../scss/app.scss';
     import '../js/filters';
-    //import '../js/favorite';
+
     // import "../js/PWAinstaller";
-    //import "../js/init-firebase";
+    import "../js/init-firebase";
 
     import _soma from '../js/soma';
     import _audio from '../js/audio';
