@@ -11,17 +11,13 @@ firebaseConfig = {
     messagingSenderId: "269224550083",
     appId: "1:269224550083:web:9fa80b0fb732dfe4"
 };
-
-
 /*
  // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
  // The Firebase SDK is initialized and available here!
-
  firebase.auth().onAuthStateChanged(user => { });
  firebase.database().ref('/path/to/ref').on('value', snapshot => { });
  firebase.messaging().requestPermission().then(() => { });
  firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-
  // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
    Initialize Firebase with a "default" Firebase project
 */
@@ -33,7 +29,6 @@ messaging.usePublicVapidKey("BGwgmlTd-J5Xeg7Z2ST2ztIS6XuTOY0r2GG8t4AFw9SE4mhaq0C
 // Request Permission of Notifications
 messaging.requestPermission().then(() => {
     console.log('Notification permission granted.');
-
     // Get Token
     messaging.getToken().then((token) => {
         console.log(token)

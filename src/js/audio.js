@@ -3,7 +3,7 @@
  */
 export default {
     _audio: new Audio(),
-    _context: new (window.AudioContext || window.webkitAudioContext),
+    _context: new (window.AudioContext || window.webkitAudioContext)(),
     _freq: new Uint8Array(),
     _source: null,
     _gain: null,
@@ -32,7 +32,7 @@ export default {
 
 
         this._audio.addEventListener('canplaythrough', e => {
-            console.log('canplaythrough: ' +this._context.state);
+            console.log('canplaythrough: ' + this._context.state);
             if (this._context.state === 'running') {
                 this._freq = new Uint8Array(this._analyser.frequencyBinCount);
                 try {
@@ -50,7 +50,21 @@ export default {
         this._analyser.getByteFrequencyData(this._freq);
         return this._freq;
     },
+    unlockAudioContext(audioCtx) {
+        if (audioCtx.state === 'suspended') {
+            var events = ['touchstart', 'touchend', 'mousedown', 'keydown'];
+            var unlock = function unlock() {
+                events.forEach(function (event) {
+                    document.body.removeEventListener(event, unlock)
+                });
+                audioCtx.resume();
+            };
 
+            events.forEach(function (event) {
+                document.body.addEventListener(event, unlock, false)
+            });
+        }
+    },
     // set audio volume
     setVolume(volume) {
         if (!this._gain) return;
