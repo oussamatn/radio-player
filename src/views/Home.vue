@@ -100,15 +100,15 @@
                                      -->
 
 
-                                    <div class="card push-bottom flex-row flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
+                                    <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
                                          :key="track.played_at">
 
-                                        <img class="fx fx-fade-in" width="70" height="70" :src="currentsong.art"/>
-                                        <div class="pad-left">
+                                       <div class="pad-top"><img class="fx fx-fade-in" width="100%" height="100%" :src="currentsong.art"/></div>
+                                        <div class="pad-bottom">
                                             <div><span
                                                     class="text-secondary">{{ currentsong.title | toText( 'N/A' ) }}</span>
                                             </div>
-                                            <!--                       <div><span class="text-faded">From:</span> <span class="text-bright">{{ currentsong.album | toText( 'N/A' ) }}</span></div> -->
+
                                             <div><span class="text-faded">By:</span> <span class="text-bright">{{ currentsong.artist | toText( 'N/A' ) }}</span>
                                             </div>
                                         </div>

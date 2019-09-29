@@ -15,47 +15,23 @@ let firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
 const db = firebase.firestore();
-let tokens = [];
-messaging.usePublicVapidKey("BGwgmlTd-J5Xeg7Z2ST2ztIS6XuTOY0r2GG8t4AFw9SE4mhaq0C-9xvUdsb1VE9a32WxeHMKgSzHTWl3GmD5V18"); // 1. Generate a new key pair
-const sendTokenToServer = (token) => {
-    db.collection('notificationTokens')
-        .add({
-            token,
-        })
-        .then(() => {
-            console.log('Document successfully written!');
-        })
-        .catch((error) => {
-            console.error('Error writing document: ', error);
-        });
-};
-const checkTokenExist = (token) => {
-    let isExist = false;
-    tokens.forEach((doc) => {
-        console.log(doc.data())
-        if (doc.data().token === token)
-            isExist = true;
-    });
-    return isExist;
-};
-// Request Permission of Notifications
-messaging.requestPermission().then(() => {
+if (firebase.messaging.isSupported()){
+    const messaging = firebase.messaging();
+
+    messaging.usePublicVapidKey("BGwgmlTd-J5Xeg7Z2ST2ztIS6XuTOY0r2GG8t4AFw9SE4mhaq0C-9xvUdsb1VE9a32WxeHMKgSzHTWl3GmD5V18"); // 1. Generate a new key pair
+
+    // Request Permission of Notifications
+    messaging.requestPermission().then(() => {
     console.log('Notification permission granted.');
-    // Get Token
+    // Get TokenNew content is available
     messaging.getToken().then((currentToken) => {
         console.log(currentToken);
         if (currentToken) {
-            //sendTokenToServer(currentToken);
             db.collection('notificationTokens').where('token', '==', currentToken).get()
                 .then((querySnapshot) => {
                     if (querySnapshot.empty)
                         sendTokenToServer(currentToken);
-
-                   // tokens = querySnapshot;
-                    //console.log(tokens);
-                    //if (!checkTokenExist(currentToken)) sendTokenToServer(currentToken);
                 })
                 .catch((error) => {
                     console.error('>> error ', error);
@@ -63,15 +39,21 @@ messaging.requestPermission().then(() => {
         } else {
             // Show permission request.
             console.log('No Instance ID token available. Request permission to generate one.');
-            // Show permission UI.
-            //updateUIForPushPermissionRequired();
-            //setTokenSentToServer(false);
         }
     }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);
         console.log('Error retrieving Instance ID token. ', err);
-        //setTokenSentToServer(false);
+
     });
 }).catch((err) => {
     console.log('Unable to get permission to notify.', err);
 });
+}
+const sendTokenToServer = (token) => {
+    db.collection('notificationTokens').add({token,})
+        .then(() => {
+            console.log('Document successfully written!');
+        }).catch((error) => {
+        console.error('Error writing document: ', error);
+    });
+};
