@@ -16,19 +16,19 @@ export default {
         this._source = this._context.createMediaElementSource(this._audio);
         this._analyser = this._context.createAnalyser();
         this._gain = this._context.createGain();
-
+        this.unlockAudioContext(this._context);
         this._source.connect(this._gain);
         this._source.connect(this._analyser);
         this._gain.connect(this._context.destination);
-        document.addEventListener('click', e => {
+       /* document.addEventListener('click', e => {
             if (this._context.state === "suspended") {
                 this._context.resume().then(() => {
                     console.log("audioContext has been resumed !");
                 });
 
             }
-            ;
-        });
+
+        });*/
 
 
         this._audio.addEventListener('canplaythrough', e => {
@@ -54,10 +54,13 @@ export default {
         if (audioCtx.state === 'suspended') {
             var events = ['touchstart', 'touchend', 'mousedown', 'keydown'];
             var unlock = function unlock() {
-                events.forEach(function (event) {
-                    document.body.removeEventListener(event, unlock)
-                });
-                audioCtx.resume();
+                if (audioCtx.resume)  audioCtx.resume();
+                if (audioCtx.state !== 'suspended' ) {
+                    events.forEach(function (event) {
+                        document.body.removeEventListener(event, unlock)
+                    });
+                }
+                console.log("audioContext state: "+audioCtx.state);
             };
 
             events.forEach(function (event) {
