@@ -1,5 +1,5 @@
 /**
- * Soma-FM API handler
+ * Joujma  API handler
  */
 import axios from 'axios';
 
@@ -43,8 +43,6 @@ export default {
     
     if ( Array.isArray( channels ) ) {
       for ( let c of channels ) {
-        //if ( !Array.isArray( c.playlists ) ) continue;
-        //c.plsfile   = c.playlists.filter( p => ( p.format === 'mp3' && /^(highest|high)$/.test( p.quality ) ) ).shift().url || '';
         c.mp3file   = c.listen_url;
         c.image     = '/img/'+c.shortcode+'.png';
         c.songsurl  = API+'/api/nowplaying/'+ c.id;

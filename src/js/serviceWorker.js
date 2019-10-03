@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator) {
 }
 */
 navigator.serviceWorker
-    .register('./ firebase-messaging-sw.js')
+    .register('./firebase-messaging-sw.js')
     .then((registration) => {
         firebase.messaging().useServiceWorker(registration);
     });

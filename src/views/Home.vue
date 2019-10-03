@@ -35,8 +35,31 @@
                     <main class="player-content flex-row" v-hammer:swipe.horizontal="onSwipe">
 
                         <!-- default greet message -->
+
                         <section class="player-greet" v-if="!hasChannel && !hasError">
                             <div class="fx fx-slide-left push-bottom"><h1>Pick a Station</h1></div>
+                            <ul>
+                                <li class="player-stations-list-item flex-row flex-top flex-stretch"
+                                    v-for="c of channelsList"
+                                    :key="c.id" @click="setRoute( c.route )" :class="{ 'active': c.active }">
+                                    <figure class="push-right ">
+                                        <img class="img-round" width="70" height="70" :src="c.image" :alt="c.name"/>
+                                    </figure>
+                                    <aside class="flex-1">
+                                        <div class="flex-row flex-middle flex-space">
+                                            <div class="player-stations-list-title text-bright text-clip">{{ c.name }}</div>
+                                            <div class="text-nowrap">
+                                                <!--  <span class="text-secondary"><i class="fa fa-headphones"></i> {{ c.listeners | toCommas( 0 ) }} &nbsp;</span> -->
+                                                <favBtn :id="c.id" :active="c.favorite" @change="toggleFavorite"></favBtn>
+                                            </div>
+                                        </div>
+                                        <div class="text-small">
+                                            <span class="text-faded text-uppercase text-small">{{ c.description | toText}}</span> <br />
+                                        </div>
+                                    </aside>
+                                </li>
+                            </ul>
+
                             <div class="fx fx-slide-left fx-delay-1 push-bottom">
                                 <div id="firebaseui-auth-container"></div>
                             </div>
@@ -274,15 +297,13 @@
      * Main app JS entry file.
      */
 
-
-    // import '../js/serviceWorker';
     import '../scss/app.scss';
     import '../js/filters';
 
     // import "../js/PWAinstaller";
     import "../js/init-firebase";
 
-    import _soma from '../js/soma';
+    import _joujma from '../js/api';
     import _audio from '../js/audio';
     //import _scene from '../js/scene';
     import _utils from '../js/utils';
@@ -451,7 +472,7 @@
                 document.addEventListener('visibilitychange', e => {
                     this.visible = (document.visibilityState === 'visible')
                 });
-                window.addEventListener('hashchange', e => this.applyRoute(window.location.hash));
+                // window.addEventListener('hashchange', e => this.applyRoute(window.location.hash));
                 window.addEventListener('keydown', this.onKeyboard);
                 this.init = true;
             },
@@ -476,9 +497,12 @@
             },
             onSwipe(event){
                 console.log(event.type);
+                document.querySelector('#player-wrap').style.touchAction = 'pan-y';
+                document.querySelector('.player-content').style.touchAction = 'pan-y';
                 if (event.type == "swipeleft") {
                     this.toggleSidebar(true)
                 } else {
+
                     this.toggleSidebar(false)
                 }
             },
@@ -537,7 +561,7 @@
                 }
                 const elm = document.createElement('a');
                 elm.setAttribute('href', 'data:audio/mpegurl;charset=utf-8,' + encodeURIComponent(data));
-                elm.setAttribute('download', 'somafm_favorites.m3u');
+                elm.setAttribute('download', 'Joujma_favorites.m3u');
                 elm.setAttribute('target', '_blank');
                 document.body.appendChild(elm);
                 setTimeout(() => elm.click(), 100);
@@ -574,6 +598,7 @@
                 });
                 a.addEventListener('error', e => {
                     this.closeAudio();
+                    console.log(e);
                     this.setError('stream', `The selected stream (${this.channel.title}) could not load, or has stopped loading due to a network problem.`);
                     this.playing = false;
                     this.loading = false;
@@ -601,7 +626,7 @@
 
             // get channels data from api
             getChannels(sidebar) {
-                _soma.getChannels((err, channels) => {
+                _joujma.getChannels((err, channels) => {
                     if (err) return this.setError('channels', err);
                     if (sidebar) this.toggleSidebar(true);
                     this.channels = channels;
@@ -620,7 +645,7 @@
                     this.currentsong = {};
                 }
 
-                _soma.getSongs(channel, (err, songs) => {
+                _joujma.getSongs(channel, (err, songs) => {
                     if (err) return this.setError('songs', err);
                     if (typeof cb === 'function') cb(songs);
                     this.track = songs.now_playing;

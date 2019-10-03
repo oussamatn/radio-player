@@ -1,9 +1,12 @@
 /**
  * Audio handler object
  */
+import { AudioContext } from 'standardized-audio-context';
+
 export default {
     _audio: new Audio(),
-    _context: new (window.AudioContext || window.webkitAudioContext)(),
+    _context: new AudioContext(),
+    //_context: new (window.AudioContext || window.webkitAudioContext)(),
     _freq: new Uint8Array(),
     _source: null,
     _gain: null,
@@ -20,55 +23,47 @@ export default {
         this._source.connect(this._gain);
         this._source.connect(this._analyser);
         this._gain.connect(this._context.destination);
-       /* document.addEventListener('click', e => {
-            if (this._context.state === "suspended") {
-                this._context.resume().then(() => {
-                    console.log("audioContext has been resumed !");
-                });
-
-            }
-
-        });*/
-
-
         this._audio.addEventListener('canplaythrough', e => {
-            console.log('canplaythrough: ' + this._context.state);
-            if (this._context.state === 'running') {
-                this._freq = new Uint8Array(this._analyser.frequencyBinCount);
-                try {
-                    this._audio.play();
-                } catch (e) {
-                    console.log(e);
-                }
-
-            }
+                console.log('canplaythrough: ' + this._context.state);
+                this.playAudio();
         });
         return this._audio;
     },
-    // update and return analyser frequency data
+// update and return analyser frequency data
     getFreqData() {
         this._analyser.getByteFrequencyData(this._freq);
         return this._freq;
+    },
+    playAudio(){
+        if (this._context.state === 'running') {
+            this._freq = new Uint8Array(this._analyser.frequencyBinCount);
+            this._audio.play().then(_a => {
+                console.log("autoplay");
+            }).catch(e => {
+                console.log("auddio :" + e);
+            })
+        }
     },
     unlockAudioContext(audioCtx) {
         if (audioCtx.state === 'suspended') {
             var events = ['touchstart', 'touchend', 'mousedown', 'keydown'];
             var unlock = function unlock() {
-                if (audioCtx.resume)  audioCtx.resume();
-                if (audioCtx.state !== 'suspended' ) {
-                    events.forEach(function (event) {
-                        document.body.removeEventListener(event, unlock)
-                    });
-                }
-                console.log("audioContext state: "+audioCtx.state);
+                console.log("audioContext state: " + audioCtx.state);
+                if (audioCtx.resume) audioCtx.resume().then(()=>{
+                    console.log("audioContext resume state: " + audioCtx.state);
+                    if (audioCtx.state !== 'suspended') {
+                        events.forEach(function (event) {
+                            document.body.removeEventListener(event, unlock)
+                        });
+                    }
+                });
             };
-
             events.forEach(function (event) {
                 document.body.addEventListener(event, unlock, false)
             });
         }
     },
-    // set audio volume
+// set audio volume
     setVolume(volume) {
         if (!this._gain) return;
         volume = parseFloat(volume) || 0.0;
@@ -77,7 +72,7 @@ export default {
         this._gain.gain.value = volume;
     },
 
-    // play audio source url
+// play audio source url
     playSource(source) {
         this.stopAudio();
         this._audio.src = String(source || '');
@@ -85,7 +80,7 @@ export default {
         this._audio.load();
     },
 
-    // stop playing audio
+// stop playing audio
     stopAudio() {
         try {
             this._audio.pause();
