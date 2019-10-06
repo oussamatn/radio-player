@@ -16,12 +16,13 @@ export default {
     setupAudio() {
         console.log("setupAudio");
 
-        this._source = this._context.createMediaElementSource(this._audio);
-        this._analyser = this._context.createAnalyser();
+        if (this._source ==null )this._source = this._context.createMediaElementSource(this._audio);
+
+        //this._analyser = this._context.createAnalyser();
         this._gain = this._context.createGain();
-        this.unlockAudioContext(this._context);
+        if (this._context.state === 'suspended') this.unlockAudioContext(this._context);
         this._source.connect(this._gain);
-        this._source.connect(this._analyser);
+        //this._source.connect(this._analyser);
         this._gain.connect(this._context.destination);
         this._audio.addEventListener('canplaythrough', e => {
                 console.log('canplaythrough: ' + this._context.state);
@@ -30,13 +31,14 @@ export default {
         return this._audio;
     },
 // update and return analyser frequency data
-    getFreqData() {
+    /*getFreqData() {
         this._analyser.getByteFrequencyData(this._freq);
         return this._freq;
     },
+     */
     playAudio(){
         if (this._context.state === 'running') {
-            this._freq = new Uint8Array(this._analyser.frequencyBinCount);
+            //this._freq = new Uint8Array(this._analyser.frequencyBinCount);
             this._audio.play().then(_a => {
                 console.log("autoplay");
             }).catch(e => {

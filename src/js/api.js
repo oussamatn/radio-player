@@ -22,11 +22,11 @@ export default {
   },
 
   // fetch songs for a channel
-  getSongs( channel, callback ) {
+  getSongs( channel_id, callback ) {
 
-    const apiurl = channel.songsurl || '';
-    const title  = channel.name || '...';
-    const error  = 'There was a problem loading the list of songs for channel '+ title +' from JoujmaFM.';
+    let apiurl =   API+'/api/nowplaying/'+ channel_id;;
+    //let title  = channel.name || '...';
+    //let error  = 'There was a problem loading the list of songs for channel '+ title +' from JoujmaFM.';
 
     axios.get( apiurl ).then( res => {
       if ( !res.data ) return callback( error, [] );
@@ -55,5 +55,20 @@ export default {
     }
     
     return output;
+  },
+  _parseChannel( c ) {
+    //let output = [];
+
+
+        c.mp3file   = c.listen_url;
+        c.image     = '/img/'+c.shortcode+'.png';
+        //c.songsurl  = API+'/api/nowplaying/'+ c.id;
+        c.twitter   = 'https://twitter.com/@';
+
+        c.favorite  = false;
+        c.active    = false;
+        //output.push( c );
+
+    return c;
   }
 }

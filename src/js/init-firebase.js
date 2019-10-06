@@ -26,7 +26,7 @@ if (firebase.messaging.isSupported()){
     console.log('Notification permission granted.');
     // Get TokenNew content is available
     messaging.getToken().then((currentToken) => {
-        console.log(currentToken);
+        //console.log(currentToken);
         if (currentToken) {
             db.collection('notificationTokens').where('token', '==', currentToken).get()
                 .then((querySnapshot) => {
