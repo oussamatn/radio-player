@@ -33,7 +33,7 @@
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
                              :key="track.played_at">
 
-                            <div class="pad-top"><img class="fx fx-fade-in" width="100px" height="100px"
+                            <div class="pad-top"><img class="fx fx-fade-in"
                                                       :src="currentsong.art" id="coverArt" crossorigin="anonymous" /></div>
                             <div class="pad-bottom">
                                 <div><span
@@ -238,14 +238,15 @@
 
             // run maintenance tasks on a timer
             setupMaintenance() {
+                //this.track.remaining=30;
+                //console.log("remainingtime:",this.track.remaining);
                 this.itv = setInterval(() => {
-
+                    //clearInterval(this.itv);
                     console.log("setupMaintenance");
-                    //this.updateBackground();
-                    this.getSongs(this.stationId); // update channel tracks
+                    this.getSongs(); // update channel tracks
                     this.updateBackground();
-                    console.log(this.track.remaining);
-                }, 30 * 1000);
+                        //console.log("remainingtime:",this.track.remaining);
+                }, 30* 1000);
             },
 
             // set an error message
@@ -294,18 +295,19 @@
             updateBackground(){
                 if (this.colorThief == null) this.InitColorthief();
                 console.log("updateBackground");
+                this.$parent.background = this.currentsong.art;
                 let img = document.querySelector('#coverArt');
                 if (img.complete) {
                     this.bg = this.colorThief.getColor(img);
                 } else {
-                    img.addEventListener('load', function() {
+                    img.addEventListener('load', () => {
                         console.log("img>load");
                         console.log(this.colorThief.getColor(img));
                         this.bg = this.colorThief.getColor(img);
                     });
                 }
                 console.log("background ",this.bg);
-                if(this.bg) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.bg[0]+','+this.bg[1]+','+this.bg[2]+',1) 0%, rgba(65,58,44,1) 100%)';
+                if(this.bg) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.bg[0]+','+this.bg[1]+','+this.bg[2]+',1) 0%, #1e1f30 100%)';
             },
             // try resuming stream problem if possible
             tryAgain() {
@@ -353,7 +355,7 @@
             },
             // get songs list for a channel from api
             getSongs(stationId, cb) {
-                if (!stationId) return;
+                if (!stationId) stationId=this.stationId;
                 _joujma.getSongs(stationId, (err, songs) => {
                     if (err) return this.setError('songs', err);
                     this.track = songs.now_playing;

@@ -24,9 +24,9 @@ export default {
   // fetch songs for a channel
   getSongs( channel_id, callback ) {
 
-    let apiurl =   API+'/api/nowplaying/'+ channel_id;;
+    let apiurl =   API+'/api/nowplaying/'+ channel_id;
     //let title  = channel.name || '...';
-    //let error  = 'There was a problem loading the list of songs for channel '+ title +' from JoujmaFM.';
+    let error  = 'There was a problem loading the list of songs for this channel from JoujmaFM. ';
 
     axios.get( apiurl ).then( res => {
       if ( !res.data ) return callback( error, [] );

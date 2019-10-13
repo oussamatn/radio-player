@@ -98,7 +98,11 @@
     overflow: hidden;
     overflow-y: auto;
     padding: $padSpace;
-
+    #coverArt{
+      margin: auto;
+      width: 200px;
+      height: 200px;
+    }
     & > section {
       margin: auto 0; // prevent vertical aligned flex item from overflowing
     }

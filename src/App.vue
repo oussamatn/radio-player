@@ -17,7 +17,7 @@
         <!-- app player container -->
         <main id="player-wrap" class="player-wrap">
             <!-- bg absolute elements -->
-            <figure id="player-bg" class="player-bg" style="background-image: url( /img/icon.png );"></figure>
+            <figure id="player-bg" class="player-bg" v-bind:style="{ 'background-image': 'url(' + background + ')' }"></figure>
             <!-- main player layout -->
             <section class="player-layout">
                 <!-- player top header -->
@@ -103,6 +103,7 @@
                 searchText: '',
                 channels: [],
                 channel: {},
+                background : "/img/icon.png",
                 favorites: [],
                 errors: {},
             }
@@ -115,6 +116,7 @@
                 document.addEventListener('visibilitychange', e => {
                     this.visible = (document.visibilityState === 'visible')
                 });
+                this.background  = "/img/icon.png";
                 this.init = true;
             },
             // set an erro message
