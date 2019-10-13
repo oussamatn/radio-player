@@ -243,8 +243,8 @@
                 this.itv = setInterval(() => {
                     //clearInterval(this.itv);
                     console.log("setupMaintenance");
-                    this.getSongs(); // update channel tracks
-                    this.updateBackground();
+                    this.getSongs(this.stationId,()=>{this.updateBackground();}); // update channel tracks
+
                         //console.log("remainingtime:",this.track.remaining);
                 }, 30* 1000);
             },
