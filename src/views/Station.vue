@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="stationView">
         <main class="player-content flex-row">
             <section class="player-channel flex-1" :key="stationId">
                 <div class="flex-autorow flex-top flex-stretch">
@@ -33,7 +33,7 @@
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
                              :key="track.played_at">
 
-                            <div class="pad-top"><img class="fx fx-fade-in" width="100%" height="100%"
+                            <div class="pad-top"><img class="fx fx-fade-in" width="100px" height="100px"
                                                       :src="currentsong.art" id="coverArt" crossorigin="anonymous" /></div>
                             <div class="pad-bottom">
                                 <div><span
@@ -145,10 +145,6 @@
         components: {
             favBtn
         },
-        /*        created: function () {
-                    console.log("STATION ID  ", this.$route.params.id);
-                },
-                */
         data: () => {
             return {
                 // toggles
@@ -168,7 +164,7 @@
                 errors: {},
                 //background stuff
                 colorThief:null,
-                background: {},
+                bg: {},
                 // timer stuff
                 timeStart: 0,
                 timeDisplay: '00:00:00',
@@ -239,9 +235,7 @@
 
         // custom methods
         methods: {
-            redirectToStation(stationId) {
-                this.$router.push({name: 'station', params: {id: stationId}})
-            },
+
             // run maintenance tasks on a timer
             setupMaintenance() {
                 this.itv = setInterval(() => {
@@ -249,6 +243,7 @@
                     console.log("setupMaintenance");
                     //this.updateBackground();
                     this.getSongs(this.stationId); // update channel tracks
+                    this.updateBackground();
                     console.log(this.track.remaining);
                 }, 30 * 1000);
             },
@@ -301,16 +296,16 @@
                 console.log("updateBackground");
                 let img = document.querySelector('#coverArt');
                 if (img.complete) {
-                    this.background = this.colorThief.getColor(img);
+                    this.bg = this.colorThief.getColor(img);
                 } else {
                     img.addEventListener('load', function() {
                         console.log("img>load");
                         console.log(this.colorThief.getColor(img));
-                        this.background = this.colorThief.getColor(img);
+                        this.bg = this.colorThief.getColor(img);
                     });
                 }
-                console.log("background ",this.background);
-                if(this.background) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.background[0]+','+this.background[1]+','+this.background[2]+',1) 0%, rgba(65,58,44,1) 100%)';
+                console.log("background ",this.bg);
+                if(this.bg) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.bg[0]+','+this.bg[1]+','+this.bg[2]+',1) 0%, rgba(65,58,44,1) 100%)';
             },
             // try resuming stream problem if possible
             tryAgain() {
@@ -400,6 +395,7 @@
                 this.closeAudio();
                 this.getSongs(stationId, () => {
                     this.playChannel();
+                    this.updateBackground();
                 });
 
                 //this.channel = channel;
@@ -443,7 +439,7 @@
             },
         },
 
-        // on app mounted
+        // on app Created
         created() {
             console.log("created Station.vue");
             this.stationId = this.$route.params.id;

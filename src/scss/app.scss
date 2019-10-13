@@ -65,12 +65,14 @@
 }
 
 // player layout container
+.stationView,
 .player-layout {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: stretch;
   height: 100%;
+
 
   .player-header,
   .player-content,
