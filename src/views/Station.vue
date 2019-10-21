@@ -293,10 +293,11 @@
               this.colorThief = new ColorThief();
             },
             updateBackground(){
+                let img = document.querySelector('#coverArt');
                 if (this.colorThief == null) this.InitColorthief();
                 console.log("updateBackground");
-                this.$parent.background = this.currentsong.art;
-                let img = document.querySelector('#coverArt');
+                this.$parent.background = this.currentsong.art; // update player background
+
                 if (img.complete) {
                     this.bg = this.colorThief.getColor(img);
                 } else {
@@ -467,6 +468,7 @@
         destroyed() {
             this.closeAudio();
             this.clearTimers();
+            this.$parent.initView();
         }
 
     }

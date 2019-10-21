@@ -25,7 +25,7 @@
                     <h2 class="text-clip flex-1"><i class="fa fa-headphones"></i> <router-link to="/" exact
                                                                                                tag="span">FM Player</router-link></h2>
                     <button class="text-nowrap common-btn" id="sidebar" @click="toggleSidebar( true )"><i
-                            class="fa fa-bars"></i></button>
+                            class="fa fa-bars" aria-label="sidebar"></i></button>
                 </header>
                 <router-view></router-view>
             </section> <!-- layout wrapper -->
@@ -37,10 +37,10 @@
                     <header class="player-stations-header flex-row flex-middle flex-stretch">
                         <div class="form-input push-right">
                             <i class="fa fa-search"></i>
-                            <input type="text" placeholder="Search station..." v-model="searchText"/>
+                            <input type="text" placeholder="Search station..." v-model="searchText" aria-label="search"/>
                         </div>
                         <button class="common-btn" @click="toggleSidebar( false )"><i
-                                class="fa fa-times-circle"></i>
+                                class="fa fa-times-circle" aria-label="Closesidebar"></i>
                         </button>
                     </header>
 
@@ -134,26 +134,14 @@
                 if (k === 'Enter') return this.toggleSidebar(true);
                 if (k === 'Escape') return this.toggleSidebar(false);
             },
-            updateCurrentChannel() {
-                for (let c of this.channels) {
-                    // see if channel has been saved as a favorite
-                    c.favorite = (this.favorites.indexOf(c.id) >= 0);
-                    // see if channel is currently selected
-                    /*
-                    if (this.isCurrentChannel(c)) {
-                        this.channel = Object.assign(this.channel, c);
-                        c.active = true;
-                    }
-                     */
-                }
-            },
+
             getChannels(sidebar) {
                 _joujma.getChannels((err, channels) => {
                     if (err) return this.setError('channels', err);
                     if (sidebar) this.toggleSidebar(true);
                     this.channels = channels;
                     this.setError('channels', '');
-                    this.updateCurrentChannel();
+
                     //this.applyRoute(window.location.hash);
                 });
             },
@@ -228,8 +216,8 @@
         },
         // on app destroyed
         destroyed() {
-            this.closeAudio();
-            this.clearTimers();
+            //this.closeAudio();
+            //this.clearTimers();
         }
     }
 

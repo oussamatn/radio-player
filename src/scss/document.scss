@@ -9,6 +9,10 @@ html {
   overflow: hidden;
   overflow-y: auto;
 }
+
+@font-face {
+  font-display: swap;
+}
 body {
   font-family: $fontFamily;
   font-weight: $fontWeight;
