@@ -9,7 +9,7 @@ module.exports = {
   ],
   env: {
     production: {
-      plugins: [["transform-remove-console", { "exclude": [ "log", "error"] }] ]
+      plugins: ["transform-remove-console" ]
     }
   }
 }
