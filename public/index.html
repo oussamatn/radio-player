@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name=description content="JoujmaFM radio player, 24/7 live">
     <!-- Chrome, Firefox OS and Opera -->
     <meta name="theme-color" content="#222336">
     <!-- Windows Phone -->
@@ -15,11 +16,29 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Condensed:700"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <title>Joujma FM | Radio Station</title>
+      <style type="text/css">
+          @keyframes _spin { 0% { transform: rotate( 0deg ); } 100% { transform: rotate( 359deg ); } }
+          html, body { margin: 0; padding: 0; position: relative; overflow: hidden; min-height: 100vh; background-color: #8086a0; }
+          #_spnr { display: flex; flex-direction: column; align-items: center; justify-content: center; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 9999; }
+          #_spnr { text-align: center; font-family: Arial, Helvetica, sans-serif; color: antiquewhite; }
+          #_spnr svg { display: block; margin: 0; padding: 0; animation: _spin 1s linear infinite; }
+          #_spnr noscript { max-width: 500px; }
+          #_spnr a { color: crimson; }
+      </style>
   </head>
   <body>
+  <div id="_spnr">
+      <svg width="100" height="100" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 100 100"
+           preserveAspectRatio="xMidYMid" class="lds-ring">
+          <circle cx="50" cy="50" fill="none" r="40" stroke="#8086a0" stroke-width="10"></circle>
+          <circle cx="50" cy="50" fill="none" r="40" stroke="#1e1f30" stroke-width="6" stroke-linecap="round"
+                  stroke-dasharray="150 100"></circle>
+      </svg>
+  </div>
     <noscript>
       <strong>We're sorry but untitled1 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>

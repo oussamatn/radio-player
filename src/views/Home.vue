@@ -38,7 +38,6 @@
         data: () => {
             return {
                 // toggles
-                init: false,
                 visible: false,
                 playing: false,
                 loading: false,
@@ -83,7 +82,7 @@
         // on app mounted
         mounted() {
             console.log("mounted Home.vue");
-
+            this.$parent.init = true;
         },
 
         // on app destroyed

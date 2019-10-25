@@ -1,25 +1,12 @@
 <template>
-    <!--<div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>-->
     <!-- TODO import header + sidebar component -->
-    <div id="app" class="app-wrap">
-        <div id="_spnr">
-            <svg width="100" height="100" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 100 100"
-                 preserveAspectRatio="xMidYMid" class="lds-ring">
-                <circle cx="50" cy="50" fill="none" r="40" stroke="#8086a0" stroke-width="10"></circle>
-                <circle cx="50" cy="50" fill="none" r="40" stroke="#1e1f30" stroke-width="6" stroke-linecap="round"
-                        stroke-dasharray="150 100"></circle>
-            </svg>
-        </div>
-
+    <div id="app" class="app-wrap" >
         <!-- app player container -->
-        <main id="player-wrap" class="player-wrap">
+        <main id="player-wrap" class="player-wrap" style="opacity: 0;" >
             <!-- bg absolute elements -->
             <figure id="player-bg" class="player-bg" v-bind:style="{ 'background-image': 'url(' + background + ')' }"></figure>
             <!-- main player layout -->
-            <section class="player-layout">
+            <section class="player-layout" v-if="init">
                 <!-- player top header -->
                 <header class="player-header flex-row flex-middle flex-stretch">
                     <h2 class="text-clip flex-1"><i class="fa fa-headphones"></i> <router-link to="/" exact
@@ -27,7 +14,7 @@
                     <button class="text-nowrap common-btn" id="sidebar" @click="toggleSidebar( true )"><i
                             class="fa fa-bars" aria-label="sidebar"></i></button>
                 </header>
-                <router-view></router-view>
+                <router-view ></router-view>
             </section> <!-- layout wrapper -->
             <!-- player stations overlay + sidebar -->
             <section class="player-stations" :class="{ 'visible': sidebar }" @click="toggleSidebar( false )">
@@ -57,8 +44,7 @@
                                 <div class="flex-row flex-middle flex-space">
                                     <div class="player-stations-list-title text-bright text-clip">{{ c.name }}</div>
                                     <div class="text-nowrap">
-                                        <!--  <span class="text-secondary"><i class="fa fa-headphones"></i> {{ c.listeners | toCommas( 0 ) }} &nbsp;</span> -->
-                                        <favBtn :id="c.id" :active="c.favorite" @change="toggleFavorite"></favBtn>
+                                        <favBtn :id="c.id" ></favBtn>
                                     </div>
                                 </div>
                                 <div class="text-small">
@@ -68,10 +54,8 @@
                             </aside>
                         </router-link>
                     </ul>
-
                 </aside>
             </section>
-
             <!--<canvas id="player-canvas" class="player-canvas" ></canvas>-->
         </main> <!-- player -->
     </div>
@@ -101,23 +85,24 @@
                 loading: false,
                 sidebar: false,
                 searchText: '',
+                nowPlaying:{},
                 channels: [],
                 channel: {},
                 background : "/img/icon.png",
-                favorites: [],
                 errors: {},
             }
         },
         methods: {
             initView() {
                 console.log("init View");
+                this.init = true;
                 document.querySelector('#_spnr').style.display = 'none';
                 document.querySelector('#player-wrap').style.opacity = '1';
                 document.addEventListener('visibilitychange', e => {
                     this.visible = (document.visibilityState === 'visible')
                 });
                 this.background  = "/img/icon.png";
-                this.init = true;
+
             },
             // set an erro message
             setError(key, err) {
@@ -145,41 +130,7 @@
                     //this.applyRoute(window.location.hash);
                 });
             },
-            // load saved favs list from store
-            loadFavorites() {
-                const favs = _store.get('favorites_data');
-                if (!Array.isArray(favs)) return;
-                this.favorites = favs;
-            },
 
-            // save favs to a .m3u file
-            saveFavorites() {
-                let data = '#EXTM3U';
-                for (let id of this.favorites) {
-                    const channel = this.channels.filter(c => (c.id === id)).shift();
-                    if (!channel) continue;
-                    data += '\n\n';
-                    data += `#EXTINF:0,${channel.title} [JoujmaFM]\n`;
-                    data += `${channel.mp3file}`;
-                }
-                const elm = document.createElement('a');
-                elm.setAttribute('href', 'data:audio/mpegurl;charset=utf-8,' + encodeURIComponent(data));
-                elm.setAttribute('download', 'Joujma_favorites.m3u');
-                elm.setAttribute('target', '_blank');
-                document.body.appendChild(elm);
-                setTimeout(() => elm.click(), 100);
-                setTimeout(() => elm.remove(), 1000);
-            },
-
-            // toggle favorite channel by id
-            toggleFavorite(id, toggle) {
-                let favs = this.favorites.slice();
-                favs = favs.filter(fid => (fid !== id));
-                if (toggle) favs.push(id);
-                this.favorites = favs;
-                this.updateCurrentChannel();
-                _store.set('favorites_data', favs);
-            },
         },
         computed: {
             channelsList() {
@@ -205,7 +156,6 @@
         // on app mounted
         mounted() {
             console.log("App : mounted");
-            this.loadFavorites();
             this.getChannels(false);
             this.initView();
         },

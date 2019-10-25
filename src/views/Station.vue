@@ -1,7 +1,7 @@
 <template>
     <div class="stationView">
         <main class="player-content flex-row">
-            <section class="player-channel flex-1" :key="stationId">
+            <section class="player-channel flex-1" :key="stationId" v-if="visible">
                 <div class="flex-autorow flex-top flex-stretch">
                     <!-- station details -->
                     <div class="flex-item flex-1">
@@ -16,8 +16,7 @@
                                     <h3 class="text-clip">{{ station.name }}</h3>
                                     <div class="text-nowrap">
                                         <span class="text-clip text-uppercase">a {{ station.shortcode | toText }} &nbsp;</span>
-                                        <!--<favBtn :id="station.id" :active="channel.favorite"
-                                                ></favBtn>-->
+                                        <favBtn :id="station.id" ></favBtn>
                                     </div>
                                 </div>
                             </div>
@@ -148,10 +147,9 @@
         data: () => {
             return {
                 // toggles
-                init: false,
                 visible: false,
                 playing: false,
-                loading: false,
+                loading: true,
                 volume: 0.5,
                 // channels stuff
                 stationId: '',
@@ -163,6 +161,7 @@
                 favorites: [],
                 errors: {},
                 //background stuff
+                img:'',
                 colorThief:null,
                 bg: {},
                 // timer stuff
@@ -269,21 +268,15 @@
                 });
             },
 
-            // show player when app is mounted
+
             initPlayer() {
-                console.log("initPlayer");
-                document.querySelector('#_spnr').style.display = 'none';
-                document.querySelector('#player-wrap').style.opacity = '1';
-                document.addEventListener('visibilitychange', e => {
-                    this.visible = (document.visibilityState === 'visible')
-                });
-                // window.addEventListener('hashchange', e => this.applyRoute(window.location.hash));
                 window.addEventListener('keydown', this.onKeyboard);
-                this.init = true;
+                this.visible = true;
             },
 
             // reset selected channel
             resetPlayer() {
+                this.visible=false
                 this.closeAudio();
                 this.clearErrors();
                 this.channel = {};
@@ -293,22 +286,23 @@
               this.colorThief = new ColorThief();
             },
             updateBackground(){
-                let img = document.querySelector('#coverArt');
+                this.img = document.querySelector('#coverArt');
                 if (this.colorThief == null) this.InitColorthief();
                 console.log("updateBackground");
                 this.$parent.background = this.currentsong.art; // update player background
-
-                if (img.complete) {
-                    this.bg = this.colorThief.getColor(img);
-                } else {
-                    img.addEventListener('load', () => {
-                        console.log("img>load");
-                        console.log(this.colorThief.getColor(img));
-                        this.bg = this.colorThief.getColor(img);
-                    });
+                if(this.img){
+                    if (this.img && this.img.complete) {
+                        this.bg = this.colorThief.getColor(this.img);
+                    } else {
+                        this.img.addEventListener('load', () => {
+                            console.log("img>load");
+                            console.log(this.colorThief.getColor(this.img));
+                            this.bg = this.colorThief.getColor(this.img);
+                        });
+                    }
+                    console.log("background ",this.bg);
+                    if(this.bg) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.bg[0]+','+this.bg[1]+','+this.bg[2]+',1) 0%, #1e1f30 100%)';
                 }
-                console.log("background ",this.bg);
-                if(this.bg) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.bg[0]+','+this.bg[1]+','+this.bg[2]+',1) 0%, #1e1f30 100%)';
             },
             // try resuming stream problem if possible
             tryAgain() {
@@ -356,7 +350,7 @@
             },
             // get songs list for a channel from api
             getSongs(stationId, cb) {
-                if (!stationId) stationId=this.stationId;
+                if (!stationId) stationId=this.$route.params.id;
                 _joujma.getSongs(stationId, (err, songs) => {
                     if (err) return this.setError('songs', err);
                     this.track = songs.now_playing;
@@ -364,8 +358,7 @@
                     this.station = songs.station;
                     this.updateMediaSession();
                     this.songs = songs.song_history.slice(0, 4);
-                    this.setError('songs', '');
-                    if (typeof cb === 'function') cb(songs);
+                    if (typeof cb === 'function') cb();
                 });
             },
             //Update navigator media session data
@@ -380,23 +373,20 @@
                     });
                 }
             },
-
-
             // play audio stream for a channel
             playChannel() {
                 console.log('playChannel');
-
                 //if (this.playing || !channel || !channel.mp3file) return;
                 this.loading = true;
                 this.clearErrors();
                 _audio.playSource(this.station.listen_url);
                 _audio.setVolume(this.volume);
             },
-
             // select a channel to play
             selectChannel(stationId) {
-                this.closeAudio();
+                //this.closeAudio();
                 this.getSongs(stationId, () => {
+                    this.initPlayer();
                     this.playChannel();
                     this.updateBackground();
                 });
@@ -441,20 +431,22 @@
                 if (this.anf) cancelAnimationFrame(this.anf);
             },
         },
+        beforeCreate(){
 
+
+        },
         // on app Created
         created() {
             console.log("created Station.vue");
             this.stationId = this.$route.params.id;
+            console.log(this.stationId);
             this.selectChannel(this.stationId);
-            this.setupAudio();
-            this.setupMaintenance();
 
         },
         mounted() {
             console.log("mounted Station.vue");
-            this.initPlayer();
-            //this.updateBackground();
+            this.setupAudio();
+            this.setupMaintenance();
         },
         beforeRouteUpdate(to, from, next) {
             console.log(to.params.id);

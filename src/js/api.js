@@ -5,7 +5,18 @@ import axios from 'axios';
 import config from './config.js';
 
 export default {
-
+  // get now playing response
+   getNowplaying(callback){
+     let apiurl = config.api_url+'/api/nowplaying';
+     let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
+     axios.get( apiurl ).then( res => {
+       const list = this._parseNowplaying( res.data );
+       if ( !list.length ) return callback( error, [] );
+       return callback( null, list );
+     }).catch( e => {
+           return callback( error + String( e.message || '' ), [] );
+     });
+   },
   // get channels data from api
   getChannels( callback ) {
     let apiurl = config.api_url+'/api/stations';
@@ -55,6 +66,9 @@ export default {
     }
     
     return output;
-  }
+  },
 
+  _parseNowplaying(data) {
+    return undefined;
+  }
 }
