@@ -1,2 +1,5 @@
 > 1%
 last 2 versions
+safari >= 7
+ios_saf >= 9
+chrome >= 52
