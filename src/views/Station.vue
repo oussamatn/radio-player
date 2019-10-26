@@ -135,9 +135,9 @@
 
     import _joujma from '../js/api';
     import _audio from '../js/audio';
-    import ColorThief from 'colorthief';
-
     import favBtn from "@/views/favBtn";
+    //import ColorThief from '../../node_modules/colorthief/dist/color-thief.mjs';
+    import * as ColorThief from 'colorthief';
 
     export default {
         name: 'station',
@@ -283,7 +283,7 @@
                 this.songs = [];
             },
             InitColorthief(){
-              this.colorThief = new ColorThief();
+              //this.colorThief = new ColorThief();
             },
             updateBackground(){
                 this.img = document.querySelector('#coverArt');
@@ -302,7 +302,9 @@
                     }
                     console.log("background ",this.bg);
                     if(this.bg) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.bg[0]+','+this.bg[1]+','+this.bg[2]+',1) 0%, #1e1f30 100%)';
+
                 }
+
             },
             // try resuming stream problem if possible
             tryAgain() {
