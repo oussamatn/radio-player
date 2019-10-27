@@ -5,7 +5,7 @@ FROM node:12.2.0-alpine as build
 RUN npm -v
 
 USER root
-
+RUN rm -rf /home/node/joujmafm
 # non-root user node
 RUN mkdir -p /home/node/joujmafm/node_modules && chown -R node:node /home/node/joujmafm
 
@@ -19,14 +19,14 @@ WORKDIR /home/node/joujmafm
 ENV PATH /home/node/joujmafm/node_modules/.bin:$PATH
 
 COPY package.json .
-RUN npm install -g serve
+RUN npm install -g serve 
 
 USER node
 
 RUN npm install
 
 
-RUN npm install @vue/cli@3.7.0
+RUN npm install @vue/cli@3.7.0 
 
 COPY --chown=node:node . .
 
