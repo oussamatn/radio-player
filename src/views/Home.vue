@@ -26,12 +26,8 @@
 
 <script>
     /**
-     * Main app JS entry file.
+     * Home
      */
-
-
-
-
     export default {
         name: 'home',
 

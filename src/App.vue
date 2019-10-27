@@ -68,7 +68,6 @@
     import _joujma from './js/api';
     import favBtn from "@/views/favBtn";
     import _utils from './js/utils';
-    import _store from './js/store';
 
 
     export default {

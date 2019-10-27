@@ -15,7 +15,6 @@ export default {
     // setup audio routing
     setupAudio() {
         console.log("setupAudio");
-
         if (this._source ==null )this._source = this._context.createMediaElementSource(this._audio);
 
         //this._analyser = this._context.createAnalyser();
@@ -87,17 +86,17 @@ export default {
         try {
             this._audio.pause();
         } catch (e) {
-            //console.log(e);
+            console.log(e);
         }
         try {
-            this._audio.stop();
+            this._audio.stop(0);
         } catch (e) {
-            //console.log(e);
+            console.log(e);
         }
         try {
             this._audio.close();
         } catch (e) {
-            //console.log(e);
+            console.log(e);
         }
     },
 }
