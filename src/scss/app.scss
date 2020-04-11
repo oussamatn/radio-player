@@ -65,14 +65,21 @@
 }
 
 // player layout container
+.stationView {
+  @media #{$screenSmall} {
+    //height: 97%;
+  }
+}
 .stationView,
 .player-layout {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: stretch;
-  height: 100%;
-
+  height: 97%;
+  @media #{$screenMedium} {
+    height: 100%;
+  }
 
   .player-header,
   .player-content,

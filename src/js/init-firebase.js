@@ -1,10 +1,13 @@
 import firebase from 'firebase/app';
 import 'firebase/messaging';
-import 'firebase/firestore';
+//import 'firebase/firestore';
+import Firestore from 'firebase-firestore-lite';
+
 import config from './config.js';
 
 firebase.initializeApp(config.firebaseConfig);
-const db = firebase.firestore();
+//const db = firebase.firestore();
+const db = new Firestore({ projectId: 'joujmafm' });
 if (firebase.messaging.isSupported()){
     const messaging = firebase.messaging();
 
