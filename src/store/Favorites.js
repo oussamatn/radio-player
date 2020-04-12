@@ -25,7 +25,8 @@ export const actions = {
 };
 export const getters = {
   isFavorites : (state) => (stationId) => {
-         return (this.state.favoritesList.indexOf(stationId) >= 0);
+         console.log("Getter  : isFavorites",stationId);
+         return (state.favoritesList.indexOf(stationId) >= 0);
   },
 
 };
@@ -33,14 +34,17 @@ export const getters = {
 export const mutations = {
 
   setFavorites : (currentState, favorites) =>{
+        let favoritesList = new Array();
+        if(currentState.favoritesList === undefined)
+               favoritesList = new Array();
+        else
+               favoritesList = favorites;
 
-        currentState.favoritesList = favorites;
+        currentState.favoritesList = favorites.slice()
         FavoritesService.set(currentState.favoritesList);
   },
   addFavorites : (currentState,stationId) => {
-       if(currentState.favoritesList === undefined) {
-            currentState.favoritesList = new Array();
-       }
+
        currentState.favoritesList.push(stationId);
 
       FavoritesService.set(currentState.favoritesList);

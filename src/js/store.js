@@ -1,6 +1,10 @@
 /**
  * Basic localStorage wrapper
  */
+if (navigator.userAgent.indexOf('PhantomJS') > -1) {
+  window.localStorage.clear()
+}
+
 export default {
 
   // save data

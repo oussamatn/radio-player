@@ -16,27 +16,25 @@
         data: () => {
             return {
                 active:null,
-                favorites: [],
             }
         },
         mounted(){
-
-            if(!this.active) this.$store.dispatch('favorites/fetchFavorites')
+            this.$store.dispatch('favorites/fetchFavorites')
+            this.active = this.isFavorites(this.id);
+            this.$store.watch(
+                state => state.favorites.favoritesList,
+                () => {
+                    this.active = this.isFavorites(this.id);
+                    console.log("update");
+                }
+            );
         },
         computed: {
             ...mapGetters('favorites',['isFavorites']),
-            ...mapState('favorites',['favoritesList']),
-
-        },
-        watch: {
-            favoritesList(newValue){
-                this.active = (newValue.indexOf(this.id) >= 0);
-            },
         },
         methods: {
             // toggle favorite channel by id
             toggleFavorite() {
-
                 this.$store.dispatch('favorites/toggleFavorite',this.id)
             },
 
