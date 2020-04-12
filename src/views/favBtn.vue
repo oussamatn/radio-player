@@ -1,50 +1,45 @@
-<template>
-    <button :active="true" class="favBtn" @click.stop="toggleFavorite" @change="toggleFavorite" aria-label="Favorite">
+<template >
+    <button :active="active" class="favBtn" @click.stop="toggleFavorite"  aria-label="Favorite">
         <i v-if="active" class="fa fa-heart text-primary fx fx-drop-in" key="on"></i>
         <i v-else class="fa fa-heart-o fx fx-drop-in" key="off"></i>
     </button>
 </template>
 
 <script>
-    import _store from '../js/store';
+    import { mapGetters, mapState  } from 'vuex';
 
     export default {
         name: 'favBtn',
         props: {
-            id: { type: Number, default: '', required: true },
+            id: { type: Number, default: '', required: true }
         },
         data: () => {
             return {
-                active:false,
+                active:null,
                 favorites: [],
             }
         },
-        created(){
-            this.loadFavorites();
+        mounted(){
+
+            if(!this.active) this.$store.dispatch('favorites/fetchFavorites')
+        },
+        computed: {
+            ...mapGetters('favorites',['isFavorites']),
+            ...mapState('favorites',['favoritesList']),
+
         },
         watch: {
-            favorites(){
-              this.active = (this.favorites.indexOf(this.id) >= 0);
+            favoritesList(newValue){
+                this.active = (newValue.indexOf(this.id) >= 0);
             },
         },
         methods: {
-            // load saved favs list from store
-            loadFavorites() {
-                let favs = _store.get('favorites_data');
-                if (!Array.isArray(favs)) return;
-                this.favorites = favs;
-            },
             // toggle favorite channel by id
             toggleFavorite() {
-                this.loadFavorites();
-                console.log("Favbtn : toggleFavorite");
-                let favs = this.favorites.slice()
-                                         .filter(fid => (fid === this.id));
-                if (!favs.length) this.favorites.push(this.id);
-                else this.favorites = this.favorites.filter(fid => (fid !== this.id));
 
-                _store.set('favorites_data', this.favorites);
+                this.$store.dispatch('favorites/toggleFavorite',this.id)
             },
+
         },
     }
 </script>

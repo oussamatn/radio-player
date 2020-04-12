@@ -33,7 +33,7 @@
                              :key="track.played_at">
 
                             <div class="pad-top"><img class="fx fx-fade-in"
-                                                      :src="currentsong.art" id="coverArt" crossorigin="anonymous" /></div>
+                                                      :src="currentsong.art" id="coverArt" /></div>
                             <div class="pad-bottom">
                                 <div><span
                                         class="text-secondary">{{ currentsong.title | toText( 'N/A' ) }}</span>
@@ -136,8 +136,6 @@
     import _joujma from '../js/api';
     import _audio from '../js/audio';
     import favBtn from "@/views/favBtn";
-    //import ColorThief from '../../node_modules/colorthief/dist/color-thief.mjs';
-    import * as ColorThief from 'colorthief';
 
     export default {
         name: 'station',
@@ -158,7 +156,6 @@
                 track: {},
                 currentsong: {},
                 station: {},
-                favorites: [],
                 errors: {},
                 //background stuff
                 img:'',

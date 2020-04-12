@@ -44,7 +44,7 @@
                                 <div class="flex-row flex-middle flex-space">
                                     <div class="player-stations-list-title text-bright text-clip">{{ c.name }}</div>
                                     <div class="text-nowrap">
-                                        <favBtn :id="c.id" ></favBtn>
+                                        <favBtn :id="c.id"></favBtn>
                                     </div>
                                 </div>
                                 <div class="text-small">

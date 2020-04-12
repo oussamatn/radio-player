@@ -45,7 +45,6 @@
                 songs: [],
                 track: {},
                 currentsong: {},
-                favorites: [],
                 errors: {},
                 // timer stuff
                 timeStart: 0,
