@@ -85,7 +85,7 @@
                 sidebar: false,
                 searchText: '',
                 nowPlaying:{},
-                channels: [],
+                //channels: [],
                 channel: {},
                 background : "/img/icon.png",
                 errors: {},
@@ -120,7 +120,7 @@
             },
         },
         computed: {
-            ...mapState('nowplaying',['stations']),
+            ...mapState('nowplaying',{channels : 'stations'}),
             channelsList() {
                 let list = this.channels.slice();
                 let search = this.searchText.replace(/[^\w\s\-]+/g, '').replace(/[\r\s\t\n]+/g, ' ').trim();
@@ -145,21 +145,13 @@
         // on app mounted
         mounted() {
             console.log("App : mounted");
-            this.$store.dispatch('nowplaying/fetchStations')
-             // replaced by the line abode
+            this.$store.dispatch('nowplaying/fetchStations')//State action to get stations
             this.initView();
         },
         watch: {
             $route() {
                 this.toggleSidebar();
             },
-            stations (channels){
-                //update Station list after a state trigued
-                console.log("App.vue",channels);
-                this.channels = channels;
-
-            }
-
 
         },
         // on app destroyed
