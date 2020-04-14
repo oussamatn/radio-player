@@ -68,7 +68,7 @@
     import _joujma from './js/api';
     import favBtn from "@/views/favBtn";
     import _utils from './js/utils';
-
+    import { mapGetters, mapState  } from 'vuex';
 
     export default {
         name: 'home',
@@ -118,20 +118,9 @@
                 if (k === 'Enter') return this.toggleSidebar(true);
                 if (k === 'Escape') return this.toggleSidebar(false);
             },
-
-            getChannels(sidebar) {
-                _joujma.getChannels((err, channels) => {
-                    if (err) return this.setError('channels', err);
-                    if (sidebar) this.toggleSidebar(true);
-                    this.channels = channels;
-                    this.setError('channels', '');
-
-                    //this.applyRoute(window.location.hash);
-                });
-            },
-
         },
         computed: {
+            ...mapState('nowplaying',['stations']),
             channelsList() {
                 let list = this.channels.slice();
                 let search = this.searchText.replace(/[^\w\s\-]+/g, '').replace(/[\r\s\t\n]+/g, ' ').trim();
@@ -150,18 +139,28 @@
                 }
                 return list;
             },
+
         },
 
         // on app mounted
         mounted() {
             console.log("App : mounted");
-            this.getChannels(false);
+            this.$store.dispatch('nowplaying/fetchStations')
+             // replaced by the line abode
             this.initView();
         },
         watch: {
             $route() {
                 this.toggleSidebar();
+            },
+            stations (channels){
+                //update Station list after a state trigued
+                console.log("App.vue",channels);
+                this.channels = channels;
+
             }
+
+
         },
         // on app destroyed
         destroyed() {

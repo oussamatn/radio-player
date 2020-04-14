@@ -9,7 +9,6 @@ export default {
             });*/
     },
     set(favoritesList){
-        console.log("favoriteService : set",favoritesList)
         _store.set('favorites_data', favoritesList);
     }
 };
