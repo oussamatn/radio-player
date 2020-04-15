@@ -52,7 +52,7 @@
                             </figure>-->
                             <figure class="push-right ">
                                 <img class="img-round" width="70" height="70"
-                                     :src="c.station.shortcode"
+                                     :src="c.station.image"
                                      :alt="c.station.name"/>
                             </figure>
                             <aside class="flex-1">
@@ -173,7 +173,7 @@
             }),
             ...mapGetters('nowplaying',[
                 'getBackground',
-                'getStations'
+                //'getStations'
                 //'dataByStation',
                 //'filteredStations'
 

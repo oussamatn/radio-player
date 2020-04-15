@@ -84,11 +84,12 @@ export default {
 // stop playing audio
     stopAudio() {
         try {
-            this._audio.pause();
+            this._audio.pause(0);
+
         } catch (e) {
             console.log(e);
         }
-        /*try {
+        try {
             this._audio.stop(0);
         } catch (e) {
             console.log(e);
@@ -97,6 +98,6 @@ export default {
             this._audio.close();
         } catch (e) {
             console.log(e);
-        }*/
+        }
     },
 }

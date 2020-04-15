@@ -16,7 +16,10 @@ export const actions = {
         console.time("fetchNowplaying")
         console.log("%c fetchNowplaying" , 'background: blue; color: white')
         let nowplaying = await nowplayingService.get();
-            commit("setNowplaying",nowplaying.data);
+        return new Promise((resolve, reject) => {
+            commit("setNowplaying",nowplaying);
+        });
+
     },
     async fetchStations ({commit })  {
         console.time("fetchStations")
@@ -28,7 +31,10 @@ export const actions = {
         console.time("fetchSongs")
         console.log("%c fetchSongs" , 'background: blue; color: white')
         let Songs = await nowplayingService.getSongs(stationId);
-        commit("setSongs",Songs);
+        return new Promise((resolve, reject) => {
+            commit("setSongs",Songs);resolve();
+        });
+
     },
     resetSongs({commit }){
         commit("resetSongs");
@@ -57,19 +63,6 @@ export const getters = {
         }
         return stations;
         },
-    /*filteredStations : (state) =>  {
-        let search = state.search;
-        //const regxp = new RegExp( '^('+ state.search +')', 'i' );
-
-        if (search && search.length > 1) {
-            console.log("filteredStations: if ",state.search)
-            search = search.replace(/[^\w\s\-]+/g, '').replace(/[\r\s\t\n]+/g, ' ').trim();
-            return state.nowplaying.filter(item => item.station.name.toLowerCase().includes(search.toLowerCase()))
-        }
-        console.log("filteredStations",state.search)
-        return  state.nowplaying;
-    }*/
-
 
 };
 /* eslint no-param-reassign: ["error", { "props": false }] */

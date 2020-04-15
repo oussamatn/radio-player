@@ -9,7 +9,11 @@ export default {
     get(){
         let apiurl = config.api_url+'/api/nowplaying';
         //let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
-        return axios.get( apiurl );
+        return axios.get( apiurl ).then( res => {
+            const list = this._parseChannels( res.data );
+            console.log("Nowplaying Service :  get : ",list)
+            return list;
+        });
     },
     // get channels data from api
     getChannels(  ) {
@@ -66,8 +70,10 @@ export default {
     _parseChannels( channels ) {
         let output = [];
 
-        if ( Array.isArray( channels ) ) {
-            for ( let c of channels ) {
+        //if ( Array.isArray( channels ) ) {
+            console.log("parchannels for loop ")
+            for ( let ch of channels ) {
+                let c = ch.station;
                 c.mp3file   = c.listen_url;
                 c.image     = '/img/'+c.shortcode+'.png';
                 c.songsurl  = config.api_url+'/api/nowplaying/'+ c.id;
@@ -75,9 +81,10 @@ export default {
                 c.route     = '/channel/'+ c.shortcode;
                 c.favorite  = false;
                 c.active    = false;
-                output.push( c );
+                ch.station = c;
+                output.push( ch );
             }
-        }
+       //}
 
         return output;
     },
