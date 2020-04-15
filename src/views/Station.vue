@@ -107,12 +107,12 @@
                            v-model="volume"/>
                     <i class="fa fa-volume-up"></i>
                 </div>
-                <!--<div class="text-clip push-left">
-                    <span>{{ timeDisplay }}</span>
-                    <span class="text-faded" v-if="hasChannel">&nbsp;|&nbsp;</span>
-                    <span class="fx fx-fade-in fx-delay-1" v-if="hasChannel"
-                          :key="stationId">{{ channel.title }}</span>
-                </div>-->
+                <div class="text-clip push-left">
+                    <!-- <span>{{ timeDisplay }}</span>-->
+                     <span class="text-faded" v-if="hasChannel">&nbsp;|&nbsp;</span>
+                     <span class="fx fx-fade-in fx-delay-1" v-if="channel"
+                           :key="stationId">{{ channel.title }}</span>
+                 </div>
             </section>
 
             <!-- player links -->
@@ -210,6 +210,7 @@
                 channel : state => state.songs.station,
 
             }),
+            // check if there are tracks loaded
             ...mapGetters('nowplaying',['hasSongs']),
             // filter songs list
             songsList() {
@@ -225,12 +226,6 @@
             hasChannel() {
                 return this.stationId ? true : false;
             },
-
-            // check if there are tracks loaded
-            /*hasSongs() {
-                return !!this.songs.length;
-            },*/
-
             // check for errors that would affect playback
             hasError() {
                 if (this.errors.channels && !this.channels.length) return true;
@@ -246,8 +241,8 @@
             setupMaintenance() {
                 //this.track.remaining=30;
                 //console.log("remainingtime:",this.track.remaining);
-                /*console.log("setupMaintenance: for ",this.stationId);
-                let stationId=this.stationId;*/
+                console.log("setupMaintenance: for ",this.stationId);
+                //let stationId=this.stationId;
                 this.itv = setInterval(this.updateChannelData(this.stationId), 10* 1000);
             },
 
@@ -274,7 +269,6 @@
 
             initPlayer() {
                 window.addEventListener('keydown', this.onKeyboard);
-
                 this.visible = true;
             },
 
@@ -311,13 +305,13 @@
             // try resuming stream problem if possible
             tryAgain() {
                 this.clearErrors();
-                this.playChannel(this.channel);
+                this.playChannel();
             },
             // toggle stream playback for current selected channel
             togglePlay() {
                 if (this.loading) return;
                 if (this.playing) return this.closeAudio();
-                return this.playChannel(this.channel);
+                return this.playChannel();
             },
 
             // setup audio routing and stream events
@@ -367,34 +361,26 @@
             // play audio stream for a channel
             playChannel() {
                 console.log('playChannel');
-                //if (this.playing || !channel || !channel.mp3file) return;
+                //if (this.playing || !channel ) return;
                 this.loading = true;
                 this.clearErrors();
+                console.log(!!this.station)
+
+                //if(!!this.station)
                 _audio.playSource(this.station.listen_url);
                 _audio.setVolume(this.volume);
             },
             // select a channel to play
             updateChannelData(channelId){
-                this.$store.dispatch('nowplaying/fetchSongs',channelId)
+                return this.$store.dispatch('nowplaying/fetchSongs',channelId)
             },
             selectChannel() {
                 this.closeAudio();
                 this.initPlayer();
                 this.setupAudio();
-                this.updateBackground();
+                this.playChannel();
                 //this.setupMaintenance();
-                //this.initPlayer();
-                //this.playChannel();
-                this.updateBackground();
-                /*
-                this.getSongs(stationId, () => {
-                    this.initPlayer();
-                    this.playChannel();
-                    this.updateBackground();
-                });
-                */
 
-                //this.channel = channel;
             },
 
             // on keyboard events
@@ -402,7 +388,15 @@
                 const k = e.key || '';
                 if (k === ' ' && this.stationId) return this.togglePlay();
             },
-
+            // Song play time
+            songClock() {
+                let p = n => (n < 10) ? '0' + n : '' + n;
+                let elapsed = (Date.now() - this.timeStart) / 1000;
+                let seconds = Math.floor(elapsed % 60);
+                let minutes = Math.floor(elapsed / 60 % 60);
+                let hours = Math.floor(elapsed / 3600);
+                this.timeDisplay = p(hours) + ':' + p(minutes) + ':' + p(seconds);
+            },
             // start tracking playback time
             startClock() {
                 this.stopClock();
@@ -431,7 +425,7 @@
             clearTimers() {
                 if (this.sto) clearTimeout(this.sto);
                 if (this.itv) clearInterval(this.itv);
-                if (this.anf) cancelAnimationFrame(this.anf);
+                //if (this.anf) cancelAnimationFrame(this.anf);
             },
         },
         beforeCreate(){
@@ -444,12 +438,14 @@
         // on app Created
         created() {
             console.log("created Station.vue");
-            if (this.songs ===undefined) this.updateChannelData(this.stationId);
+            if (this.songs ===undefined) this.$store.dispatch('nowplaying/fetchSongs',this.stationId).then(()=>{
+                this.selectChannel();
+            });;
 
         },
         mounted() {
             console.log("mounted Station.vue");
-            this.selectChannel();
+            //this.selectChannel();
 
 
         },
