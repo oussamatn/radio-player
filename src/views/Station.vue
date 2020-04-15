@@ -6,14 +6,15 @@
                     <!-- station details -->
                     <div class="flex-item flex-1">
                         <!-- station -->
-                        <div class="push-bottom">
+                        <div class="push-bottom" v-if="station">
                             <div class="flex-row flex-middle">
                                 <img class="img-round fx fx-drop-in fx-delay-1"
-                                     :src="'/img/'+station.shortcode+'.png'"
+                                     v-if ="station"
+                                     :src=" station.image "
                                      width="80"
                                      height="80" :alt="station.title" />
                                 <div class="pad-left fx fx-slide-left fx-delay-2">
-                                    <h3 class="text-clip">{{ station.name }}</h3>
+                                    <h3 class="text-clip">{{ station.name | toText }}</h3>
                                     <div class="text-nowrap">
                                         <span class="text-clip text-uppercase">a {{ station.shortcode | toText }} &nbsp;</span>
                                         <favBtn :id="station.id" ></favBtn>
@@ -22,15 +23,16 @@
                             </div>
                         </div>
                         <!-- description -->
-                        <div class="card push-bottom fx fx-slide-up fx-delay-3">
-                            <div class="text-secondary"><span class="text-faded">Playlist:</span> {{
-                                track.playlist
+                        <div class="card push-bottom fx fx-slide-up fx-delay-3" >
+                            <div class="text-secondary" v-if="currentsong">
+                                <span class="text-faded">Playlist:</span> {{
+                                currentsong.playlist
                                 | toText( 'N/A' ) }}.
                             </div>
-                            <div>{{ channel.description }}</div>
+                            <div v-if="station">{{ station.description }}</div>
                         </div>
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
-                             :key="track.played_at">
+                             :key="currentsong.played_at">
 
                             <div class="pad-top"><img class="fx fx-fade-in"
                                                       :src="currentsong.art" id="coverArt" /></div>
@@ -48,10 +50,10 @@
                         <!-- buttons -->
                         <div class="push-bottom text-nowrap">
                             <a class="cta-btn text-nowrap fx fx-slide-up fx-delay-5" title="Channel page">
-                                    <span class="fx fx-notx fx-ibk fx-drop-in" :key="channel.listeners"><i
+                                    <span class="fx fx-notx fx-ibk fx-drop-in" ><i
                                             class="fa fa-comments"></i></span>
                             </a> &nbsp;
-                            <a class="cta-btn text-nowrap fx fx-slide-up fx-delay-6" :href="channel.twitter"
+                            <a v-if="station" class="cta-btn text-nowrap fx fx-slide-up fx-delay-6" :href="channel.twitter"
                                title="Twitter page" target="_blank">
                                 <i class="fa fa-twitter"></i>
                             </a> &nbsp;
@@ -101,7 +103,7 @@
                 </button>
                 <div class="form-slider push-left">
                     <i class="fa fa-volume-down"></i>
-                    <input class="common-slider" type="range" min="0.0" max="1.0" step="0.1" value="0.5"
+                    <input aria-label="volume" class="common-slider" type="range" min="0.0" max="1.0" step="0.1" value="0.5"
                            v-model="volume"/>
                     <i class="fa fa-volume-up"></i>
                 </div>
@@ -136,6 +138,7 @@
     import _joujma from '../js/api';
     import _audio from '../js/audio';
     import favBtn from "@/views/favBtn";
+    import { mapGetters, mapState  } from 'vuex';
 
     export default {
         name: 'station',
@@ -150,12 +153,6 @@
                 loading: true,
                 volume: 0.5,
                 // channels stuff
-                stationId: '',
-                channel: {},
-                songs: [],
-                track: {},
-                currentsong: {},
-                station: {},
                 errors: {},
                 //background stuff
                 img:'',
@@ -178,10 +175,14 @@
 
         // watch methods
         watch: {
+            songs(songs) {
+                console.log("%c watch songs",'color: green', songs)
+                //this.updateMediaSession();
+
+            },
             //route change
             $route(to, from) {
-                // react to route changes...
-                //console.log(from,to);
+
                 this.stationId = to.params.id;
             },
             // watch playing status
@@ -201,9 +202,18 @@
 
         // computed methods
         computed: {
+            ...mapState('nowplaying',{
+                songs : 'songs',
+                currentsong : state => state.currentSong,
+                station : state => state.songs.station,
+                songs : state => state.songs.song_history,
+                channel : state => state.songs.station,
+
+            }),
+            ...mapGetters('nowplaying',['hasSongs']),
             // filter songs list
             songsList() {
-                let list = this.songs.slice();
+                let list = this.songs.slice(0, 4);
                 return list;
             },
             // check if audio can be played
@@ -217,9 +227,9 @@
             },
 
             // check if there are tracks loaded
-            hasSongs() {
+            /*hasSongs() {
                 return !!this.songs.length;
-            },
+            },*/
 
             // check for errors that would affect playback
             hasError() {
@@ -236,13 +246,9 @@
             setupMaintenance() {
                 //this.track.remaining=30;
                 //console.log("remainingtime:",this.track.remaining);
-                this.itv = setInterval(() => {
-                    //clearInterval(this.itv);
-                    console.log("setupMaintenance");
-                    this.getSongs(this.stationId,()=>{this.updateBackground();}); // update channel tracks
-
-                        //console.log("remainingtime:",this.track.remaining);
-                }, 30* 1000);
+                /*console.log("setupMaintenance: for ",this.stationId);
+                let stationId=this.stationId;*/
+                this.itv = setInterval(this.updateChannelData(this.stationId), 10* 1000);
             },
 
             // set an error message
@@ -268,6 +274,7 @@
 
             initPlayer() {
                 window.addEventListener('keydown', this.onKeyboard);
+
                 this.visible = true;
             },
 
@@ -276,18 +283,16 @@
                 this.visible=false
                 this.closeAudio();
                 this.clearErrors();
-                this.channel = {};
-                this.songs = [];
             },
             InitColorthief(){
               //this.colorThief = new ColorThief();
             },
             updateBackground(){
-                this.img = document.querySelector('#coverArt');
-                if (this.colorThief == null) this.InitColorthief();
-                console.log("updateBackground");
-                this.$parent.background = this.currentsong.art; // update player background
-                if(this.img){
+                //this.img = document.querySelector('#coverArt');
+                //if (this.colorThief == null) this.InitColorthief();
+                //console.log("updateBackground");
+                //this.$parent.background = this.currentsong.art; // update player background
+                /*if(this.img){
                     if (this.img && this.img.complete) {
                         this.bg = this.colorThief.getColor(this.img);
                     } else {
@@ -300,7 +305,7 @@
                     console.log("background ",this.bg);
                     if(this.bg) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.bg[0]+','+this.bg[1]+','+this.bg[2]+',1) 0%, #1e1f30 100%)';
 
-                }
+                }*/
 
             },
             // try resuming stream problem if possible
@@ -347,27 +352,14 @@
                 _audio.stopAudio();
                 this.playing = false;
             },
-            // get songs list for a channel from api
-            getSongs(stationId, cb) {
-                if (!stationId) stationId=this.$route.params.id;
-                _joujma.getSongs(stationId, (err, songs) => {
-                    if (err) return this.setError('songs', err);
-                    this.track = songs.now_playing;
-                    this.currentsong = songs.now_playing.song;
-                    this.station = songs.station;
-                    this.updateMediaSession();
-                    this.songs = songs.song_history.slice(0, 4);
-                    if (typeof cb === 'function') cb();
-                });
-            },
             //Update navigator media session data
             updateMediaSession() {
                 if ('mediaSession' in navigator) {
                     navigator.mediaSession.metadata = new MediaMetadata({
-                        title: this.track.song.title,
-                        artist: this.track.song.artist,
+                        title: this.currentsong.song.title,
+                        artist: this.currentsong.song.artist,
                         artwork: [
-                            {src: this.track.song.art}
+                            {src: this.currentsong.song.art}
                         ]
                     });
                 }
@@ -382,13 +374,25 @@
                 _audio.setVolume(this.volume);
             },
             // select a channel to play
-            selectChannel(stationId) {
-                //this.closeAudio();
+            updateChannelData(channelId){
+                this.$store.dispatch('nowplaying/fetchSongs',channelId)
+            },
+            selectChannel() {
+                this.closeAudio();
+                this.initPlayer();
+                this.setupAudio();
+                this.updateBackground();
+                //this.setupMaintenance();
+                //this.initPlayer();
+                //this.playChannel();
+                this.updateBackground();
+                /*
                 this.getSongs(stationId, () => {
                     this.initPlayer();
                     this.playChannel();
                     this.updateBackground();
                 });
+                */
 
                 //this.channel = channel;
             },
@@ -431,32 +435,38 @@
             },
         },
         beforeCreate(){
+            console.log("beforeCreate Station.vue");
+            this.stationId = this.$route.params.id;
+            console.log(this.stationId);
 
 
         },
         // on app Created
         created() {
             console.log("created Station.vue");
-            this.stationId = this.$route.params.id;
-            console.log(this.stationId);
-            this.selectChannel(this.stationId);
+            if (this.songs ===undefined) this.updateChannelData(this.stationId);
 
         },
         mounted() {
             console.log("mounted Station.vue");
-            this.setupAudio();
-            this.setupMaintenance();
+            this.selectChannel();
+
+
         },
         beforeRouteUpdate(to, from, next) {
-            console.log(to.params.id);
+
+            console.log("beforeRouteUpdate : ",to.params.id);
             this.stationId = to.params.id;
+            this.$store.dispatch('nowplaying/resetSongs')
+            this.$store.dispatch('nowplaying/fetchSongs',this.stationId)
             this.closeAudio();
             this.resetPlayer();
-            this.selectChannel(this.stationId);
+            this.selectChannel();
             next();
         },
         // on app destroyed
         destroyed() {
+            this.$store.dispatch('nowplaying/resetSongs')
             this.closeAudio();
             this.clearTimers();
             this.$parent.initView();

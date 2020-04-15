@@ -8,13 +8,13 @@ export default {
     // get now playing response
     get(){
         let apiurl = config.api_url+'/api/nowplaying';
-        let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
+        //let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
         return axios.get( apiurl );
     },
     // get channels data from api
-    getChannels( callback ) {
+    getChannels(  ) {
         let apiurl = config.api_url+'/api/stations';
-        let error  = 'There was a problem fetching the latest list of channels from JoujmaFM.';
+        //let error  = 'There was a problem fetching the latest list of channels from JoujmaFM.';
         return axios.get( apiurl ).then( res => {
             const list = this._parseChannels( res.data );
             if ( !list.length ) return error;
@@ -32,11 +32,16 @@ export default {
 
     // fetch songs for a channel
     getSongs( channel_id ) {
-
+        console.log("Nowplaying Service :  getSongs : ", channel_id)
         let apiurl =   config.api_url+'/api/nowplaying/'+ channel_id;
         //let title  = channel.name || '...';
-        let error  = 'There was a problem loading the list of songs for this channel from JoujmaFM. ';
-        return axios.get( apiurl );
+        //let error  = 'There was a problem loading the list of songs for this channel from JoujmaFM. ';
+        return axios.get( apiurl ).then( res => {
+            //if ( !res.data ) return callback( error, [] );
+            res.data.station = this._parseChannel( res.data.station );
+            console.log("Nowplaying Service :  getSongs : ", res.data)
+            return res.data ;
+        });
         /*axios.get( apiurl ).then( res => {
             if ( !res.data ) return callback( error, [] );
             return callback( null, res.data );
@@ -47,6 +52,17 @@ export default {
     },
 
     // parse channels list from api response
+    _parseChannel( c ) {
+                c.mp3file   = c.listen_url;
+                c.image     = '/img/'+c.shortcode+'.png';
+                c.songsurl  = config.api_url+'/api/nowplaying/'+ c.id;
+                c.twitter   = 'https://twitter.com/@';
+                c.route     = '/station/'+ c.shortcode;
+                c.favorite  = false;
+                c.active    = false;
+
+        return c;
+    },
     _parseChannels( channels ) {
         let output = [];
 
@@ -66,7 +82,7 @@ export default {
         return output;
     },
 
-    _parseNowplaying(data) {
+    _parseNowplaying() {
         return undefined;
     }
 }

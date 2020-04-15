@@ -31,8 +31,7 @@ export const getters = {
 export const mutations = {
 
   setFavorites : (currentState, favorites) =>{
-        //let favoritesList = new Array();
-        console.log(favorites)
+
         if(favorites === undefined)
                currentState.favoritesList = new Array();
         else

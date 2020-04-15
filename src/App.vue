@@ -4,7 +4,7 @@
         <!-- app player container -->
         <main id="player-wrap" class="player-wrap" style="opacity: 0;" >
             <!-- bg absolute elements -->
-            <figure id="player-bg" class="player-bg" v-bind:style="{ 'background-image': 'url(' + background + ')' }"></figure>
+            <figure id="player-bg" class="player-bg" v-bind:style="{ 'background-image' : `url(  ${ getBackground} )` }"></figure>
             <!-- main player layout -->
             <section class="player-layout" v-if="init">
                 <!-- player top header -->
@@ -17,14 +17,22 @@
                 <router-view ></router-view>
             </section> <!-- layout wrapper -->
             <!-- player stations overlay + sidebar -->
-            <section class="player-stations" :class="{ 'visible': sidebar }" @click="toggleSidebar( false )">
+            <section class="player-stations"
+                     :class="{ 'visible': sidebar }"
+                     @click="toggleSidebar( false )"
+                     v-if="channels"
+            >
                 <aside class="player-stations-sidebar" @click.stop>
 
                     <!-- sidebar search -->
                     <header class="player-stations-header flex-row flex-middle flex-stretch">
                         <div class="form-input push-right">
                             <i class="fa fa-search"></i>
-                            <input type="text" placeholder="Search station..." v-model="searchText" aria-label="search"/>
+                            <input type="text"
+                                   placeholder="Search station..."
+                                   v-model="searchText"
+                                   v-on:input="debounceFilter"
+                                   aria-label="search"/>
                         </div>
                         <button class="common-btn" @click="toggleSidebar( false )"><i
                                 class="fa fa-times-circle" aria-label="Closesidebar"></i>
@@ -34,21 +42,30 @@
                     <!-- sidebar stations list -->
                     <ul class="player-stations-list">
                         <router-link tag="li" class="player-stations-list-item flex-row flex-top flex-stretch"
-                                     v-for="c of channelsList"
-                                     :key="c.id" :to="{ name: 'station', params: { id: c.shortcode }}"
-                                     :class="{ 'active': c.active }">
+                                     v-for="c of filteredStations"
+                                     :key="c.station.id" :to="{ name: 'station', params: { id: c.station.shortcode }}"
+
+                        >
+                            <!--<figure id="player-bg" class="player-bg"
+                                    v-bind:style="{ 'background-image' : `url(  ${ c.now_playing.song.art } )` }">
+
+                            </figure>-->
                             <figure class="push-right ">
-                                <img class="img-round" width="70" height="70" :src="c.image" :alt="c.name"/>
+                                <img class="img-round" width="70" height="70"
+                                     :src="c.station.shortcode"
+                                     :alt="c.station.name"/>
                             </figure>
                             <aside class="flex-1">
                                 <div class="flex-row flex-middle flex-space">
-                                    <div class="player-stations-list-title text-bright text-clip">{{ c.name }}</div>
+                                    <div class="player-stations-list-title text-bright text-clip">{{ c.station.name }}</div>
                                     <div class="text-nowrap">
-                                        <favBtn :id="c.id"></favBtn>
+                                        <favBtn :id="c.station.id"></favBtn>
                                     </div>
                                 </div>
-                                <div class="text-small">
-                                    <span class="text-faded text-uppercase text-small">{{ c.description | toText}}</span>
+                                <div class="text-small" >
+
+                                    <span class="text-faded text-uppercase text-small">{{ "NOW: "+ c.now_playing.song.text  | toText}}</span>
+
                                     <br/>
                                 </div>
                             </aside>
@@ -69,7 +86,7 @@
     import favBtn from "@/views/favBtn";
     import _utils from './js/utils';
     import { mapGetters, mapState  } from 'vuex';
-
+    import { debounce } from "debounce";
     export default {
         name: 'home',
         components: {
@@ -83,17 +100,17 @@
                 playing: false,
                 loading: false,
                 sidebar: false,
+                filteredStations: [],
                 searchText: '',
-                nowPlaying:{},
-                //channels: [],
-                channel: {},
-                background : "/img/icon.png",
+                //channel: {},
+                //background : "/img/icon.png",
                 errors: {},
             }
         },
         methods: {
             initView() {
                 console.log("init View");
+
                 this.init = true;
                 document.querySelector('#_spnr').style.display = 'none';
                 document.querySelector('#player-wrap').style.opacity = '1';
@@ -118,41 +135,65 @@
                 if (k === 'Enter') return this.toggleSidebar(true);
                 if (k === 'Escape') return this.toggleSidebar(false);
             },
-        },
-        computed: {
-            ...mapState('nowplaying',{channels : 'stations'}),
-            channelsList() {
+            debounceFilter: debounce(function (e) {
+                this.filterStations()
+            }, 500),
+
+            filterStations() {
+                let search = this.searchText;
                 let list = this.channels.slice();
-                let search = this.searchText.replace(/[^\w\s\-]+/g, '').replace(/[\r\s\t\n]+/g, ' ').trim();
 
                 if (search && search.length > 1) {
-                    list = _utils.search(list, 'name', search);
-                }
+                    console.log("filteredStations: if ",this.search)
+                    search = search.replace(/[^\w\s\-]+/g, '').replace(/[\r\s\t\n]+/g, ' ').trim();
+                    this.filteredStations =  list.filter(item => item.station.name.toLowerCase().includes(search.toLowerCase()))
+                }else this.filteredStations = this.channels;
+                console.log("filteredStations",this.filteredStations)
+                console.log("filteredStations : searchText",this.searchText)
+
+
+
+                /*
                 if (this.sortParam) {
                     list = _utils.sort(list, this.sortParam, this.sortOrder, true);
                 }
                 if (this.channel.id) {
                     list = list.map(i => {
-                        i.active = (this.channel.id === i.id);
+                        i.active = (this.channel.station.id === i.station.id);
                         return i;
                     });
                 }
-                return list;
+                */
+                //return this.channels;
             },
+        },
+        computed: {
+            ...mapState('nowplaying',{
+                channels : 'nowplaying',
+            }),
+            ...mapGetters('nowplaying',[
+                'getBackground',
+                'getStations'
+                //'dataByStation',
+                //'filteredStations'
+
+            ]),
 
         },
-
         // on app mounted
         mounted() {
             console.log("App : mounted");
-            this.$store.dispatch('nowplaying/fetchStations')//State action to get stations
+
             this.initView();
         },
         watch: {
             $route() {
                 this.toggleSidebar();
             },
-
+            channels(stations){
+                console.log("watch : channels" , this.filteredStations);
+                if (Object.keys(this.filteredStations).length === 0 ) this.filteredStations = stations;
+            },
         },
         // on app destroyed
         destroyed() {

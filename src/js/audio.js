@@ -88,7 +88,7 @@ export default {
         } catch (e) {
             console.log(e);
         }
-        try {
+        /*try {
             this._audio.stop(0);
         } catch (e) {
             console.log(e);
@@ -97,6 +97,6 @@ export default {
             this._audio.close();
         } catch (e) {
             console.log(e);
-        }
+        }*/
     },
 }
