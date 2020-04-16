@@ -17,7 +17,7 @@ new Vue({
   render: h => h(App),
   store,
   mounted() {
-    this.$store.dispatch('nowplaying/fetchNowplaying')
+    //this.$store.dispatch('nowplaying/fetchNowplaying')
     //this.$store.dispatch('nowplaying/fetchStations')
     //this.$store.dispatch('nowplaying/fetchSongs',1)
   }

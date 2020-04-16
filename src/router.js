@@ -16,7 +16,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/station/:id',
+      path: '/station/:shortcode',
       name: 'station',
       component: Station
     }

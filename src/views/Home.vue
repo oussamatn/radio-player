@@ -35,29 +35,9 @@
             return {
                 // toggles
                 visible: false,
-                playing: false,
-                loading: false,
                 sidebar: false,
-                volume: 0.5,
-                // channels stuff
-                channels: [],
-                channel: {},
-                songs: [],
-                track: {},
-                currentsong: {},
                 errors: {},
-                // timer stuff
-                timeStart: 0,
-                timeDisplay: '00:00:00',
-                timeItv: null,
-                // sorting stuff
-                searchText: '',
-                sortParam: 'listeners',
-                sortOrder: 'desc',
-                // timer stuff
-                anf: null,
-                sto: null,
-                itv: null,
+
             }
         },
 

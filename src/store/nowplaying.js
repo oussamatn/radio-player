@@ -3,21 +3,34 @@ import nowplayingService from '@/services/nowplayingService';
 //import { SET_FAVORITES, SET_TAGS } from './mutationTypes';
 
 export const state = {
+    stationId:0,
     stations: [],
     songs: [],
     trackList: [],
     nowplaying: [],
     currentSong:[],
+    currentStation:[]
     //searchText: ''
 };
 
 export const actions = {
+    StationId({commit},stationId){
+        commit("setStationId",stationId);
+        commit("setNowplayingStation", stationId);
+
+    },
     async fetchNowplaying({ commit }) {
         console.time("fetchNowplaying")
         console.log("%c fetchNowplaying" , 'background: blue; color: white')
         let nowplaying = await nowplayingService.get();
         return new Promise((resolve, reject) => {
-            commit("setNowplaying",nowplaying);
+            try{
+                commit("setNowplaying",nowplaying);
+                resolve();
+            }catch (e) {
+                reject();
+            }
+
         });
 
     },
@@ -43,12 +56,24 @@ export const actions = {
 
 };
 export const getters = {
-    courrentSong : (state) => {
+    /*courrentSong : (state) => {
         return state.currentSong;
     },
-    dataByStation : (state) => (stationid) =>  {
-        console.log("getters : dataByStation",stationid)
-        return state.nowplaying.find( (d) => (stationid) => (d.station.id === stationid)).now_playing.song ;
+    CurrentSong : (state) =>  {
+        let stationid = state.stationId
+        console.log("getters : CurrentSong",stationid)
+        return state.nowplaying.find( (d) => (stationid) => (d.station.id === stationid)).now_playing.song;
+    },*/
+    SongsByStation : (state) => {
+        let stationid = state.stationId
+        console.log("getters : SongsByStation",stationid)
+        return state.nowplaying.find( (d) => (stationid) => (d.station.id === stationid)).songs ;
+    },
+    getIDfromShortcode : (state) => (shortcode) =>{
+        console.log("getIDfromShortcode",shortcode )
+        let found = state.nowplaying.find( (d) => (d.station.shortcode === shortcode));
+        console.log("getIDfromShortcode: found",found,"shortcode",shortcode )
+        return found.station.id ;
     },
     hasSongs : (state) => {
         return (!!Object.keys(state.songs).length);
@@ -67,17 +92,33 @@ export const getters = {
 };
 /* eslint no-param-reassign: ["error", { "props": false }] */
 export const mutations = {
+    setStationId : (currentState, stationId) => {
+        currentState.stationId = stationId;
+    },
     setNowplaying : (currentState, nowplaying) => {
+        let stationId = currentState.stationId;
+        console.log("%c stationId :", 'background: green; color: white',stationId);
         console.log("%c setNowplaying :", 'background: green; color: white',nowplaying);
         console.timeEnd("fetchNowplaying")
         currentState.nowplaying = nowplaying;
         currentState.stations = nowplaying.map( (s) => { return s.station });
+    },
+    setNowplayingStation : (currentState,stationId) => {
 
-        },
-    setNowplayingStations : (currentState, Stations) => {
-        console.log("%c setNowplayingStations :", 'background: green; color: white',Stations);
+        let nowplaying = currentState.nowplaying;
 
-        currentState.stations = Stations;
+
+
+        if( !isNaN(stationId)){
+            //console.log("%c setNowplayingStation : nowplaying :", 'background: green; color: white',nowplaying);
+            //console.log("%c setNowplayingStation ID :", 'background: green; color: white',stationId);
+            let currentStation = nowplaying.find( (d) => d.station.id === stationId);
+            console.log("%c setNowplayingStation : currentStation", 'background: green; color: white',currentStation);
+            currentState.currentStation = currentStation.station;
+            currentState.currentSong = currentStation.now_playing.song
+            currentState.songs = currentStation.song_history;
+        }
+
     },
     setStations : (currentState, Stations) => {
         console.log("%c setStations :", 'background: green; color: white',Stations);
@@ -95,6 +136,7 @@ export const mutations = {
     resetSongs: (currentState)=>{
         currentState.songs = []
         currentState.currentSong=[]
+
     }
 
 };

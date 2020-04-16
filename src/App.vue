@@ -43,7 +43,12 @@
                     <ul class="player-stations-list">
                         <router-link tag="li" class="player-stations-list-item flex-row flex-top flex-stretch"
                                      v-for="c of filteredStations"
-                                     :key="c.station.id" :to="{ name: 'station', params: { id: c.station.shortcode }}"
+                                     :key="c.station.id"
+                                     :to="{ name: 'station',
+                                            params: {
+                                                    id: c.station.id,
+                                                    shortcode : c.station.shortcode
+                                     }}"
 
                         >
                             <!--<figure id="player-bg" class="player-bg"
@@ -102,10 +107,11 @@
                 init: false,
                 visible: false,
                 playing: false,
-                loading: false,
+                loading: true,
                 sidebar: false,
                 filteredStations: [],
                 searchText: '',
+                shortcode : '',
                 //channel: {},
                 //background : "/img/icon.png",
                 errors: {},
@@ -121,7 +127,7 @@
                 document.addEventListener('visibilitychange', e => {
                     this.visible = (document.visibilityState === 'visible')
                 });
-                this.background  = "/img/icon.png";
+
 
             },
             // set an erro message
@@ -187,15 +193,17 @@
         // on app mounted
         mounted() {
             console.log("App : mounted");
+            this.$store.dispatch('nowplaying/fetchNowplaying').then(()=>{
+                this.initView();
+            })
 
-            this.initView();
         },
         watch: {
             $route() {
                 this.toggleSidebar();
             },
             channels(stations){
-                console.log("watch : channels" , this.filteredStations);
+               // console.log("watch : channels" , this.filteredStations);
                 if (Object.keys(this.filteredStations).length === 0 ) this.filteredStations = stations;
             },
         },
