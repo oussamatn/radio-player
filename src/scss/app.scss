@@ -201,6 +201,23 @@
           background-color: darken( $colorDocumentDark, 2% );
           .player-stations-list-title { color: $colorPrimary; }
         }
+        .nowplaying{
+          padding-top: 0.5em;
+        }
+        #live{
+          background-color: #D9184B;
+          color: #D4C9C9;
+          display: inline-flex;
+          opacity: 1;
+        }
+        #title{
+          display: block;
+          text-transform: none;
+        }
+        span{
+          color: #727CB3;
+        }
+
       }
     }
   }

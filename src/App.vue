@@ -62,11 +62,15 @@
                                         <favBtn :id="c.station.id"></favBtn>
                                     </div>
                                 </div>
-                                <div class="text-small" >
+                                <div class="text-small nowplaying" >
+                                    <div v-if="c.live.islive" id="live">LIVE:  </div>
+                                    <span class="text-uppercase text-small" id="artist">
+                                        {{ c.now_playing.song.artist  | toText}}
+                                    </span>
+                                    <span class="text-uppercase text-small" id="title">
+                                        {{ c.now_playing.song.title  | toText}}
+                                    </span>
 
-                                    <span class="text-faded text-uppercase text-small">{{ "NOW: "+ c.now_playing.song.text  | toText}}</span>
-
-                                    <br/>
                                 </div>
                             </aside>
                         </router-link>
