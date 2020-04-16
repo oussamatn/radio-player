@@ -160,9 +160,6 @@
                 }else this.filteredStations = this.channels;
                 console.log("filteredStations",this.filteredStations)
                 console.log("filteredStations : searchText",this.searchText)
-
-
-
                 /*
                 if (this.sortParam) {
                     list = _utils.sort(list, this.sortParam, this.sortOrder, true);
