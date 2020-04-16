@@ -440,7 +440,7 @@
             console.log("created Station.vue");
             if (this.songs ===undefined) this.$store.dispatch('nowplaying/fetchSongs',this.stationId).then(()=>{
                 this.selectChannel();
-            });;
+            });
 
         },
         mounted() {
@@ -454,10 +454,12 @@
             console.log("beforeRouteUpdate : ",to.params.id);
             this.stationId = to.params.id;
             this.$store.dispatch('nowplaying/resetSongs')
-            this.$store.dispatch('nowplaying/fetchSongs',this.stationId)
+            this.$store.dispatch('nowplaying/fetchSongs',this.stationId).then(()=>{
+                this.selectChannel();
+            });
             this.closeAudio();
             this.resetPlayer();
-            this.selectChannel();
+
             next();
         },
         // on app destroyed
