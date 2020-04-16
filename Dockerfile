@@ -2,7 +2,6 @@
 
 # build environment
 FROM node:12.2.0-alpine as build
-RUN npm -v
 
 USER root
 RUN rm -rf /home/node/joujmafm
@@ -19,18 +18,27 @@ WORKDIR /home/node/joujmafm
 ENV PATH /home/node/joujmafm/node_modules/.bin:$PATH
 
 COPY package.json .
-RUN npm install -g serve 
 
 USER node
 
-RUN npm install
+RUN npm i --production
 
-
-RUN npm install @vue/cli@3.7.0 
+RUN npm install @vue/cli@3.7.0
 
 COPY --chown=node:node . .
 
 RUN npm run build
+
+RUN rm -rf ./node_modules
+
+FROM node:12.2.0-alpine as PROD
+
+RUN npm install -g serve
+
+WORKDIR /home/node/joujmafm
+
+USER node
+COPY --from=build --chown=node:node /home/node/joujmafm/dist ./dist
 
 CMD serve -s dist -l 8080
 
