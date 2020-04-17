@@ -2,12 +2,66 @@
 
 
     <!-- player middle content area -->
-    <main class="player-content flex-row">
-        <section class="player-greet" id="home">
+    <main class="player-content flex-autorow stationView">
+
+        <!--<div class="flex-grid ">
+
+            <div class="flex-grid-sm flex-1"> <span>Item 1 </span></div>
+            <div class="flex-grid-sm flex-2"> <span>Item 2 </span></div>
+            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
+            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
+            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
+            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
+            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
+        </div>-->
+        <ul class="flex-grid home-station-list">
+            <router-link tag="li" class="card fx flex-grid-sm flex-1 " id="station"
+                         v-for="(c,i) of channels"
+                         :class="'fx-slide-left fx-delay-' + ( i + 2 )"
+                         :key="c.station.id"
+                         :to="{ name: 'station',params: { id: c.station.id, shortcode : c.station.shortcode }}" >
+
+                <!--<figure id="player-bg" class="player-bg"
+                        v-bind:style="{ 'background-image' : `url(  ${ c.now_playing.song.art } )` }">
+                </figure>-->
+                <figure class="station-play">
+                    <div id="station-logo">
+                        <img width="100" height="100"
+                             :src="c.station.image"
+                             :alt="c.station.name"/>
+                    </div>
+                    <div class="station-hover">
+                        <i class="far fa-play-circle fx fx-drop-in"></i>
+                    </div>
+
+                </figure>
+
+                <aside class="flex-1">
+                    <div class="flex-row flex-middle flex-space">
+                        <div class="player-stations-list-title text-bright text-clip">{{ c.station.name }}</div>
+                        <div class="text-nowrap">
+                            <favBtn :id="c.station.id"></favBtn>
+                        </div>
+                    </div>
+                    <div class="text-small nowplaying" >
+                        <div v-if="c.live.islive" id="live">LIVE:  </div>
+                        <span class="text-uppercase text-small" id="artist">
+                                        {{ c.now_playing.song.artist  | toText}}
+                                    </span>
+                        <span class="text-uppercase text-small" id="title">
+                                        {{ c.now_playing.song.title  | toText}}
+                                    </span>
+
+                    </div>
+                </aside>
+            </router-link>
+        </ul>
+
+        <section class="player-greet flex-1" id="home">
             <div class="fx fx-slide-left push-bottom"><h1>Pick a Station</h1></div>
-            <div id=installer>
+            <!--<div id=installer>
                 <button class=button>Install</button>
-            </div>
+            </div>-->
             <div class="fx fx-slide-left fx-delay-1 push-bottom">
                 <div id="firebaseui-auth-container"></div>
             </div>
@@ -17,8 +71,9 @@
                     View Stations
                 </button>
             </div>
-
         </section>
+
+
     </main>
 
 
@@ -28,9 +83,13 @@
     /**
      * Home
      */
+    import { mapGetters, mapState  } from 'vuex';
+    import favBtn from "@/views/favBtn";
     export default {
         name: 'home',
-
+        components: {
+            favBtn
+        },
         data: () => {
             return {
                 // toggles
@@ -45,7 +104,18 @@
         watch: {},
 
         // computed methods
-        computed: {},
+        computed: {
+            ...mapState('nowplaying',{
+                channels : 'nowplaying',
+            }),
+            ...mapGetters('nowplaying',[
+                //'getBackground',
+                //'getStations'
+                //'dataByStation',
+                //'filteredStations'
+
+            ]),
+        },
 
         // custom methods
         methods: {

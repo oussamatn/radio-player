@@ -105,6 +105,38 @@
     overflow: hidden;
     overflow-y: auto;
     padding: $padSpace;
+
+    .home-station-list{
+      list-style-type: none;
+      #station{
+        cursor: pointer;
+      }
+      .station-play{
+        position:relative;
+      }
+      #station-logo img{
+        margin: 0 auto;
+      }
+      :hover .station-hover{display:block}
+      :hover #station-logo img{
+        transform: scale(1.2);
+        opacity: 0.5;
+      }
+      .station-hover{
+        position: absolute;
+        color: #D4C9C9;
+        display:none;
+        top:20%;
+        width:40px;
+        margin:0 auto; left:0px;
+        right:0px;
+        z-index:100;
+        i{
+          font-size : xxx-large;
+        }
+      }
+
+    }
     #coverArt{
       margin: auto;
       width: 200px;
