@@ -241,8 +241,7 @@
 
             // run maintenance tasks on a timer
             setupMaintenance() {
-                let remainingtime = this.track.remaining || 10;
-                console.log("this.currentsong.remaining:",this.track);
+                let remainingtime = ( Math.floor(Date.now()/1000) - this.track.played_at ) || 10;
                 console.log("remainingtime:",remainingtime);
                 console.log("setupMaintenance: for ",this.stationId);
                 this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
