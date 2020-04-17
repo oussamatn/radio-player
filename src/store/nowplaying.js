@@ -19,13 +19,14 @@ export const actions = {
         commit("setNowplayingStation", stationId);
 
     },
-    async fetchNowplaying({ commit }) {
+    async fetchNowplaying({ commit },stationId) {
         console.time("fetchNowplaying")
         console.log("%c fetchNowplaying" , 'background: blue; color: white')
         let nowplaying = await nowplayingService.get();
         return new Promise((resolve, reject) => {
             try{
                 commit("setNowplaying",nowplaying);
+                if(!isNaN(stationId)) commit("setNowplayingStation", stationId);
                 resolve();
             }catch (e) {
                 reject();
@@ -79,7 +80,10 @@ export const getters = {
         return (!!Object.keys(state.songs).length);
     },
     getBackground : (state) =>{
-        return state.currentSong.art || "/img/icon.png" ;
+        console.log(state.currentSong);
+        if(state.currentSong.song)
+            return state.currentSong.song.art
+        else return "/img/icon.png" ;
     },
     getStations : (state) => {
         let stations = [];
@@ -115,7 +119,7 @@ export const mutations = {
             let currentStation = nowplaying.find( (d) => d.station.id === stationId);
             console.log("%c setNowplayingStation : currentStation", 'background: green; color: white',currentStation);
             currentState.currentStation = currentStation.station;
-            currentState.currentSong = currentStation.now_playing.song
+            currentState.currentSong = currentStation.now_playing;
             currentState.songs = currentStation.song_history;
         }
 
@@ -128,7 +132,7 @@ export const mutations = {
     setSongs: (currentState, Songs) =>{
         console.log("%c setSongs :", 'background: green; color: white',Songs);
         console.timeEnd("fetchSongs")
-        currentState.currentSong = Songs.now_playing.song;
+        currentState.currentSong = Songs.now_playing;
         console.log("%c setSongs : Songs.now_playing.song", 'background: blue; color: white',Songs.now_playing.song);
 
         currentState.songs = Songs;

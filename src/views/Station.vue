@@ -32,7 +32,7 @@
                             <div v-if="station">{{ station.description }}</div>
                         </div>
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
-                             :key="currentsong.played_at">
+                             >
 
                             <div class="pad-top"><img class="fx fx-fade-in"
                                                       :src="currentsong.art" id="coverArt" /></div>
@@ -205,7 +205,8 @@
             ...mapState('nowplaying',{
                 stationId : state => state.stationId,
                 songs : 'songs',
-                currentsong : state => state.currentSong,
+                track : 'currentSong',
+                currentsong : state => state.currentSong.song,
                 station : state => state.currentStation,
                 songs : state => state.songs,
                 //channels : state => state.stations, //errors
@@ -240,11 +241,10 @@
 
             // run maintenance tasks on a timer
             setupMaintenance() {
-                let remainingtime = this.currentsong.remaining || 10;
-                console.log("this.currentsong.remaining:",this.currentsong);
+                let remainingtime = this.track.remaining || 10;
+                console.log("this.currentsong.remaining:",this.track);
                 console.log("remainingtime:",remainingtime);
                 console.log("setupMaintenance: for ",this.stationId);
-                //let stationId=this.stationId;
                 this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
             },
 
@@ -387,7 +387,7 @@
                 this.initPlayer();
                 this.setupAudio();
                 this.playChannel();
-                //this.setupMaintenance();
+                this.setupMaintenance();
 
             },
 
