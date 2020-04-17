@@ -97,7 +97,7 @@
             <section class="player-controls flex-row flex-middle push-right"
                      :class="{ 'disabled': !canPlay }">
                 <button class="common-btn" @click="togglePlay()">
-                    <i v-if="loading" class="fa fa-circle-o-notch fx fx-spin-right" key="wait"></i>
+                    <i v-if="loading" class="fas fa-circle-notch fx fx-spin-right" key="wait"></i>
                     <i v-else-if="playing" class="fa fa-stop fx fx-drop-in" key="stop"></i>
                     <i v-else class="fa fa-play fx fx-drop-in" key="play"></i>
                 </button>
@@ -119,12 +119,12 @@
             <section class="player-links text-nowrap">
                 <a class="common-btn text-faded" rel="noreferrer" href="https://twitter.com" title="Twitter"
                    target="_blank">
-                    <i class="fa fa-twitter"></i>
+                    <i class="fab fa-twitter"></i>
                 </a> &nbsp;
                 <a class="common-btn text-faded" rel="noreferrer" href="https://facebook.com"
                    title="Facebook"
                    target="_blank">
-                    <i class="fa fa-facebook"></i>
+                    <i class="fab fa-facebook"></i>
                 </a>
             </section>
 
