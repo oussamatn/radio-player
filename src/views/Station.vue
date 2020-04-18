@@ -11,8 +11,9 @@
                                 <img class="img-round fx fx-drop-in fx-delay-1"
                                      v-if ="station"
                                      :src=" station.image "
+                                     :alt="station.name "
                                      width="80"
-                                     height="80" :alt="station.title" />
+                                     height="80"/>
                                 <div class="pad-left fx fx-slide-left fx-delay-2">
                                     <h3 class="text-clip">{{ station.name | toText }}</h3>
                                     <div class="text-nowrap">
@@ -35,7 +36,9 @@
                              >
 
                             <div class="pad-top"><img class="fx fx-fade-in"
-                                                      :src="currentsong.art" id="coverArt" /></div>
+                                                      :src="currentsong.art"
+                                                      :alt="currentsong.title"
+                                                      id="coverArt" /></div>
                             <div class="pad-bottom">
                                 <div><span
                                         class="text-secondary">{{ currentsong.title | toText( 'N/A' ) }}</span>
@@ -54,7 +57,7 @@
                                             class="fa fa-comments"></i></span>
                             </a> &nbsp;
                             <a v-if="station" class="cta-btn text-nowrap fx fx-slide-up fx-delay-6" :href="station.twitter"
-                               title="Twitter page" target="_blank">
+                               title="Twitter page" rel="noreferrer" target="_blank">
                                 <i class="fa fa-twitter"></i>
                             </a> &nbsp;
                         </div>
@@ -74,7 +77,9 @@
                             <li v-for="( s, i ) of songs" :key="s.played_at"
                                 class="card fx flex-row flex-top flex-stretch"
                                 :class="'fx-slide-left fx-delay-' + ( i + 2 )">
-                                <div><img width="70" height="70" :src="s.song.art"/></div>
+                                <div><img width="70" height="70"
+                                          :alt="s.song.title"
+                                          :src="s.song.art"/></div>
                                 <div class="pad-left">
                                     <div><span
                                             class="text-secondary">{{ s.song.title | toText( 'N/A' ) }}</span>
@@ -96,7 +101,7 @@
             <!-- player controls -->
             <section class="player-controls flex-row flex-middle push-right"
                      :class="{ 'disabled': !canPlay }">
-                <button class="common-btn" @click="togglePlay()">
+                <button class="common-btn" @click="togglePlay()" aria-label="play">
                     <i v-if="loading" class="fas fa-circle-notch fx fx-spin-right" key="wait"></i>
                     <i v-else-if="playing" class="fa fa-stop fx fx-drop-in" key="stop"></i>
                     <i v-else class="fa fa-play fx fx-drop-in" key="play"></i>
