@@ -109,11 +109,6 @@
                 channels : 'nowplaying',
             }),
             ...mapGetters('nowplaying',[
-                //'getBackground',
-                //'getStations'
-                //'dataByStation',
-                //'filteredStations'
-
             ]),
         },
 
