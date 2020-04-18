@@ -53,7 +53,6 @@
                         >
                             <!--<figure id="player-bg" class="player-bg"
                                     v-bind:style="{ 'background-image' : `url(  ${ c.now_playing.song.art } )` }">
-
                             </figure>-->
                             <figure class="push-right ">
                                 <img class="img-round" width="70" height="70"
@@ -91,9 +90,9 @@
     import './scss/app.scss';
     import './js/filters';
     import "./js/init-firebase";
-    import _joujma from './js/api';
+    //import _joujma from './js/api';
     import favBtn from "@/views/favBtn";
-    import _utils from './js/utils';
+    //import _utils from './js/utils';
     import { mapGetters, mapState  } from 'vuex';
     import { debounce } from "debounce";
     export default {
