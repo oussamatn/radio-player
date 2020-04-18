@@ -99,9 +99,14 @@
       i { vertical-align: bottom; }
     }
   }
+  .player-footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
   .player-content {
     flex: 1;
-    height: 100%;
+    height: calc(100% + 100px);
     overflow: hidden;
     overflow-y: auto;
     padding: $padSpace;
