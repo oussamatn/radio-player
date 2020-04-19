@@ -58,7 +58,7 @@
                             </a> &nbsp;
                             <a v-if="station" class="cta-btn text-nowrap fx fx-slide-up fx-delay-6" :href="station.twitter"
                                title="Twitter page" rel="noreferrer" target="_blank">
-                                <i class="fa fa-twitter"></i>
+                                <i class="fab fa-twitter"></i>
                             </a> &nbsp;
                         </div>
 
