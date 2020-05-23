@@ -1,6 +1,6 @@
 export default {
 // Azuracast API endpoint
-    api_url : "https://jelliti.me",
+    api_url : "https://radio.jelliti.me",
 
 // Firebase config
  firebaseConfig : {

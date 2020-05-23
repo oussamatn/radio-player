@@ -18,8 +18,14 @@
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  height: 100%;
-  width: 100%;
+
+  @media #{$screenLarge} {
+    height: 15em;
+    width: 63%;
+    margin: auto;
+  }
+
+
 }
 
 // player container

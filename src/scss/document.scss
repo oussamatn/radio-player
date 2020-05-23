@@ -23,6 +23,7 @@ body {
 
   @media #{$screenSmall} {
     font-size: calc( #{$fontSize} - 4px );
+
   }
   @media #{$screenMedium} {
     font-size: calc( #{$fontSize} - 2px );
