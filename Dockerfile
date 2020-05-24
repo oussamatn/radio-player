@@ -23,7 +23,7 @@ USER node
 
 RUN npm i --production
 
-RUN npm install @vue/cli@3.7.0
+RUN npm install @vue/cli
 
 COPY --chown=node:node . .
 
