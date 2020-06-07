@@ -5,13 +5,11 @@ FROM node:12.2.0-alpine as build
 
 USER root
 RUN rm -rf /home/node/joujmafm
-# non-root user node
-RUN mkdir -p /home/node/joujmafm/node_modules && chown -R node:node /home/node/joujmafm
 
+RUN mkdir -p /home/node/joujmafm/node_modules && chown -R node:node /home/node/joujmafm
 
 RUN apk update && apk add git
 
-RUN which git
 
 WORKDIR /home/node/joujmafm
 
@@ -21,9 +19,9 @@ COPY package.json .
 
 USER node
 
-RUN npm i --production
+RUN npm i --production --silent
 
-RUN npm install @vue/cli
+RUN npm install @vue/cli@3.7.0
 
 COPY --chown=node:node . .
 

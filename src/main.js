@@ -6,7 +6,8 @@ import store from './store';
 
 import * as  VueHammer  from 'vue2-hammer'
 import './registerServiceWorker'
-console.clear();
+
+
 Vue.use(VueHammer,{name: 'v-hammer'});
 
 Vue.config.productionTip = false;

@@ -23,7 +23,6 @@
                      v-if="channels"
             >
                 <aside class="player-stations-sidebar" @click.stop>
-
                     <!-- sidebar search -->
                     <header class="player-stations-header flex-row flex-middle flex-stretch">
                         <div class="form-input push-right">

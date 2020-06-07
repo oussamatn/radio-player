@@ -1,5 +1,5 @@
 'use strict';
-const SocialTags = require('social-tags-webpack-plugin')
+//const SocialTags = require('social-tags-webpack-plugin')
 module.exports = {
     pwa: {
         appleMobileWebAppCapable: 'yes',
@@ -11,7 +11,7 @@ module.exports = {
     },
     configureWebpack: {
         plugins: [
-            new SocialTags({
+            /*new SocialTags({
                 appUrl: 'http://player1.jelliti.me/',
                 facebook: {
                     //'fb:app_id': "",
@@ -33,7 +33,7 @@ module.exports = {
                     "twitter:description": "JoujmaFM player, 24h/7 of music",
                     "twitter:image": '<%= BASE_URL %>/img/icon.png'
                 },
-            })
+            })*/
         ]
     },
     productionSourceMap : false,
