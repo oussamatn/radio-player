@@ -3,7 +3,7 @@ import 'firebase/messaging';
 //import 'firebase/firestore';
 import Firestore from 'firebase-firestore-lite';
 
-import config from './config.js';
+import config from '../../public/assets/config.json';
 
 firebase.initializeApp(config.firebaseConfig);
 //const db = firebase.firestore();

@@ -94,7 +94,7 @@ export const getters = {
         },
 
 };
-/* eslint no-param-reassign: ["error", { "props": false }] */
+
 export const mutations = {
     setStationId : (currentState, stationId) => {
         currentState.stationId = stationId;
@@ -114,8 +114,6 @@ export const mutations = {
 
 
         if( !isNaN(stationId)){
-            //console.log("%c setNowplayingStation : nowplaying :", 'background: green; color: white',nowplaying);
-            //console.log("%c setNowplayingStation ID :", 'background: green; color: white',stationId);
             let currentStation = nowplaying.find( (d) => d.station.id === stationId);
             console.log("%c setNowplayingStation : currentStation", 'background: green; color: white',currentStation);
             currentState.currentStation = currentStation.station;

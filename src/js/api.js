@@ -2,7 +2,7 @@
  * Joujma  API handler
  */
 import axios from 'axios';
-import config from './config.js';
+import config from '../../public/assets/config.json';
 
 export default {
   // get now playing response

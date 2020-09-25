@@ -1,3 +1,5 @@
+/*
+
 export default {
 // Azuracast API endpoint
     api_url : "https://radio.jelliti.me",
@@ -15,3 +17,4 @@ export default {
     PublicVapidKey  : "BGwgmlTd-J5Xeg7Z2ST2ztIS6XuTOY0r2GG8t4AFw9SE4mhaq0C-9xvUdsb1VE9a32WxeHMKgSzHTWl3GmD5V18"
     }
 };
+*/

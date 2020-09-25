@@ -2,7 +2,7 @@
  * Joujma  API handler
  */
 import axios from 'axios';
-import config from '../js/config.js';
+import config from '../../public/assets/config.json';
 
 export default {
     // get now playing response
@@ -38,21 +38,12 @@ export default {
     getSongs( channel_id ) {
         console.log("Nowplaying Service :  getSongs : ", channel_id)
         let apiurl =   config.api_url+'/api/nowplaying/'+ channel_id;
-        //let title  = channel.name || '...';
-        //let error  = 'There was a problem loading the list of songs for this channel from JoujmaFM. ';
         return axios.get( apiurl ).then( res => {
             //if ( !res.data ) return callback( error, [] );
             res.data.station = this._parseChannel( res.data.station );
             console.log("Nowplaying Service :  getSongs : ", res.data)
             return res.data ;
         });
-        /*axios.get( apiurl ).then( res => {
-            if ( !res.data ) return callback( error, [] );
-            return callback( null, res.data );
-        })
-            .catch( e => {
-                return callback( error + String( e.message || '' ), [] );
-            });*/
     },
 
     // parse channels list from api response
