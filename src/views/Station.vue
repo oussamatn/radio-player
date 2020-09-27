@@ -113,7 +113,7 @@
                     <i class="fa fa-volume-up"></i>
                 </div>
                 <div class="text-clip push-left">
-                    <!-- <span>{{ timeDisplay }}</span>-->
+                     <span>{{ timeDisplay }}</span>
                      <span class="text-faded" v-if="hasChannel">&nbsp;|&nbsp;</span>
                      <span class="fx fx-fade-in fx-delay-1" v-if="station"
                            :key="stationId">{{ station.title }}</span>
@@ -161,8 +161,6 @@
                 errors: {},
                 //background stuff
                 img:'',
-                colorThief:null,
-                bg: {},
                 // timer stuff
                 timeStart: 0,
                 timeDisplay: '00:00:00',
@@ -219,11 +217,7 @@
             }),
             // check if there are tracks loaded
             ...mapGetters('nowplaying',['hasSongs','getIDfromShortcode']),
-            // filter songs list
-            /*songsList() {
-                let list = this.songs.slice(0, 4);
-                return list;
-            },*/
+
             // check if audio can be played
             canPlay() {
                 return (this.stationId && !this.loading) ? true : false;
@@ -284,30 +278,8 @@
                 this.closeAudio();
                 this.clearErrors();
             },
-            InitColorthief(){
-              //this.colorThief = new ColorThief();
-            },
-            updateBackground(){
-                //this.img = document.querySelector('#coverArt');
-                //if (this.colorThief == null) this.InitColorthief();
-                //console.log("updateBackground");
-                //this.$parent.background = this.currentsong.art; // update player background
-                /*if(this.img){
-                    if (this.img && this.img.complete) {
-                        this.bg = this.colorThief.getColor(this.img);
-                    } else {
-                        this.img.addEventListener('load', () => {
-                            console.log("img>load");
-                            console.log(this.colorThief.getColor(this.img));
-                            this.bg = this.colorThief.getColor(this.img);
-                        });
-                    }
-                    console.log("background ",this.bg);
-                    if(this.bg) document.querySelector('#player-wrap').style.backgroundImage = 'linear-gradient(0deg, rgba('+this.bg[0]+','+this.bg[1]+','+this.bg[2]+',1) 0%, #1e1f30 100%)';
 
-                }*/
 
-            },
             // try resuming stream problem if possible
             tryAgain() {
                 this.clearErrors();
@@ -469,11 +441,8 @@
 
             console.log("beforeRouteUpdate : ",to.params.id);
             this.$store.dispatch('nowplaying/resetSongs')
-            //if(isNaN(to.params.id))
-                this.$store.dispatch('nowplaying/StationId',to.params.id)
-            //this.$store.dispatch('nowplaying/fetchNowplaying').then(()=>{
+            this.$store.dispatch('nowplaying/StationId',to.params.id)
 
-            //});
             this.closeAudio();
             this.resetPlayer();
             this.selectChannel();
