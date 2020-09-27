@@ -55,8 +55,9 @@
                             </figure>-->
                             <figure class="push-right ">
                                 <img class="img-round" width="70" height="70"
-                                     :src="c.station.image"
+                                     :src="c.now_playing.song.art"
                                      :alt="c.station.name"/>
+
                             </figure>
                             <aside class="flex-1">
                                 <div class="flex-row flex-middle flex-space">
@@ -89,7 +90,6 @@
     import './scss/app.scss';
     import './js/filters';
     import "./js/init-firebase";
-    //import _joujma from './js/api';
     import favBtn from "@/views/favBtn";
     //import _utils from './js/utils';
     import { mapGetters, mapState  } from 'vuex';
