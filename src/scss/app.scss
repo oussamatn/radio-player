@@ -18,10 +18,11 @@
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
+  height: 100%;
 
   @media #{$screenLarge} {
-    height: 15em;
-    width: 63%;
+    //height: 15em;
+    //width: 63%;
     margin: auto;
   }
 
@@ -73,7 +74,7 @@
 // player layout container
 .stationView {
   @media #{$screenSmall} {
-    //height: 97%;
+    height: 94%;
   }
 }
 .stationView,
@@ -82,7 +83,7 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: stretch;
-  height: 97%;
+  height: 94%;
   @media #{$screenMedium} {
     height: 100%;
   }
