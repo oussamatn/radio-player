@@ -104,12 +104,10 @@
                 // toggles
                 init: false,
                 visible: false,
-                playing: false,
                 loading: true,
                 sidebar: false,
                 filteredStations: [],
                 searchText: '',
-                shortcode : '',
                 //channel: {},
                 //background : "/img/icon.png",
                 errors: {},
@@ -128,7 +126,6 @@
 
 
             },
-            // set an erro message
             setError(key, err) {
                 let errors = Object.assign({}, this.errors);
                 errors[key] = String(err || '').trim();
@@ -158,18 +155,7 @@
                 }else this.filteredStations = this.channels;
                 console.log("filteredStations",this.filteredStations)
                 console.log("filteredStations : searchText",this.searchText)
-                /*
-                if (this.sortParam) {
-                    list = _utils.sort(list, this.sortParam, this.sortOrder, true);
-                }
-                if (this.channel.id) {
-                    list = list.map(i => {
-                        i.active = (this.channel.station.id === i.station.id);
-                        return i;
-                    });
-                }
-                */
-                //return this.channels;
+
             },
         },
         computed: {
@@ -178,10 +164,6 @@
             }),
             ...mapGetters('nowplaying',[
                 'getBackground',
-                //'getStations'
-                //'dataByStation',
-                //'filteredStations'
-
             ]),
 
         },
@@ -204,8 +186,7 @@
         },
         // on app destroyed
         destroyed() {
-            //this.closeAudio();
-            //this.clearTimers();
+
         }
     }
 
