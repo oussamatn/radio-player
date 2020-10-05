@@ -44,9 +44,9 @@
                         </div>
                     </div>
                     <div class="text-small nowplaying" >
-                        <div v-if="c.live.islive" id="live">LIVE:  </div>
+                        <div v-if="c.live.islive" id="live">LIVE  </div>
                         <span class="text-uppercase text-small" id="artist">
-                                        {{ c.now_playing.song.artist  | toText}}
+                                        NOW: {{ c.now_playing.song.artist  | toText}}
                                     </span>
                         <span class="text-uppercase text-small" id="title">
                                         {{ c.now_playing.song.title  | toText}}
