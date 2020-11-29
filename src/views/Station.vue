@@ -17,7 +17,7 @@
                                 <div class="pad-left fx fx-slide-left fx-delay-2">
                                     <h3 class="text-clip">{{ station.name | toText }}</h3>
                                     <div class="text-nowrap">
-                                        <span class="text-clip text-uppercase">a {{ station.shortcode | toText }} &nbsp;</span>
+                                        <span class="text-clip text-uppercase">a {{ station.description  | toText }} &nbsp;</span>
                                         <favBtn :id="station.id" ></favBtn>
                                     </div>
                                 </div>
@@ -27,10 +27,11 @@
                         <div class="card push-bottom fx fx-slide-up fx-delay-3" >
                             <div class="text-secondary" v-if="currentsong">
                                 <span class="text-faded">Playlist:</span> {{
-                                currentsong.playlist
+                                track.playlist
                                 | toText( 'N/A' ) }}.
                             </div>
-                            <div v-if="station">{{ station.description }}</div>
+                            <!--TODO Add next song -->
+                            <!--<div v-if="station">Next : {{ playing_next.song.title }}</div>-->
                         </div>
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
                              >
@@ -141,6 +142,7 @@
 
 
     import _joujma from '../js/api';
+    import _scene from '../js/scene'
     import _audio from '../js/audio';
     import favBtn from "@/views/favBtn";
     import { mapGetters, mapState  } from 'vuex';
@@ -157,19 +159,12 @@
                 playing: false,
                 loading: true,
                 volume: 0.4,
-                // channels stuff
+                // errors stuff
                 errors: {},
-                //background stuff
-                img:'',
                 // timer stuff
                 timeStart: 0,
                 timeDisplay: '00:00:00',
                 timeItv: null,
-                // sorting stuff
-                searchText: '',
-                sortParam: 'listeners',
-                sortOrder: 'desc',
-                // timer stuff
                 anf: null,
                 sto: null,
                 itv: null,
@@ -242,9 +237,20 @@
             setupMaintenance() {
                 let remainingtime = ( Math.floor(Date.now()/1000) - this.track.played_at ) || 10;
                 console.log("remainingtime:",remainingtime);
-                console.log("setupMaintenance: for ",this.stationId);
+                console.log("setupMaintenance : for ",this.stationId);
                 this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
             },
+          // setup animation canvas
+          setupCanvas() {
+            _scene.setupCanvas();
+          },
+          // audio visualizer animation loop
+          updateCanvas() {
+            this.anf = requestAnimationFrame( this.updateCanvas );
+            if ( !this.visible ) return;
+            const freq = _audio.getFreqData();
+            _scene.updateObjects( freq );
+          },
 
             // set an error message
             setError(key, err) {
@@ -361,7 +367,7 @@
             selectChannel() {
                 this.closeAudio();
                 this.initPlayer();
-                this.setupAudio();
+
                 this.playChannel();
                 this.setupMaintenance();
 
@@ -372,7 +378,7 @@
                 const k = e.key || '';
                 if (k === ' ' && this.stationId) return this.togglePlay();
             },
-            // Song play time
+            // TODO Song play time
             songClock() {
                 let p = n => (n < 10) ? '0' + n : '' + n;
                 let elapsed = (Date.now() - this.timeStart) / 1000;
@@ -427,12 +433,14 @@
             if(isNaN( stationId)) stationId = this.getIDfromShortcode(this.$route.params.shortcode);
             // Update state with current station id
             this.$store.dispatch('nowplaying/StationId',stationId);
-
+            this.setupCanvas();
+            this.updateCanvas();
 
 
         },
         mounted() {
             console.log("mounted Station.vue");
+            this.setupAudio();
             this.selectChannel();
 
 
