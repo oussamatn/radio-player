@@ -22,7 +22,7 @@
 
   @media #{$screenLarge} {
     //height: 15em;
-    //width: 63%;
+    width: 63%;
     margin: auto;
   }
 
@@ -110,6 +110,9 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    @media #{$screenLarge} {
+      position: relative ;
+    }
   }
   .player-content {
     flex: 1;
