@@ -3,17 +3,6 @@
 
     <!-- player middle content area -->
     <main class="player-content flex-autorow stationView">
-
-        <!--<div class="flex-grid ">
-
-            <div class="flex-grid-sm flex-1"> <span>Item 1 </span></div>
-            <div class="flex-grid-sm flex-2"> <span>Item 2 </span></div>
-            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
-            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
-            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
-            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
-            <div class="flex-grid-sm flex-1"> <span>Item 3 </span></div>
-        </div>-->
         <ul class="flex-grid home-station-list">
             <router-link tag="li" class="card fx flex-grid-sm flex-1 " id="station"
                          v-for="(c,i) of channels"
