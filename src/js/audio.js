@@ -15,33 +15,35 @@ export default {
     // setup audio routing
     setupAudio() {
         console.log("setupAudio");
-        if (this._source ==null )this._source = this._context.createMediaElementSource(this._audio);
+        if (this._source ==null ) this._source = this._context.createMediaElementSource(this._audio);
 
-        //this._analyser = this._context.createAnalyser();
-        this._gain = this._context.createGain();
-        if (this._context.state === 'suspended') this.unlockAudioContext(this._context);
+        //Audio gain to manage volume
+        if (this._gain ==null ) this._gain = this._context.createGain();
         this._source.connect(this._gain);
-        //this._source.connect(this._analyser);
         this._gain.connect(this._context.destination);
+        // Wait for audio load buffer
         this._audio.addEventListener('canplaythrough', e => {
-                console.log('canplaythrough: ' + this._context.state);
                 this.playAudio();
         });
+        // Frequency Analyzer
+        if (this._analyser ==null ) this._analyser = this._context.createAnalyser();
+        this._source.connect(this._analyser);
+
+        // Activate AudioContext on user event
+        if (this._context.state === 'suspended') this.unlockAudioContext(this._context);
         return this._audio;
     },
 // update and return analyser frequency data
-    /*getFreqData() {
+    getFreqData() {
         this._analyser.getByteFrequencyData(this._freq);
         return this._freq;
     },
-     */
+
     playAudio(){
         if (this._context.state === 'running') {
-            //this._freq = new Uint8Array(this._analyser.frequencyBinCount);
-            this._audio.play().then(_a => {
-                console.log("autoplay");
-            }).catch(e => {
-                console.log("auddio :" + e);
+            this._freq = new Uint8Array(this._analyser.frequencyBinCount);
+            this._audio.play().catch(e => {
+                console.log("audio :" + e);
             })
         }
     },
@@ -89,15 +91,6 @@ export default {
         } catch (e) {
             console.log(e);
         }
-        /*try {
-            this._audio.stop(0);
-        } catch (e) {
-            console.log(e);
-        }
-        try {
-            this._audio.close();
-        } catch (e) {
-            console.log(e);
-        }*/
+
     },
 }
