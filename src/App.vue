@@ -5,6 +5,7 @@
         <main id="player-wrap" class="player-wrap" style="opacity: 0;" >
             <!-- bg absolute elements -->
             <figure id="player-bg" class="player-bg" v-bind:style="{ 'background-image' : `url(  ${ getBackground} )` }"></figure>
+            <canvas id="player-canvas" class="player-canvas" ></canvas>
             <!-- main player layout -->
             <section class="player-layout" v-if="init">
                 <!-- player top header -->
@@ -81,7 +82,7 @@
                     </ul>
                 </aside>
             </section>
-            <!--<canvas id="player-canvas" class="player-canvas" ></canvas>-->
+
         </main> <!-- player -->
     </div>
 </template>
