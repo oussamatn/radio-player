@@ -10,7 +10,7 @@ module.exports = {
         "@babel/transform-async-to-generator",
         //"@babel/transform-class-properties",
         //"@babel/transform-runtime",
-        //"@babel/lodash"
+        "@babel/lodash"
     ],
   env: {
     production: {

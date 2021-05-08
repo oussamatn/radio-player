@@ -1,5 +1,7 @@
 'use strict';
-//const SocialTags = require('social-tags-webpack-plugin')
+const SocialTags = require('social-tags-webpack-plugin')
+//const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const config = require('./public/assets/config.json')
 module.exports = {
     pwa: {
         appleMobileWebAppCapable: 'yes',
@@ -11,29 +13,29 @@ module.exports = {
     },
     configureWebpack: {
         plugins: [
-            /*new SocialTags({
-                appUrl: 'http://player1.jelliti.me/',
+            //² new FaviconsWebpackPlugin('src/asserts/logo.png'), // svg works too!
+
+            new SocialTags({
+                appUrl: config.meta.url,
                 facebook: {
                     //'fb:app_id': "",
-                    'og:url': "http://player1.jelliti.me/",
+                    'og:url': config.meta.url,
                     'og:type': "music.radio_station",
-                    'og:title': "JoujmaFM player",
-                    'og:image': 'src/img/book.png',
-                    'og:description': "JoujmaFM player, 24h/7 of music",
-                    'og:site_name': "JoujmaFM",
-                    'og:locale': "FR_fr",
-                    'og:article:author': "simyos",
+                    'og:title': config.title,
+                    'og:image': config.meta.image,
+                    'og:description': config.description,
+                    'og:site_name': config.title,
+                    'og:locale': config.meta.locale,
                 },
                 twitter: {
                     "twitter:card": "summary",
-                    "twitter:site": "@site_account",
-                    "twitter:creator": "@individual_account",
-                    "twitter:url": "http://example.com/page.html",
-                    "twitter:title": "JoujmaFM player",
-                    "twitter:description": "JoujmaFM player, 24h/7 of music",
-                    "twitter:image": '<%= BASE_URL %>/img/icon.png'
+                    "twitter:site": config.twitter.username,
+                    "twitter:url": config.meta.url,
+                    "twitter:title": config.title,
+                    "twitter:description": config.description,
+                    "twitter:image": config.meta.image
                 },
-            })*/
+            })
         ]
     },
     productionSourceMap : false,

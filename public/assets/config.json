@@ -1,5 +1,24 @@
 {
   "api_url" : "https://radio.jelliti.me",
+  "title": "Joujma FM | Radio Station",
+  "description" : "Live Radio 24/7 Hits music Only ",
+  "manifest" : {
+    "short_name": "Joujma FM",
+    "orientation": "portrait",
+    "display": "standalone",
+    "start_url": "/?utm_source=pwa_homescreen",
+    "prompt_message": "Add a Home screen icon for easy access to our player",
+    "background_color": "#222336",
+    "theme_color": "#222336"
+  },
+  "meta": {
+    "url" : "https://player1.jelliti.me",
+    "image" : "https://player1.jelliti.me/img/icon.png",
+    "locale" : "US_en"
+  },
+  "twitter" : {
+    "username" : "tn_oussama"
+  },
   "firebaseConfig" : {
     "apiKey": "AIzaSyDDl2wq1jR0sL61QLUi121cUnOdriAcpcA",
     "authDomain": "joujmafm.firebaseapp.com",
