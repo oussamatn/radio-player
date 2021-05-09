@@ -39,5 +39,5 @@ module.exports = {
         ]
     },
     productionSourceMap : false,
-    transpileDependencies: ["firebase","axios","colorthief","vue2-hammer","standardized-audio-context"]
+    transpileDependencies: ["firebase","axios","vue2-hammer","standardized-audio-context"]
 };
