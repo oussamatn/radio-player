@@ -33,6 +33,8 @@
                             <!--TODO Add next song -->
                             <!--<div v-if="station">Next : {{ playing_next.song.title }}</div>-->
                         </div>
+          <!--TODO: Insert background blur filter within a new wrapper -->
+
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
                              >
 
