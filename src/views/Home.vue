@@ -17,7 +17,9 @@
                     <div id="station-logo">
                         <img width="100" height="100"
                              :src="c.station.image"
-                             :alt="c.station.name"/>
+                             :alt="c.station.name"
+                             @error="c.station.image='/img/icon.png'"
+                        />
                     </div>
                     <div class="station-hover">
                         <i class="far fa-play-circle fx fx-drop-in"></i>
