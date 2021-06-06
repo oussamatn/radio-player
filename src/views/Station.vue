@@ -12,6 +12,7 @@
                                      v-if ="station"
                                      :src=" station.image "
                                      :alt="station.name "
+                                     @error="station.image='/img/icon.png'"
                                      width="80"
                                      height="80"/>
                                 <div class="pad-left fx fx-slide-left fx-delay-2">
