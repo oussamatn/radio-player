@@ -31,13 +31,13 @@ You can deploy the player in the same server as AzuraCast Core and serve the pla
 First you need to create a new domain or sub-domain name and configure it as you did with Azuracast domain. ( same ip address)
 ## Docker Compose 
 Go to your Azuracast installation folder then clone the project
-```
+``` 
 git clone https://github.com/oussamatn/radio-player.git
 ```
 
 #### config.json
 Update you API URL and radio name inside the configuration file : config.json ( file inside `public/assets`)
-```
+``` JSON
 {
   "api_url" : "https://azuracast-backend-link.com/api",
   "title": "Azuracast | Radio Station",
@@ -49,13 +49,13 @@ Update you API URL and radio name inside the configuration file : config.json ( 
     ...
 ```
 #### .env
-```
+``` BASH
 # Additional Environment Variables
 PLAYER_HOSTNAME=player.yourdomain.com
 ```
 
 #### docker-compose.override.yml
-```
+``` YML
 version: '2.2'
 services:
     radio-player:
@@ -82,9 +82,9 @@ services:
 ```
 
 On your server side go to AzuraCast directory then run : 
-```
-user@host:# docker-compose build radio-player
-(this could take a few minutes )
-user@host:# docker-compose up -d
+```shell 
+user@host:~$ docker-compose build radio-player
+
+user@host:~$ docker-compose up -d
 ```
 
