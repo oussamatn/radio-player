@@ -176,10 +176,8 @@
 
         // watch methods
         watch: {
-            songs(songs) {
-                console.log("%c watch songs",'color: green', songs)
+          currentsong() {
                 this.updateMediaSession();
-
             },
             //route change
             $route(to, from) {
@@ -238,7 +236,7 @@
 
             // run maintenance tasks on a timer
             setupMaintenance() {
-                let remainingtime = ( Math.floor(Date.now()/1000) - this.track.played_at ) || 10;
+                let remainingtime =  Math.floor(this.track.remaining ) || 30;
                 console.log("remainingtime:",remainingtime);
                 console.log("setupMaintenance : for ",this.stationId);
                 this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
@@ -335,12 +333,13 @@
             },
             //Update navigator media session data
             updateMediaSession() {
-                if ('mediaSession' in navigator && !!this.song ) {
+              console.log("%c updateMediaSession",'color: green',  this.currentsong)
+                if ('mediaSession' in navigator && !!this.currentsong ) {
                     navigator.mediaSession.metadata = new MediaMetadata({
-                        title: this.currentsong.song.title,
-                        artist: this.currentsong.song.artist,
+                        title: this.currentsong.title,
+                        artist: this.currentsong.artist,
                         artwork: [
-                            {src: this.currentsong.song.art}
+                            {src: this.currentsong.art}
                         ]
                     });
                 }
