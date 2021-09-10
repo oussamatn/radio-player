@@ -1,0 +1,24 @@
+version: '2.2'
+
+services:
+  radio-player:
+    restart: always
+    container_name: radio-player
+    build:
+      context: ./radio-player
+    env_file : azuracast.env
+    hostname: ${PLAYER_HOSTNAME}
+    volumes:
+      - letsencrypt:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+    environment:
+      VIRTUAL_HOST : ${PLAYER_HOSTNAME:-player.local}
+      VIRTUAL_PORT : 8080
+      NODE_ENV : production
+      LETSENCRYPT_HOST : ${PLAYER_HOSTNAME}
+      LETSENCRYPT_EMAIL : ${LETSENCRYPT_EMAIL}
+
+    networks :
+      - frontend
