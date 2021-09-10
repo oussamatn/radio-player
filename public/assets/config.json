@@ -12,15 +12,15 @@
     "theme_color": "#222336"
   },
   "meta": {
-    "url" : "https://player1.jelliti.me",
-    "image" : "https://player1.jelliti.me/img/icon.png",
+    "url" : "https://player.jelliti.me",
+    "image" : "https://player.jelliti.me/img/icon.png",
     "locale" : "US_en"
   },
   "twitter" : {
     "username" : "tn_oussama"
   },
   "firebaseConfig" : {
-    "apiKey": "",
+    "apiKey": "" ,
     "authDomain": "",
     "databaseURL": "",
     "projectId": "",
