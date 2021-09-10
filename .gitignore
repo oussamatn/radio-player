@@ -2,7 +2,7 @@
 node_modules
 /dist
 /joujmaplayer
-*config.json
+/public/assets/config.json
 package-lock.json
 # local env files
 .env.local
