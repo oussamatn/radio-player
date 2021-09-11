@@ -11,7 +11,7 @@ $colorDocumentLight: #a0a6b0;
 $colorDocumentText: desaturate( lighten( $colorDocumentDark, 40% ), 5% );
 
 // common colors
-$colorPrimary: crimson;
+$colorPrimary: #1496dc;
 $colorPrimaryText: lighten( $colorPrimary, 40% );
 $colorSecondary: cornflowerblue;
 $colorSecondaryText: darken( $colorSecondary, 40% );

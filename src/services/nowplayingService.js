@@ -51,7 +51,7 @@ export default {
                 c.mp3file   = c.listen_url;
                 c.image     =   '/img/icon.png' || '/img/stations/'+c.shortcode+'.png' ;
                 c.songsurl  = config.api_url+'/nowplaying/'+ c.id;
-                c.twitter   = 'https://twitter.com/@';
+                c.twitter   = 'https://twitter.com/@'+config.twitter.username;
                 c.route     = '/station/'+ c.shortcode;
                 c.favorite  = false;
                 c.active    = false;
@@ -68,7 +68,7 @@ export default {
                 c.mp3file   = c.listen_url;
                 c.image     = '/img/'+c.shortcode+'.png';
                 c.songsurl  = config.api_url+'/nowplaying/'+ c.id;
-                c.twitter   = 'https://twitter.com/@';
+                c.twitter   = 'https://twitter.com/@'+config.twitter.username;
                 c.route     = '/channel/'+ c.shortcode;
                 c.favorite  = false;
                 c.active    = false;

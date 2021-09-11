@@ -36,9 +36,10 @@
 
 // common card style
 .card {
-  padding: 0.5em!important;
-  margin: 0!important;
-  background-image: radial-gradient( ellipse at top left, rgba( black, 0.2 ) 0%, rgba( black, 0.02 ) 100% );
+  padding: 0.5em !important;
+  margin: 0 !important;
+  margin-bottom: 0.3em !important;
+  background-color: rgba(52, 55, 58, 0.24);
   border-radius: $lineJoin;
 }
 

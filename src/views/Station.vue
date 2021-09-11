@@ -126,11 +126,11 @@
 
             <!-- player links -->
             <section class="player-links text-nowrap">
-                <a class="common-btn text-faded" rel="noreferrer" href="https://twitter.com" title="Twitter"
+                <a class="common-btn text-faded" rel="noreferrer" :href="station.twitter" title="Twitter"
                    target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a> &nbsp;
-                <a class="common-btn text-faded" rel="noreferrer" href="https://facebook.com"
+                <a class="common-btn text-faded" rel="noreferrer" :href="station.facebook"
                    title="Facebook"
                    target="_blank">
                     <i class="fab fa-facebook"></i>
@@ -203,7 +203,7 @@
         computed: {
             ...mapState('nowplaying',{
                 stationId : state => state.stationId,
-                songs : 'songs',
+                //songs : 'songs',
                 track : 'currentSong',
                 currentsong : state => state.currentSong.song,
                 station : state => state.currentStation,

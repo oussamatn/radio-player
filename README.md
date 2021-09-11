@@ -22,6 +22,37 @@ npm run serve
 ```
 npm run build
 ```
+# Player customization 
+
+## Stations 
+To add you stations logo, you need to drop your images inside the folder `public/images/stations` and change the file name the corresponded station `shortcode` 
+### Example
+We are going to add this station logo. 
+First, we check station `shortcode` using the API
+```JSON
+// https://backend.com/api/stations
+
+[
+    {
+    "id": 1,
+    "name": "Radio test 1",
+    "shortcode": "radio_test_1",
+    "description": "",
+    "frontend": "icecast",
+    "backend": "liquidsoap",
+    "listen_url": "https://backend.com/radio/8000/radio.mp3",
+    "url": "",
+...
+```
+This station `shortcode` is : **radio_test_1**. 
+```
+radio-player/
+|-public
+| `-img
+|    |   `-stations
+|    |   |- radio_test_1.png
+|    |   |- ...
+```
 
 
 # Deployment 
@@ -31,7 +62,7 @@ You can deploy the player in the same server as AzuraCast Core and serve the pla
 First you need to create a new domain or sub-domain name and configure it as you did with Azuracast domain. ( same ip address)
 ## Docker Compose 
 Go to your Azuracast installation folder then clone the project
-``` 
+```properties
 git clone https://github.com/oussamatn/radio-player.git
 ```
 
@@ -82,7 +113,7 @@ services:
 ```
 
 On your server side go to AzuraCast directory then run : 
-```shell 
+```properties 
 user@host:~$ docker-compose build radio-player
 
 user@host:~$ docker-compose up -d

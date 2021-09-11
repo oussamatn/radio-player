@@ -13,6 +13,12 @@
                 <!--<figure id="player-bg" class="player-bg"
                         v-bind:style="{ 'background-image' : `url(  ${ c.now_playing.song.art } )` }">
                 </figure>-->
+              <div class="flex-row flex-middle flex-space">
+                <div class="player-stations-list-title text-bright text-clip">{{ c.station.name }}</div>
+                <div class="text-nowrap">
+                  <favBtn :id="c.station.id"></favBtn>
+                </div>
+              </div>
                 <figure class="station-play">
                     <div id="station-logo">
                         <img width="100" height="100"
@@ -28,21 +34,15 @@
                 </figure>
 
                 <aside class="flex-1">
-                    <div class="flex-row flex-middle flex-space">
-                        <div class="player-stations-list-title text-bright text-clip">{{ c.station.name }}</div>
-                        <div class="text-nowrap">
-                            <favBtn :id="c.station.id"></favBtn>
-                        </div>
-                    </div>
-                    <div class="text-small nowplaying" >
-                        <div v-if="c.live.islive" id="live">LIVE  </div>
-                        <span class="text-uppercase text-small" id="artist">
-                                        NOW: {{ c.now_playing.song.artist  | toText}}
-                                    </span>
-                        <span class="text-uppercase text-small" id="title">
-                                        {{ c.now_playing.song.title  | toText}}
-                                    </span>
 
+                    <div class="text-small nowplaying" >
+                        <div v-if="c.live.islive" id="live">LIVE </div>
+                        <div class="text-uppercase text-small" id="title">
+                              {{ c.now_playing.song.title  | toText}}
+                        </div>
+                      <div class="text-condense" id="artist">
+                           {{ c.now_playing.song.artist  | toText}}
+                      </div>
                     </div>
                 </aside>
             </router-link>

@@ -11,7 +11,7 @@
                 <!-- player top header -->
                 <header class="player-header flex-row flex-middle flex-stretch">
                     <h2 class="text-clip flex-1"><i class="fa fa-headphones"></i> <router-link to="/" exact
-                                                                                               tag="span">FM Player</router-link></h2>
+                                                                                               tag="span">{{ pagetitle }}</router-link></h2>
                     <button class="text-nowrap common-btn" id="sidebar" @click="toggleSidebar( true )"><i
                             class="fa fa-bars" aria-label="sidebar"></i></button>
                 </header>
@@ -69,12 +69,13 @@
                                 </div>
                                 <div class="text-small nowplaying" >
                                     <div v-if="c.live.islive" id="live">LIVE:  </div>
+                                   <span class="text-condense" id="title">
+                                        {{ c.now_playing.song.title  | toText}}
+                                    </span>
                                     <span class="text-uppercase text-small" id="artist">
                                         {{ c.now_playing.song.artist  | toText}}
                                     </span>
-                                    <span class="text-uppercase text-small" id="title">
-                                        {{ c.now_playing.song.title  | toText}}
-                                    </span>
+
 
                                 </div>
                             </aside>
@@ -91,8 +92,8 @@
     import './scss/app.scss';
     import './js/filters';
     import "./js/init-firebase";
+    import config from '../public/assets/config.json';
     import favBtn from "@/views/favBtn";
-    //import _utils from './js/utils';
     import { mapGetters, mapState  } from 'vuex';
     import { debounce } from "debounce";
     export default {
@@ -109,8 +110,7 @@
                 sidebar: false,
                 filteredStations: [],
                 searchText: '',
-                //channel: {},
-                //background : "/img/icon.png",
+                pagetitle : config.title,
                 errors: {},
             }
         },

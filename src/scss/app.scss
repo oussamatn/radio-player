@@ -125,6 +125,13 @@
       list-style-type: none;
       #station{
         cursor: pointer;
+        color:$colorBrightText;
+      }
+      #title{
+        color: $colorBright;
+      }
+      #artist {
+        font-size : 75%;
       }
       .station-play{
         position:relative;
