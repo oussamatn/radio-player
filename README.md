@@ -119,3 +119,10 @@ user@host:~$ docker-compose build radio-player
 user@host:~$ docker-compose up -d
 ```
 
+## Support AzuraPlayer developpement  
+
+This player will  always be available free of charge, but if you find it useful and would like to support the
+project developer, you make donation. Your support is greatly appreciated.
+
+<a href="https://ko-fi.com/simyos" target="_blank" title="Buy me a coffee!"><img height='32' style='border:0px;height:32px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=b' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
