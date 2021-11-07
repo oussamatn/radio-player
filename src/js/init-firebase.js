@@ -1,3 +1,4 @@
+/*
 import firebase from 'firebase/app';
 import 'firebase/messaging';
 //import 'firebase/firestore';
@@ -48,4 +49,4 @@ const sendTokenToServer = (token) => {
         }).catch((error) => {
         console.error('Error writing document: ', error);
     });
-};
+};*/
