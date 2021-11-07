@@ -57,7 +57,8 @@
                             <figure class="push-right ">
                                 <img class="img-round" width="70" height="70"
                                      :src="c.now_playing.song.art"
-                                     :alt="c.station.name"/>
+                                     :alt="c.station.name"
+                                     @error="c.station.image='/img/icon.png'"/>
 
                             </figure>
                             <aside class="flex-1">

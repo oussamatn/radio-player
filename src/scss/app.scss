@@ -120,7 +120,19 @@
     overflow: hidden;
     overflow-y: auto;
     padding: $padSpace;
+    .current-song{
+      margin: auto;
+      width: 200px;
+      height: 30px;
+      text-align: center;
+      div{
+        margin-top: 4px;
+      }
+      span{
+        font-size: 23px;
 
+      }
+    }
     .home-station-list{
       list-style-type: none;
       #station{

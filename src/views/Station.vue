@@ -24,8 +24,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- description -->
-                        <div class="card push-bottom fx fx-slide-up fx-delay-3" >
+
+                        <div class="card push-bottom fx fx-slide-up fx-delay-3" v-if="config.showPlaylist" >
                             <div class="text-secondary" v-if="currentsong">
                                 <span class="text-faded">Playlist:</span> {{
                                 track.playlist
@@ -39,23 +39,23 @@
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
                              >
 
-                            <div class="pad-top"><img class="fx fx-fade-in"
+                            <div class="track-artwork"><img class="fx fx-fade-in"
                                                       :src="currentsong.art"
                                                       :alt="currentsong.title"
                                                       id="coverArt" /></div>
-                            <div class="pad-bottom">
+                            <div class="pad-bottom current-song">
                                 <div><span
                                         class="text-secondary">{{ currentsong.title | toText( 'N/A' ) }}</span>
                                 </div>
 
-                                <div><span class="text-faded">By:</span> <span class="text-bright">{{ currentsong.artist | toText( 'N/A' ) }}</span>
+                                <div><span class="text-faded"></span> <span class="text-bright">{{ currentsong.artist | toText( 'N/A' ) }}</span>
                                 </div>
                             </div>
 
                         </div>
 
                         <!-- buttons -->
-                        <div class="push-bottom text-nowrap">
+                        <div class="push-bottom text-nowrap" v-if="config.socialBtn">
                             <a class="cta-btn text-nowrap fx fx-slide-up fx-delay-5" title="Channel page">
                                     <span class="fx fx-notx fx-ibk fx-drop-in" ><i
                                             class="fa fa-comments"></i></span>
@@ -143,7 +143,7 @@
 
 <script>
 
-
+    import config from '../../public/assets/config.json';
     import _joujma from '../js/api';
     import _scene from '../js/scene'
     import _audio from '../js/audio';
@@ -157,6 +157,7 @@
         },
         data: () => {
             return {
+                config:config,
                 // toggles
                 visible: false,
                 playing: false,
