@@ -29,7 +29,7 @@
                             <div class="text-secondary" v-if="currentsong">
                                 <span class="text-faded">Playlist:</span> {{
                                 track.playlist
-                                | toText( 'N/A' ) }}.
+                                  }}.
                             </div>
                             <!--TODO Add next song -->
                             <!--<div v-if="station">Next : {{ playing_next.song.title }}</div>-->
@@ -45,10 +45,10 @@
                                                       id="coverArt" /></div>
                             <div class="pad-bottom current-song">
                                 <div><span
-                                        class="text-secondary">{{ currentsong.title | toText( 'N/A' ) }}</span>
+                                        class="text-secondary">{{ currentsong.title   }}</span>
                                 </div>
 
-                                <div><span class="text-faded"></span> <span class="text-bright">{{ currentsong.artist | toText( 'N/A' ) }}</span>
+                                <div><span class="text-faded"></span> <span class="text-bright">{{ currentsong.artist   }}</span>
                                 </div>
                             </div>
 
@@ -86,9 +86,9 @@
                                           :src="s.song.art"/></div>
                                 <div class="pad-left">
                                     <div><span
-                                            class="text-secondary">{{ s.song.title | toText( 'N/A' ) }}</span>
+                                            class="text-secondary">{{ s.song.title   }}</span>
                                     </div>
-                                    <div><span class="text-faded">By:</span> <span class="text-bright">{{ s.song.artist | toText( 'N/A' ) }}</span>
+                                    <div><span class="text-faded">By:</span> <span class="text-bright">{{ s.song.artist   }}</span>
                                     </div>
                                 </div>
                             </li>
