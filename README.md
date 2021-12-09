@@ -119,6 +119,20 @@ user@host:~$ docker-compose build radio-player
 user@host:~$ docker-compose up -d
 ```
 
+# Private server 
+If you are planning to deploy the app on a private hosting provider, you have to add a `.htaccess` file in the same directory as the index.html file.
+`.htaccess`
+```
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+
 ## Support AzuraPlayer developpement  
 
 This player will  always be available free of charge, but if you find it useful and would like to support the
