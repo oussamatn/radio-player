@@ -8,8 +8,16 @@ module.exports = {
         msTileColor: '#222336',
         appleMobileWebAppStatusBarStyle: 'black',
         iconPaths :[
+        ],
 
-        ]
+        // configure the workbox plugin
+        workboxPluginMode: 'InjectManifest',
+        workboxOptions: {
+            // swSrc is required in InjectManifest mode.
+            swSrc: 'src/registerServiceWorker.js',
+            // ...other Workbox options...
+
+        }
     },
     configureWebpack: {
         plugins: [
@@ -39,5 +47,5 @@ module.exports = {
         ]
     },
     productionSourceMap : false,
-    transpileDependencies: ["axios","vue2-hammer","standardized-audio-context"]
+    transpileDependencies: ["axios","standardized-audio-context"]
 };

@@ -38,8 +38,8 @@ export const actions = {
     async fetchStations ({commit })  {
         console.time("fetchStations")
         console.log("%c fetchStations" , 'background: blue; color: white')
-        let Songs = await nowplayingService.getChannels();
-        commit("setStations",Songs);
+        let Station = await nowplayingService.getChannels();
+        commit("setStations",Station);
     },
     async fetchSongs ({commit },stationId)  {
         console.time("fetchSongs")

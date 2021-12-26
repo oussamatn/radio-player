@@ -92,7 +92,7 @@
 <script>
     import './scss/app.scss';
     import './js/filters';
-    import "./js/init-firebase";
+    import './registerServiceWorker'
     import config from '../public/assets/config.json';
     import favBtn from "@/views/favBtn";
     import { mapGetters, mapState  } from 'vuex';
