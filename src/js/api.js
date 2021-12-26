@@ -57,7 +57,6 @@ export default {
         c.mp3file   = c.listen_url;
         c.image     = '/img/'+c.shortcode+'.png';
         c.songsurl  = config.api_url+'/nowplaying/'+ c.id;
-        c.twitter   = 'https://twitter.com/@';
         c.route     = '/channel/'+ c.shortcode;
         c.favorite  = false;
         c.active    = false;

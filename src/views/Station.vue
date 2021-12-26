@@ -88,7 +88,7 @@
                                     <div><span
                                             class="text-secondary">{{ s.song.title   }}</span>
                                     </div>
-                                    <div><span class="text-faded">By:</span> <span class="text-bright">{{ s.song.artist   }}</span>
+                                    <div><span class="text-bright">{{ s.song.artist   }}</span>
                                     </div>
                                 </div>
                             </li>
@@ -126,11 +126,11 @@
 
             <!-- player links -->
             <section class="player-links text-nowrap">
-                <a class="common-btn text-faded" rel="noreferrer" :href="station.twitter" title="Twitter"
+                <a v-if=config.twitter.username class="common-btn text-faded" rel="noreferrer" :href="'https://twitter.com/'+config.twitter.username" title="Twitter"
                    target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a> &nbsp;
-                <a class="common-btn text-faded" rel="noreferrer" :href="station.facebook"
+                <a v-if=config.facebook.page_id class="common-btn text-faded" rel="noreferrer" :href="'https://fb.me/'+config.facebook.page_id"
                    title="Facebook"
                    target="_blank">
                     <i class="fab fa-facebook"></i>

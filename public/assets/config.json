@@ -19,7 +19,10 @@
     "locale" : "US_en"
   },
   "twitter" : {
-    "username" : "tn_oussama"
+    "username" : "0"
+  },
+  "facebook" : {
+    "page_id" : 0
   },
   "firebaseConfig" : {
     "apiKey": "AIzaSyDDl2wq1jR0sL61QLUi121cUnOdriAcpcA",
