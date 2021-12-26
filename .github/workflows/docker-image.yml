@@ -16,7 +16,6 @@ jobs:
     - uses: docker/build-push-action@v1
       name: Build & push Docker image
       with:
-        repository: simyos/joujma-player
         tags: simyos/joujma-player:lastest
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
