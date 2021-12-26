@@ -33,7 +33,7 @@ First, we check station `shortcode` using the API
 // https://backend.com/api/stations
 
 [
-    {
+  {
     "id": 1,
     "name": "Radio test 1",
     "shortcode": "radio_test_1",
@@ -41,8 +41,9 @@ First, we check station `shortcode` using the API
     "frontend": "icecast",
     "backend": "liquidsoap",
     "listen_url": "https://backend.com/radio/8000/radio.mp3",
-    "url": "",
-...
+    "url": ""
+  }
+]
 ```
 This station `shortcode` is : **radio_test_1**. 
 ```

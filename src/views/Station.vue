@@ -144,7 +144,7 @@
 <script>
 
     import config from '../../public/assets/config.json';
-    import _joujma from '../js/api';
+
     import _scene from '../js/scene'
     import _audio from '../js/audio';
     import favBtn from "@/views/favBtn";
