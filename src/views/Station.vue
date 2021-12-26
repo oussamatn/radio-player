@@ -18,7 +18,7 @@
                                 <div class="pad-left fx fx-slide-left fx-delay-2">
                                     <h3 class="text-clip">{{ station.name | toText }}</h3>
                                     <div class="text-nowrap">
-                                        <span class="text-clip text-uppercase">a {{ station.description  | toText }} &nbsp;</span>
+                                        <p class="text-clip text-uppercase" style="width: 200px">a {{ station.description  | toText }} &nbsp;</p>
                                         <favBtn :id="station.id" ></favBtn>
                                     </div>
                                 </div>
