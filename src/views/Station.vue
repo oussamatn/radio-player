@@ -7,21 +7,21 @@
                     <div class="flex-item flex-1">
                         <!-- station -->
                         <div class="push-bottom" v-if="station">
-                            <div class="flex-row flex-middle">
-                                <img class="img-round fx fx-drop-in fx-delay-1"
+                            <div class="fx fx-slide-left fx-delay-2">
+<!--                                <img class="img-round fx fx-drop-in fx-delay-1"
                                      v-if ="station"
                                      :src=" station.image "
                                      :alt="station.name "
                                      @error="station.image='/img/icon.png'"
                                      width="80"
-                                     height="80"/>
-                                <div class="pad-left fx fx-slide-left fx-delay-2">
-                                    <h3 class="text-clip">{{ station.name | toText }}</h3>
-                                    <div class="text-nowrap">
-                                        <p class="text-clip text-uppercase" style="width: 200px">a {{ station.description  | toText }} &nbsp;</p>
-                                        <favBtn :id="station.id" ></favBtn>
-                                    </div>
+                                     height="80"/>-->
+                                <div class="flex-row flex-middle flex-space ">
+                                    <h4 class="pad-left text-clip">{{ station.name | toText }}</h4>
+                                    <favBtn class="pad-right" :id="station.id" style="font-size: x-large"></favBtn>
                                 </div>
+<!--                             <div class="text-nowrap">
+                                  <p class="text-clip text-uppercase" style="width: 200px">a {{ station.description  | toText }} &nbsp;</p>
+                                </div>-->
                             </div>
                         </div>
 
@@ -44,12 +44,8 @@
                                                       :alt="currentsong.title"
                                                       id="coverArt" /></div>
                             <div class="pad-bottom current-song">
-                                <div><span
-                                        class="text-secondary">{{ currentsong.title   }}</span>
-                                </div>
-
-                                <div><span class="text-faded"></span> <span class="text-bright">{{ currentsong.artist   }}</span>
-                                </div>
+                                <h2 class="text-secondary">{{ currentsong.title }}</h2>
+                                <h5 class="text-bright text-faded">{{ currentsong.artist }}</h5>
                             </div>
 
                         </div>
@@ -162,7 +158,7 @@
                 visible: false,
                 playing: false,
                 loading: true,
-                volume: 0.4,
+                volume: 0.8,
                 // errors stuff
                 errors: {},
                 // timer stuff
