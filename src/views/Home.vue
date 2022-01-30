@@ -1,8 +1,17 @@
 <template>
 
-
     <!-- player middle content area -->
     <main class="player-content flex-autorow stationView">
+    <section class="player-greet flex-1" id="home">
+                <div class="fx fx-slide-left push-bottom"><h1>Pick a Station</h1></div>
+
+                <div class="fx fx-slide-up fx-delay-2 pad-top">
+                    <button class="cta-btn" @click="toggleSidebar( true )"><i
+                            class="fa fa-headphones" aria-label="OpenSidebar">&nbsp;</i>
+                        View Stations
+                    </button>
+                </div>
+            </section>
         <ul class="flex-grid home-station-list">
             <router-link tag="li" class="card fx flex-grid-sm flex-1 " id="station"
                          v-for="(c,i) of channels"
@@ -47,24 +56,6 @@
                 </aside>
             </router-link>
         </ul>
-
-        <section class="player-greet flex-1" id="home">
-            <div class="fx fx-slide-left push-bottom"><h1>Pick a Station</h1></div>
-            <!--<div id=installer>
-                <button class=button>Install</button>
-            </div>-->
-            <div class="fx fx-slide-left fx-delay-1 push-bottom">
-                <div id="firebaseui-auth-container"></div>
-            </div>
-            <div class="fx fx-slide-up fx-delay-2 pad-top">
-                <button class="cta-btn" @click="toggleSidebar( true )"><i
-                        class="fa fa-headphones" aria-label="OpenSidebar">&nbsp;</i>
-                    View Stations
-                </button>
-            </div>
-        </section>
-
-
     </main>
 
 

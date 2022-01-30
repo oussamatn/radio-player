@@ -103,6 +103,7 @@
   .player-header {
     & > h2 {
       color: $colorPrimary;
+      font-size : x-large;
       i { vertical-align: bottom; }
     }
   }
@@ -205,7 +206,11 @@
 .player-controls {
   position: relative;
 }
-
+.player-stations-list-title {
+                    //color: $colorPrimary;
+                        text-transform: uppercase;
+                        color: wheat;
+                    }
 // player stations sidebar
 .player-stations {
   position: absolute;
@@ -264,8 +269,8 @@
         }
         &.active {
           background-color: darken( $colorDocumentDark, 2% );
-          .player-stations-list-title { color: $colorPrimary; }
         }
+
         .nowplaying{
           padding-top: 0.5em;
         }
