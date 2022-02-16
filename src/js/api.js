@@ -2,8 +2,8 @@
  * Joujma  API handler
  */
 import axios from 'axios';
-import config from '../../public/assets/config.json';
-
+import config from 'config';
+console.log(config)
 export default {
   // get now playing response
    getNowplaying(callback){

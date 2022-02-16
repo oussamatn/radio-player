@@ -122,6 +122,7 @@
 
             <!-- player links -->
             <section class="player-links text-nowrap">
+                <animation-selection></animation-selection>
                 <a v-if=config.twitter.username class="common-btn text-faded" rel="noreferrer" :href="'https://twitter.com/'+config.twitter.username" title="Twitter"
                    target="_blank">
                     <i class="fab fa-twitter"></i>
@@ -139,17 +140,18 @@
 
 <script>
 
-    import config from '../../public/assets/config.json';
+    import config from 'config';
 
-    import _scene from '../js/scene'
     import _audio from '../js/audio';
     import favBtn from "@/views/favBtn";
+    import animationSelection from '@/views/components/animationSelection'
     import { mapGetters, mapState  } from 'vuex';
 
     export default {
         name: 'station',
         components: {
-            favBtn
+            favBtn,
+            animationSelection
         },
         data: () => {
             return {
@@ -165,9 +167,7 @@
                 timeStart: 0,
                 timeDisplay: '00:00:00',
                 timeItv: null,
-                anf: null,
-                sto: null,
-                itv: null,
+
             }
         },
 
@@ -238,18 +238,6 @@
                 console.log("setupMaintenance : for ",this.stationId);
                 this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
             },
-          // setup animation canvas
-          setupCanvas() {
-            _scene.setupCanvas();
-          },
-          // audio visualizer animation loop
-          updateCanvas() {
-            this.anf = requestAnimationFrame( this.updateCanvas );
-            if ( !this.visible ) return;
-            const freq = _audio.getFreqData();
-            _scene.updateObjects( freq );
-          },
-
             // set an error message
             setError(key, err) {
                 let errors = Object.assign({}, this.errors);
@@ -432,16 +420,12 @@
             if(isNaN( stationId)) stationId = this.getIDfromShortcode(this.$route.params.shortcode);
             // Update state with current station id
             this.$store.dispatch('nowplaying/StationId',stationId);
-            this.setupCanvas();
-            this.updateCanvas();
-
 
         },
         mounted() {
             console.log("mounted Station.vue");
             this.setupAudio();
             this.selectChannel();
-
 
         },
         beforeRouteUpdate(to, from, next) {
@@ -457,11 +441,13 @@
         },
 
         // on app destroyed
-        destroyed() {
+        beforeDestroy() {
+          this.closeAudio();
+        },
+      destroyed() {
             this.$store.dispatch('nowplaying/resetSongs')
-            this.closeAudio();
             this.clearTimers();
-            this.$parent.initView();
+
         }
 
     }

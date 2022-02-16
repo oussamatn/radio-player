@@ -35,6 +35,7 @@ export default {
     },
 // update and return analyser frequency data
     getFreqData() {
+        if (this._analyser ==null ) return 1;
         this._analyser.getByteFrequencyData(this._freq);
         return this._freq;
     },

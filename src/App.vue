@@ -5,7 +5,7 @@
         <main id="player-wrap" class="player-wrap" style="opacity: 0;" >
             <!-- bg absolute elements -->
             <figure id="player-bg" class="player-bg" v-bind:style="{ 'background-image' : `url(  ${ getBackground} )` }"></figure>
-            <canvas id="player-canvas" class="player-canvas" ></canvas>
+            <audioVisualizations ></audioVisualizations>
             <!-- main player layout -->
             <section class="player-layout" v-if="init">
                 <!-- player top header -->
@@ -93,14 +93,15 @@
     import './scss/app.scss';
     import './js/filters';
     import './registerServiceWorker'
-    import config from '../public/assets/config.json';
+    import config from 'config';
     import favBtn from "@/views/favBtn";
+    import audioVisualizations from "@/views/audioVisualizations";
     import { mapGetters, mapState  } from 'vuex';
     import { debounce } from "debounce";
     export default {
         name: 'home',
         components: {
-            favBtn
+            favBtn,audioVisualizations
         },
         data: () => {
             return {

@@ -1,4 +1,4 @@
-import config from "../../public/assets/config.json";
+import config from 'config';
 
 const PRECACHE = 'precache-v1';
 const RUNTIME = 'runtime';

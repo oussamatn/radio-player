@@ -20,11 +20,10 @@
             ...mapGetters('favorites',['isFavorites']),
         },
         methods: {
-            // toggle favorite channel by id
-            toggleFavorite() {
-                this.$store.dispatch('favorites/toggleFavorite',this.id)
-            },
-
-        },
+          // toggle favorite channel by id
+          toggleFavorite() {
+            this.$store.dispatch('favorites/toggleFavorite', this.id)
+          },
+        }
     }
 </script>

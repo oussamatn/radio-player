@@ -1,9 +1,9 @@
 {
   "name": "webplayer",
   "version": "0.2.1",
-  "license" : "GPL-3.0 License",
-  "email" : "contact@jelliti.me",
-  "url" : "https://oussama.jelliti.me",
+  "license": "GPL-3.0 License",
+  "email": "contact@jelliti.me",
+  "url": "https://oussama.jelliti.me",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
@@ -13,6 +13,7 @@
     "core-js": "^3.3.4",
     "debounce": "^1.2.0",
     "register-service-worker": "^1.6.2",
+    "serve": "^13.0.2",
     "standardized-audio-context": "^22.0.2",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",

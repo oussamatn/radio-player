@@ -8,13 +8,25 @@ import './registerServiceWorker'
 
 
 Vue.config.productionTip = false;
-
-
 new Vue({
-  router,
-  render: h => h(App),
-  store,
-  mounted() {
+    router,
+    render: h => h(App),
+    store,
+    mounted() {
 
-  }
+    }
 }).$mount('#app')
+// fetch( "./assets/config.json")
+//     .then((response) => response.json())
+//     .then((config) => {
+//
+//         new Vue({
+//             router,
+//             render: h => h(App),
+//             store,
+//             mounted() {
+//
+//             }
+//         }).$mount('#app')
+//     })
+
