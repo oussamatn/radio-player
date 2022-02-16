@@ -99,7 +99,7 @@
     align-items: center;
     justify-content: stretch;
     margin: 0 0 ( $lineWidth * 2 ) 0;
-    padding: ( $padSpace / 2 );
+    padding: ( $padSpace * 0.5 );
     border-radius: $lineJoin;
     background-color: rgba( 0, 0, 0, 0.1 );
   }

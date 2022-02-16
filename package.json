@@ -24,8 +24,8 @@
     "@vue/cli-plugin-pwa": "^4.0.5",
     "@vue/cli-service": "^4.5.8",
     "babel-plugin-transform-remove-console": "^6.9.4",
-    "node-sass": "^5.0.0",
-    "sass-loader": "^10.0.5",
+    "sass": "^1.49.7",
+    "sass-loader": "^10.0.0",
     "vue-template-compiler": "^2.6.10"
   }
 }

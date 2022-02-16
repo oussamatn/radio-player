@@ -10,7 +10,7 @@
   .popover-box {
     display: none;
     position: absolute;
-    padding: ( $padSpace / 2 ) 0;
+    padding: ( $padSpace * 0.5 ) 0;
     max-width: 300px;
     min-height: 100px;
     left: 50%;
@@ -39,7 +39,7 @@
       display: block;
       width: 100%;
       text-align: left;
-      padding: ( $padSpace / 2 ) $padSpace;
+      padding: ( $padSpace * 0.5 ) $padSpace;
       line-height: 1.2em;
       white-space: nowrap;
       background-color: rgba( $colorDocumentDark, 0 );
