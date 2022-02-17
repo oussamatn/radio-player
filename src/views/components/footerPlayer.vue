@@ -119,6 +119,11 @@ export default {
       //if (this.anf) cancelAnimationFrame(this.anf);
     },
 
+
+  },
+  destroyed() {
+    this.clearTimers();
+
   }
 }
 </script>
