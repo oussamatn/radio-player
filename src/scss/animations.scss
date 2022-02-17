@@ -19,7 +19,7 @@
 }
 
 // effect delays
-@for $i from 1 through 8 {
+@for $i from 1 through 50 {
   .fx-delay-#{$i} {
     animation-delay: calc( #{$fxSpeedOffset} * #{$i} );
   }

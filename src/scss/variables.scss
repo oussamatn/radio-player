@@ -42,7 +42,7 @@ $shadowOverlay: 0 1px 20px rgba( black, 0.6 );
 $shadowPaper: 0 1px 3px rgba( black, 0.5 );
 
 // transition props
-$fxSpeed: 400ms;
+$fxSpeed: 100ms;
 $fxEase: cubic-bezier( 0.215, 0.610, 0.355, 1.000 );
 $fxSpeedOffset: calc( #{$fxSpeed} / 3 );
 $fxSlideDist: 50px;

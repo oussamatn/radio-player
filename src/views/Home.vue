@@ -47,10 +47,10 @@
                     <div class="text-small nowplaying" >
                         <div v-if="c.live.islive" id="live">LIVE </div>
                         <div class="text-uppercase text-small" id="title">
-                              {{ c.now_playing.song.title  | toText}}
+                              {{ c.now_playing.song.title  | str_limit(30)}}
                         </div>
                       <div class="text-condense" id="artist">
-                           {{ c.now_playing.song.artist  | toText}}
+                           {{ c.now_playing.song.artist  | toText }}
                       </div>
                     </div>
                 </aside>
