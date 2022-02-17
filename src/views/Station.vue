@@ -106,7 +106,7 @@
     import config from 'config';
 
     import _audio from '../js/audio';
-    import favBtn from "@/views/favBtn";
+    import favBtn from "@/views/components/favBtn";
 
     import footerPlayer from '@/views/components/footerPlayer'
     import { mapGetters, mapState  } from 'vuex';
@@ -333,9 +333,6 @@
         },
         beforeCreate(){
             console.log("beforeCreate Station.vue");
-
-
-
         },
         // on app Created
         created() {
@@ -372,8 +369,6 @@
         },
       destroyed() {
             this.$store.dispatch('nowplaying/resetSongs')
-            this.clearTimers();
-
         }
 
     }

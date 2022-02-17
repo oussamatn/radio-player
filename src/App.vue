@@ -10,8 +10,11 @@
             <section class="player-layout" v-if="init">
                 <!-- player top header -->
                 <header class="player-header flex-row flex-middle flex-stretch">
-                    <h2 class="text-clip flex-1"><i class="fa fa-headphones"></i> <router-link to="/" exact
-                                                                                               tag="span">{{ pagetitle }}</router-link></h2>
+                    <h2 class="text-clip flex-1"><i class="fa fa-headphones"></i>
+                      <router-link to="/" custom v-slot="{ navigate }" >
+                        <span @click="navigate" @keypress.enter="navigate" role="link">{{ pagetitle }}</span>
+                      </router-link>
+                    </h2>
                     <button class="text-nowrap common-btn" id="sidebar" @click="toggleSidebar( true )"><i
                             class="fa fa-bars" aria-label="sidebar"></i></button>
                 </header>
@@ -94,10 +97,12 @@
     import './js/filters';
     import './registerServiceWorker'
     import config from 'config';
-    import favBtn from "@/views/favBtn";
+    import favBtn from "@/views/components/favBtn";
     import audioVisualizations from "@/views/audioVisualizations";
     import { mapGetters, mapState  } from 'vuex';
     import { debounce } from "debounce";
+
+
     export default {
         name: 'home',
         components: {

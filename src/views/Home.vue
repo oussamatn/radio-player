@@ -66,7 +66,7 @@
      * Home
      */
     import { mapGetters, mapState  } from 'vuex';
-    import favBtn from "@/views/favBtn";
+    import favBtn from "@/views/components/favBtn";
     export default {
         name: 'home',
         components: {
