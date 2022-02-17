@@ -36,8 +36,7 @@
                         </div>
           <!--TODO: Insert background blur filter within a new wrapper -->
 
-                        <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1"
-                             >
+                        <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1">
 
                             <div class="track-artwork"><img class="fx fx-fade-in"
                                                       :src="currentsong.art"
@@ -96,7 +95,7 @@
             </section>
         </main>
         <!-- player footer with controls -->
-        <footer-player> </footer-player>
+        <footer-player :loading="loading" :playing="playing" :canPlay="canPlay" v-on:togglePlay="togglePlay"> </footer-player>
 
 
     </div>
@@ -108,7 +107,7 @@
 
     import _audio from '../js/audio';
     import favBtn from "@/views/favBtn";
-    import animationSelection from '@/views/components/animationSelection'
+
     import footerPlayer from '@/views/components/footerPlayer'
     import { mapGetters, mapState  } from 'vuex';
 
@@ -116,7 +115,6 @@
         name: 'station',
         components: {
             favBtn,
-            animationSelection,
             footerPlayer
         },
         data: () => {
@@ -126,7 +124,7 @@
                 visible: false,
                 playing: false,
                 loading: true,
-                volume: 0.8,
+                volume: 0.5,
                 // errors stuff
                 errors: {},
                 // timer stuff
@@ -147,19 +145,10 @@
 
                 //this.stationId = to.params.id;
             },
-            // watch playing status
-            playing() {
-                if (this.playing) {
-                    this.startClock();
-                } else {
-                    this.stopClock();
-                }
-            },
+
 
             // update player volume
-            volume() {
-                _audio.setVolume(this.volume);
-            }
+
         },
 
         // computed methods
@@ -340,36 +329,7 @@
                 let hours = Math.floor(elapsed / 3600);
                 this.timeDisplay = p(hours) + ':' + p(minutes) + ':' + p(seconds);
             },
-            // start tracking playback time
-            startClock() {
-                this.stopClock();
-                this.timeStart = Date.now();
-                this.timeItv = setInterval(this.updateClock, 1000);
-                this.updateClock();
-            },
 
-            // update tracking playback time
-            updateClock() {
-                let p = n => (n < 10) ? '0' + n : '' + n;
-                let elapsed = (Date.now() - this.timeStart) / 1000;
-                let seconds = Math.floor(elapsed % 60);
-                let minutes = Math.floor(elapsed / 60 % 60);
-                let hours = Math.floor(elapsed / 3600);
-                this.timeDisplay = p(hours) + ':' + p(minutes) + ':' + p(seconds);
-            },
-
-            // stop tracking playback time
-            stopClock() {
-                if (this.timeItv) clearInterval(this.timeItv);
-                this.timeItv = null;
-            },
-
-            // clear timer refs
-            clearTimers() {
-                if (this.sto) clearTimeout(this.sto);
-                if (this.itv) clearInterval(this.itv);
-                //if (this.anf) cancelAnimationFrame(this.anf);
-            },
         },
         beforeCreate(){
             console.log("beforeCreate Station.vue");
