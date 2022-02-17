@@ -10,9 +10,9 @@
 
 <script>
 import _scene from '../js/scene'
-import HALO from '../js/vanta.halo.min'
-import TRUNK from '../js/vanta.trunk.min'
-import WAVES from '../js/vanta.waves.min'
+import HALO from '../js/lib/vanta.halo.min'
+import TRUNK from '../js/lib/vanta.trunk.min'
+import WAVES from '../js/lib/vanta.waves.min'
 import _audio from '../js/audio';
 
 const _TRUNK  = Symbol("TRUNK")

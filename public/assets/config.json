@@ -1,7 +1,7 @@
 {
   "api_url" : "https://servidor.geracaoradios.com/api",
   "title": "Joujma FM | Radio Station",
-  "description" : "Live Radio 24/7 Hits music Only ",
+  "description" : "Live Radio 24/7 Hits music Only test",
   "manifest" : {
     "short_name": "Joujma FM",
     "orientation": "portrait",
