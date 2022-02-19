@@ -123,7 +123,7 @@
     padding: $padSpace;
     .current-song{
       margin: auto;
-      width: 250px;
+      width: 300px;
       text-align: center;
       div{
         margin-top: 4px;
@@ -187,8 +187,8 @@
 
 // player greeting message
 .player-greet {
-  flex: 1;
-  @media #{$screenMedium} { flex: .5; }
+  flex: 0.2;
+  @media #{$screenMedium} { flex: .3; }
 }
 
 // player tracklist

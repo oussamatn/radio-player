@@ -31,10 +31,10 @@
                                 track.playlist
                                   }}.
                             </div>
-                            <!--TODO Add next song -->
-                            <!--<div v-if="station">Next : {{ playing_next.song.title }}</div>-->
+
+
                         </div>
-          <!--TODO: Insert background blur filter within a new wrapper -->
+                      <!--TODO Add next song -->
 
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1">
 
@@ -43,12 +43,24 @@
                                                       :alt="currentsong.title"
                                                       id="coverArt" /></div>
                             <div class="pad-bottom current-song">
-                                <h2 class="text-secondary">{{ currentsong.title }}</h2>
+                                <h3 class="text-secondary">{{ currentsong.title }}</h3>
                                 <h5 class="text-bright text-faded">{{ currentsong.artist }}</h5>
                             </div>
 
                         </div>
+                      <div class="next-song">
+                        <div class="card fx flex-row flex-middle flex-space fx-slide-left fx-delay-2">
 
+                          <div class="pad-right"> Next :
+                            <span class="text-secondary">{{ nextSong.title   }}</span><br>
+                            <span class="text-bright">   {{ nextSong.artist   }}</span>
+
+                          </div>
+                          <div class="pad-left"><img width="70" height="70"
+                                                     :alt="nextSong.title"
+                                                     :src="nextSong.art"/></div>
+                        </div>
+                      </div>
                         <!-- buttons -->
                         <div class="push-bottom text-nowrap" v-if="config.socialBtn">
                             <a class="cta-btn text-nowrap fx fx-slide-up fx-delay-5" title="Channel page">
@@ -158,6 +170,7 @@
                 //songs : 'songs',
                 track : 'currentSong',
                 currentsong : state => state.currentSong.song,
+                nextSong : state => state.nextSong.song,
                 station : state => state.currentStation,
                 songs : state => state.songs,
                 //channels : state => state.stations, //errors

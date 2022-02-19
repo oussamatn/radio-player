@@ -9,6 +9,7 @@ export const state = {
     trackList: [],
     nowplaying: [],
     currentSong:[],
+    nextSong:[],
     currentStation:[]
     //searchText: ''
 };
@@ -108,16 +109,13 @@ export const mutations = {
         currentState.stations = nowplaying.map( (s) => { return s.station });
     },
     setNowplayingStation : (currentState,stationId) => {
-
         let nowplaying = currentState.nowplaying;
-
-
-
         if( !isNaN(stationId)){
             let currentStation = nowplaying.find( (d) => d.station.id === stationId);
             console.log("%c setNowplayingStation : currentStation", 'background: green; color: white',currentStation);
             currentState.currentStation = currentStation.station;
             currentState.currentSong = currentStation.now_playing;
+            currentState.nextSong = currentStation.playing_next;
             currentState.songs = currentStation.song_history;
         }
 

@@ -1,5 +1,5 @@
 {
-  "api_url" : "https://servidor.geracaoradios.com/api",
+  "api_url" : "https://radio.jelliti.me/api",
   "title": "Joujma FM | Radio Station",
   "description" : "Live Radio 24/7 Hits music Only test",
   "manifest" : {
@@ -19,9 +19,9 @@
     "locale" : "US_en"
   },
   "twitter" : {
-    "username" : "0"
+    "username" : null
   },
   "facebook" : {
-    "page_id" : 0
+    "page_id" : null
   }
 }

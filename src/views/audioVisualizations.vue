@@ -105,8 +105,8 @@ export default {
           this.audioVizu = WAVES(vantaOptions)
           break;
         case '_SPHERE':
-          this.audioVizu = _scene
-          this.audioVizu.setupCanvas();
+          //this.audioVizu = _scene
+          //this.audioVizu.setupCanvas();
           break;
       }
     },
