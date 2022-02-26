@@ -23,5 +23,6 @@
   },
   "facebook" : {
     "page_id" : null
-  }
+  },
+  "stationsFilterById": [6]
 }

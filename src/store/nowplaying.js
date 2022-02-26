@@ -1,4 +1,5 @@
 import nowplayingService from '@/services/nowplayingService';
+import {isError} from "vue-router/src/util/errors";
 //import { FETCH_FAVORITES, FETCH_TAGS } from './actionTypes';
 //import { SET_FAVORITES, SET_TAGS } from './mutationTypes';
 
@@ -74,6 +75,7 @@ export const getters = {
     getIDfromShortcode : (state) => (shortcode) =>{
         console.log("getIDfromShortcode",shortcode )
         let found = state.nowplaying.find( (d) => (d.station.shortcode === shortcode));
+        if( !found )  return false;
         console.log("getIDfromShortcode: found",found,"shortcode",shortcode )
         return found.station.id ;
     },
@@ -115,7 +117,8 @@ export const mutations = {
             console.log("%c setNowplayingStation : currentStation", 'background: green; color: white',currentStation);
             currentState.currentStation = currentStation.station;
             currentState.currentSong = currentStation.now_playing;
-            currentState.nextSong = currentStation.playing_next;
+            if(currentStation.playing_next != null)
+                currentState.nextSong = currentStation.playing_next.song;
             currentState.songs = currentStation.song_history;
         }
 

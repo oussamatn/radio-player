@@ -33,6 +33,7 @@ export default {
       anf: null,
       sto: null,
       itv: null,
+      fps_counter: 0,
     }
   },
   watch: {
@@ -154,9 +155,18 @@ export default {
         xOffset: offset
       });
      },
-
+    
+    //TODO:  setup a timer to update fps count and drop it down to 10fps for devices with slow compute resources
+    frame_limit(){
+      this.fps_counter++;
+      if(this.fps_counter < 25 ) return false;
+      this.fps_counter = 0;
+      return true;
+    },
     updateCanvas() {
+
       this.anf = requestAnimationFrame( this.updateCanvas );
+      if(this.frame_limit()) return;
       if ( !this.visible ) return;
       if(this.audioVizu === null) return;
       const freq = _audio.getFreqData();

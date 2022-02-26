@@ -34,7 +34,6 @@
 
 
                         </div>
-                      <!--TODO Add next song -->
 
                         <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1">
 
@@ -48,7 +47,7 @@
                             </div>
 
                         </div>
-                      <div class="next-song">
+                      <div class="next-song" v-if="hasNextSong">
                         <div class="card fx flex-row flex-middle flex-space fx-slide-left fx-delay-2">
 
                           <div class="pad-right"> Next :
@@ -170,7 +169,7 @@
                 //songs : 'songs',
                 track : 'currentSong',
                 currentsong : state => state.currentSong.song,
-                nextSong : state => state.nextSong.song,
+                nextSong : state => state.nextSong,
                 station : state => state.currentStation,
                 songs : state => state.songs,
                 //channels : state => state.stations, //errors
@@ -183,7 +182,10 @@
             canPlay() {
                 return (this.stationId && !this.loading) ? true : false;
             },
-
+            hasNextSong(){
+              if(this.nextSong.length>0) return true;
+              return false;
+            },
             // check if a channel is selected
             hasChannel() {
                 return this.stationId ? true : false;
@@ -333,16 +335,6 @@
                 const k = e.key || '';
                 if (k === ' ' && this.stationId) return this.togglePlay();
             },
-            // TODO Song play time
-            songClock() {
-                let p = n => (n < 10) ? '0' + n : '' + n;
-                let elapsed = (Date.now() - this.timeStart) / 1000;
-                let seconds = Math.floor(elapsed % 60);
-                let minutes = Math.floor(elapsed / 60 % 60);
-                let hours = Math.floor(elapsed / 3600);
-                this.timeDisplay = p(hours) + ':' + p(minutes) + ':' + p(seconds);
-            },
-
         },
         beforeCreate(){
             console.log("beforeCreate Station.vue");
@@ -353,7 +345,10 @@
             let stationId = this.$route.params.id;
             console.log("stationId",stationId);
             //get station id from shortcode
-            if(isNaN( stationId)) stationId = this.getIDfromShortcode(this.$route.params.shortcode);
+            let short_code = this.$route.params.shortcode
+            if( short_code.length === 0 ) this.$router.push({name : "home"})
+            if(isNaN(stationId))  stationId = this.getIDfromShortcode(short_code);
+            if( isNaN(stationId)  ) this.$router.push({name : "home"})
             // Update state with current station id
             this.$store.dispatch('nowplaying/StationId',stationId);
 

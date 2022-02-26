@@ -1,5 +1,5 @@
 <template>
-    <!-- TODO import header + sidebar component -->
+
     <div id="app" class="app-wrap" >
         <!-- app player container -->
         <main id="player-wrap" class="player-wrap" style="opacity: 0;" >
@@ -12,7 +12,7 @@
                 <header class="player-header flex-row flex-middle flex-stretch">
                     <h2 class="text-clip flex-1"><i class="fa fa-headphones"></i>
                       <router-link to="/" custom v-slot="{ navigate }" >
-                        <span @click="navigate" @keypress.enter="navigate" role="link">{{ pagetitle }}</span>
+                        <span @click="navigate" @keypress.enter="navigate" role="link"> {{ pagetitle }}</span>
                       </router-link>
                     </h2>
                     <button class="text-nowrap common-btn" id="sidebar" @click="toggleSidebar( true )"><i

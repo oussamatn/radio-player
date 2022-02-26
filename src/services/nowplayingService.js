@@ -24,14 +24,7 @@ export default {
             if ( !list.length ) return error;
             return list;
         })
-        /*axios.get( apiurl ).then( res => {
-            const list = this._parseChannels( res.data );
-            if ( !list.length ) return callback( error, [] );
-            return callback( null, list );
-        })
-            .catch( e => {
-                return callback( error + String( e.message || '' ), [] );
-            });*/
+
     },
 
     // fetch songs for a channel
@@ -57,6 +50,7 @@ export default {
 
         return c;
     },
+    // TODO finish filter for stations :
     _parseChannels( channels ) {
         let output = [];
 
@@ -64,18 +58,22 @@ export default {
             console.log("parchannels for loop ")
             for ( let ch of channels ) {
                 let c = ch.station;
-                c.mp3file   = c.listen_url;
-                c.image     = '/img/'+c.shortcode+'.png';
-                c.songsurl  = config.api_url+'/nowplaying/'+ c.id;
-                c.route     = '/channel/'+ c.shortcode;
-                c.favorite  = false;
-                c.active    = false;
-                ch.station = c;
-                output.push( ch );
+
+                if(! config.stationsFilterById.includes(c.id)){
+                    c = this._parseChannel( c )
+                    //c.image     = '/img/'+c.shortcode+'.png';
+                    //c.songsurl  = config.api_url+'/nowplaying/'+ c.id;
+                    //c.route     = '/channel/'+ c.shortcode;
+                    //c.favorite  = false;
+                    //c.active    = false;
+                    ch.station = c;
+                    output.push( ch );
+                }
             }
-
-
         return output;
+    },
+    _stationsFilter(){
+      return config.stationsFilterById;
     },
 
     _parseNowplaying() {
