@@ -3,6 +3,13 @@
  */
 export default {
 
+  //Trunk frequency values;
+    trunkNum(toMin,toMax,value){
+      if(isNaN(value)) return toMax;
+      const max=255,min=0
+      const x = (toMax-toMin)/(max-min)
+      return (value * x + min) ;
+    },
   // get search results off a list for an obj key
   search( list, key, search ) {
     const regxp = new RegExp( '^('+ search +')', 'i' );

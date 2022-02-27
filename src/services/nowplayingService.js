@@ -59,7 +59,7 @@ export default {
             for ( let ch of channels ) {
                 let c = ch.station;
 
-                if(! config.stationsFilterById.includes(c.id)){
+                if( config.stationsFilterById != null && !config.stationsFilterById.includes(c.id)){
                     c = this._parseChannel( c )
                     //c.image     = '/img/'+c.shortcode+'.png';
                     //c.songsurl  = config.api_url+'/nowplaying/'+ c.id;

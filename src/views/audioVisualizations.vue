@@ -13,13 +13,15 @@ import _scene from '../js/scene'
 import HALO from '../js/lib/vanta.halo.min'
 import TRUNK from '../js/lib/vanta.trunk.min'
 import WAVES from '../js/lib/vanta.waves.min'
+import CLOUD from '../js/lib/vanta.clouds.min'
 import _audio from '../js/audio';
-
+import _utils from '../js/utils'
 const _TRUNK  = Symbol("TRUNK")
 const _SPHERE = Symbol("SPHERE")
 const _HALO   = Symbol("HALO")
 const _WAVES  = Symbol("WAVES")
-const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES']
+const _CLOUD  = Symbol("CLOUD")
+const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES','_CLOUD']
 
 export default {
   name: "audioVisualizations",
@@ -56,7 +58,7 @@ export default {
   methods:{
     animationTypeSelect (animationTypeSel) {
       // if(!animationsType.includes(animationTypeSel)) return;
-      this.audioVizu.destroy()
+      this.animationDestroy()
       this.animationType = animationTypeSel;
       console.log("animationTypeSelect:" ); console.log(animationTypeSel)
       this.setupCanvas();
@@ -89,7 +91,7 @@ export default {
         gyroControls: false,
         minHeight: this._box.height ,
         minWidth: this._box.width,
-        color: 0x382a82,
+        color: 0x1496dc,
         amplitudeFactor: 1.50,
         xOffset: -0.02,
         size: 2.00
@@ -104,6 +106,9 @@ export default {
           break;
         case '_WAVES' :
           this.audioVizu = WAVES(vantaOptions)
+          break;
+        case '_CLOUD' :
+          this.audioVizu = CLOUD(vantaOptions)
           break;
         case '_SPHERE':
           //this.audioVizu = _scene
@@ -123,19 +128,22 @@ export default {
     // audio visualizer animation loop
     updateCanvasTrunk(freq){
       //Trunk
-     let chaos  = (Math.floor( freq[ 1 ] | 0 ) / 255 ) * 5;
-     let spacing = (Math.floor( freq[ 16 ] | 0 ) / 255) * 5;
-     this.audioVizu.setOptions({
+     // let color = (Math.floor( freq[ 1 ] | 0 ) / 255 ) * (Math.floor( freq[ 16 ] | 0 ) / 255) * (Math.floor( freq[ 10] | 0 ) / 255) ;
+      let chaos  =_utils.trunkNum(0.5,10,freq[ 1 ]|0)
+      let spacing  =_utils.trunkNum(0.2,7,freq[ 16 ]|0)
+      this.audioVizu.setOptions({
          spacing:spacing,
          chaos:chaos,
+         //color:color
      });
       },
      updateCanvasWaves(freq){
 
-     let waveHeight  = (Math.floor( freq[ 1 ] | 0 ) / 255 )* 5;
-     let shininess = (Math.floor( freq[ 16 ] | 0 ) );
-     let waveSpeed = ((Math.floor( freq[ 3 ] | 0 ) / 255)/2 );
-     let zoom = (Math.floor( freq[ 16 ] | 0 ) / 255);
+     let waveHeight  = _utils.trunkNum(2,40,freq[ 1 ]|0);
+     let shininess = _utils.trunkNum(3,100,freq[ 16 ]|0)
+     let waveSpeed = _utils.trunkNum(0.2,1.7,freq[ 3 ]|0)
+     let zoom = _utils.trunkNum(0.7,1.8,freq[ 16 ]|0)
+
      this.audioVizu.setOptions({
        shininess: shininess,
        waveHeight: waveHeight,
@@ -145,14 +153,27 @@ export default {
      },
     updateCanvaHalo(freq){
       //Halo
-      let bass = ( Math.floor( freq[ 1 ] | 0 ) / 255 );
-      let dist  = Math.floor( freq[ 1 ] | 0 ) / 255;
-      let offset = ((Math.floor( freq[ 16 ] | 0 ) / 255)/2 )-0.25;
+      let size = _utils.trunkNum(0.2,2,freq[ 1 ]|0);
+      let amplitudeFactor  = _utils.trunkNum(0,3,freq[ 50 ]|0);
+      let xOffset = _utils.trunkNum(-0.4,0.3,freq[ 200 ]|0);
 
       this.audioVizu.setOptions({
-        size:bass,
-        amplitudeFactor:dist,
-        xOffset: offset
+        size:size,
+        amplitudeFactor:amplitudeFactor,
+        xOffset: xOffset
+      });
+     },
+    updateCanvaCloud(freq){
+      //Halo
+      let sunColor = ( Math.floor( freq[ 1 ] | 0 ) / 255 );
+      let sunGlareColor  = Math.floor( freq[ 16 ] | 0 ) ;
+      let speed = ((Math.floor( freq[ 16 ] | 0 ) / 255)/2 ) ;
+      let color = (Math.floor( freq[ 1 ] | 0 ) / 255 ) * (Math.floor( freq[ 16 ] | 0 ) / 255) * (Math.floor( freq[ 10] | 0 ) / 255) ;
+
+      this.audioVizu.setOptions({
+        sunColor:color,
+        sunGlareColor:sunGlareColor,
+        //speed: speed
       });
      },
     
@@ -163,41 +184,53 @@ export default {
       this.fps_counter = 0;
       return true;
     },
-    updateCanvas() {
+    updateCanvas(now) {
 
-      this.anf = requestAnimationFrame( this.updateCanvas );
-      if(this.frame_limit()) return;
+      //this.anf = requestAnimationFrame( this.updateCanvas );
+      //if(this.frame_limit()) return;
       if ( !this.visible ) return;
       if(this.audioVizu === null) return;
-      const freq = _audio.getFreqData();
+      this.anf = requestAnimationFrame( this.updateCanvas );
 
-      if(this._isSphere() ) {
-        this.audioVizu.updateObjects( freq );
-      }else {
-        switch (this.animationType) {
-          case '_HALO':
-            this.updateCanvaHalo(freq);
-            break;
-          case '_WAVES':
-            this.updateCanvasWaves(freq);
-            break;
-          case '_TRUNK':
-            this.updateCanvasTrunk(freq);
-            break;
-          case '_DISABLE':
-          default:
-            this.audioVizu.destroy()
-            break;
-        }
-        this.audioVizu.resize()
+      //const vol = _audio._gain;
+      if(_audio._gain == 0) return;
+      const freq = _audio.getFreqData();
+      // if(this._isSphere() ) {
+      //   this.audioVizu.updateObjects( freq );
+      // }else {  // }
+      switch (this.animationType) {
+        case '_HALO':
+          this.updateCanvaHalo(freq);
+          break;
+        case '_WAVES':
+          this.updateCanvasWaves(freq);
+          break;
+        case '_TRUNK':
+          this.updateCanvasTrunk(freq);
+          break;
+        case '_CLOUD':
+          this.updateCanvaCloud(freq);
+          break;
+        case '_DISABLE':
+        default:
+          this.animationDestroy()
+           this.audioVizu =null;
+          return;
+          break;
+      }
+      //this.audioVizu.resize()
+
+    },
+    animationDestroy(){
+      if (this.audioVizu) {
+        this.audioVizu.destroy()
+        this.audioVizu = null
       }
     },
 
   },
   beforeDestroy() {
-    if (this.audioVizu) {
-      this.audioVizu.destroy()
-    }
+    this.animationDestroy()
   }
 
 }

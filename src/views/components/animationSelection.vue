@@ -5,6 +5,7 @@
 <!--      <option value="_SPHERE">SPHERE</option>-->
       <option value="_HALO">HALO</option>
       <option value="_WAVES">WAVES</option>
+      <option value="_CLOUD">CLOUD</option>
       <option value="_DISABLE">DISABLE</option>
     </select>
 </template>
