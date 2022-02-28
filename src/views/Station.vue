@@ -183,7 +183,7 @@
                 return (this.stationId && !this.loading) ? true : false;
             },
             hasNextSong(){
-              if(this.nextSong.length>0) return true;
+              if(this.nextSong != null) return true;
               return false;
             },
             // check if a channel is selected
