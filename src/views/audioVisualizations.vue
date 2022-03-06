@@ -33,8 +33,6 @@ export default {
       _box:null,
       _wrap:null,
       anf: null,
-      sto: null,
-      itv: null,
       fps_counter: 0,
     }
   },
