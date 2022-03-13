@@ -42,7 +42,7 @@ export default {
     // parse channels list from api response
     _parseChannel( c ) {
                 c.mp3file   = c.listen_url;
-                c.image     =   '/img/icon.png' || '/img/stations/'+c.shortcode+'.png' ;
+                c.image     = '/img/stations/'+c.shortcode+'.png' ;
                 c.songsurl  = config.api_url+'/nowplaying/'+ c.id;
                 c.route     = '/station/'+ c.shortcode;
                 c.favorite  = false;
