@@ -6,7 +6,7 @@
       <option value="_HALO">{{$t('halo')}}</option>
       <option value="_WAVES">{{$t('waves')}}</option>
       <option value="_CLOUD">{{$t('cloud')}}</option>
-      <option value="_DISABLE">{{$t('disable')}}</option>
+      <option value="_DISABLE" selected>{{$t('disable')}}</option>
     </select>
 </template>
 
@@ -16,11 +16,12 @@ export default {
   name: "animationSelection",
   data: ()=>{
     return{
-      animationTypeSelect:'_DISABLE'
+      animationTypeSelect:''
     }
   },
-  created() {
-    this.animationTypeSelect = animatinoService.get();
+  async created() {
+    this.animationTypeSelect = await animatinoService.get();
+    console.log("created : " + this.animationTypeSelect);
   },
   watch: {
     animationTypeSelect() {
@@ -28,8 +29,6 @@ export default {
       this.$root.$emit('selectAnimationType', this.animationTypeSelect);
     }
   },
-  computed :{
-  }
 }
 </script>
 
