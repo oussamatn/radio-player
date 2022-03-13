@@ -1,14 +1,15 @@
 import _store from '../js/store';
+const favKey = "favorites_data"
 
 export default {
     get() {
         // load saved favs list from store
-        return _store.get('favorites_data')
-           /* .catch((error) => {
-                throw new Error(error);
-            });*/
+        return _store.get(favKey)
+           // .catch((error) => {
+           //      throw new Error(error);
+           //  });
     },
     set(favoritesList){
-        _store.set('favorites_data', favoritesList);
+        _store.set(favKey, favoritesList);
     }
 };

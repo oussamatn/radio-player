@@ -32,7 +32,7 @@
                         <div class="form-input push-right">
                             <i class="fa fa-search"></i>
                             <input type="text"
-                                   placeholder="Search station..."
+                                   :placeholder="$t('search_a_station')"
                                    v-model="searchText"
                                    v-on:input="debounceFilter"
                                    aria-label="search"/>

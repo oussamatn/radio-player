@@ -1,0 +1,13 @@
+export const en = {
+    pick_a_station: 'Pick a Station',
+    view_stations: 'View Stations',
+    search_a_station: 'Search Station',
+    recent_tracks: 'Recent Tracks',
+    nextTrack: 'Next',
+    choose_animation: 'Choose Animation',
+    disable: 'DISABLE',
+    cloud: 'CLOUD',
+    waves: 'WAVES',
+    halo: 'HALO',
+    trunk: 'TRUNK',
+}

@@ -15,19 +15,20 @@ import TRUNK from '../js/lib/vanta.trunk.min'
 import WAVES from '../js/lib/vanta.waves.min'
 import CLOUD from '../js/lib/vanta.clouds.min'
 import _audio from '../js/audio';
-import _utils from '../js/utils'
+import { trunkNum } from '../js/utils'
+const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES','_CLOUD']
 const _TRUNK  = Symbol("TRUNK")
 const _SPHERE = Symbol("SPHERE")
 const _HALO   = Symbol("HALO")
 const _WAVES  = Symbol("WAVES")
 const _CLOUD  = Symbol("CLOUD")
-const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES','_CLOUD']
+
 
 export default {
   name: "audioVisualizations",
   data:()=>{
     return{
-      animationType: '_HALO',
+      animationType: '_DISABLE',
       visible: true,
       audioVizu:null,
       _box:null,
@@ -126,9 +127,9 @@ export default {
     // audio visualizer animation loop
     updateCanvasTrunk(freq){
       //Trunk
-     // let color = (Math.floor( freq[ 1 ] | 0 ) / 255 ) * (Math.floor( freq[ 16 ] | 0 ) / 255) * (Math.floor( freq[ 10] | 0 ) / 255) ;
-      let chaos  =_utils.trunkNum(0.5,10,freq[ 1 ]|0)
-      let spacing  =_utils.trunkNum(0.2,7,freq[ 16 ]|0)
+      let chaos  = trunkNum(0.5,10,freq[ 1 ]|0)
+      // let chaos  = trunkNum(0.5,10,freq[ 1 ]|0)
+      let spacing  =trunkNum(0.2,7,freq[ 16 ]|0)
       this.audioVizu.setOptions({
          spacing:spacing,
          chaos:chaos,
@@ -137,10 +138,10 @@ export default {
       },
      updateCanvasWaves(freq){
 
-     let waveHeight  = _utils.trunkNum(2,40,freq[ 1 ]|0);
-     let shininess = _utils.trunkNum(3,100,freq[ 16 ]|0)
-     let waveSpeed = _utils.trunkNum(0.2,1.7,freq[ 3 ]|0)
-     let zoom = _utils.trunkNum(0.7,1.8,freq[ 16 ]|0)
+     let waveHeight  = trunkNum(2,40,freq[ 1 ]|0);
+     let shininess = trunkNum(3,100,freq[ 16 ]|0)
+     let waveSpeed = trunkNum(0.2,1.7,freq[ 3 ]|0)
+     let zoom = trunkNum(0.7,1.8,freq[ 16 ]|0)
 
      this.audioVizu.setOptions({
        shininess: shininess,
@@ -151,9 +152,9 @@ export default {
      },
     updateCanvaHalo(freq){
       //Halo
-      let size = _utils.trunkNum(0.2,2,freq[ 1 ]|0);
-      let amplitudeFactor  = _utils.trunkNum(0,3,freq[ 50 ]|0);
-      let xOffset = _utils.trunkNum(-0.4,0.3,freq[ 200 ]|0);
+      let size = trunkNum(0.2,2,freq[ 1 ]|0);
+      let amplitudeFactor  = trunkNum(0,3,freq[ 50 ]|0);
+      let xOffset = trunkNum(-0.4,0.3,freq[ 200 ]|0);
 
       this.audioVizu.setOptions({
         size:size,

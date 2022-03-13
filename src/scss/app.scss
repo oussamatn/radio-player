@@ -121,6 +121,13 @@
     overflow: hidden;
     overflow-y: auto;
     padding: $padSpace;
+    .player-channel{
+      @media #{$screenXLarge} {
+        margin: 0 auto;
+        width: 70%;
+      }
+    }
+
     .current-song{
       margin: auto;
       width: 300px;

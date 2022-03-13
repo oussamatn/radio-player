@@ -1,8 +1,8 @@
 <template>
     <div class="stationView">
         <main class="player-content flex-row">
-            <section class="player-channel flex-1" :key="stationId" v-if="visible">
-                <div class="flex-autorow flex-top flex-stretch">
+            <section class="flex-1" :key="stationId" v-if="visible">
+                <div class="flex-autorow flex-top flex-stretch player-channel">
                     <!-- station details -->
                     <div class="flex-item flex-1">
                         <!-- station -->
@@ -50,7 +50,7 @@
                       <div class="next-song" v-if="hasNextSong">
                         <div class="card fx flex-row flex-middle flex-space fx-slide-left fx-delay-2">
 
-                          <div class="pad-right"> Next :
+                          <div class="pad-right"> {{$t('nextTrack')}} :
                             <span class="text-secondary">{{ nextSong.title   }}</span><br>
                             <span class="text-bright">   {{ nextSong.artist   }}</span>
 
@@ -77,7 +77,7 @@
                     <!-- songs list -->
                     <div class="flex-item flex-1">
                         <div class="push-bottom">
-                            <h4 class="text-nowrap fx fx-slide-left fx-delay-1">Recent Tracks</h4>
+                            <h4 class="text-nowrap fx fx-slide-left fx-delay-1">{{$t('recent_tracks')}}</h4>
                         </div>
                         <div class="card push-bottom" v-if="!hasSongs">
                             There are no songs loaded yet for this station.

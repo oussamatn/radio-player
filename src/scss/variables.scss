@@ -54,8 +54,10 @@ $fxRotateAmount: 8deg;
 $sizeSmall: 420px;
 $sizeMedium: 720px;
 $sizeLarge: 1200px;
+$sizeXLarge: 1400px;
 
 // screen breakpoints
 $screenSmall: "only screen and (min-width : #{$sizeSmall})";
 $screenMedium: "only screen and (min-width : #{$sizeMedium})";
 $screenLarge: "only screen and (min-width : #{$sizeLarge})";
+$screenXLarge: "only screen and (min-width : #{$sizeXLarge})";
