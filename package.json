@@ -1,5 +1,5 @@
 {
-  "name": "Radio Player",
+  "name": "radio-player",
   "version": "0.2.2",
   "scripts": {
     "serve": "vue-cli-service serve",
