@@ -1,0 +1,31 @@
+{
+  "api_url" : "https://servidor.geracaoradios.com/api",
+  "title": "Joujma FM | Radio Station",
+  "description" : "Live Radio 24/7 Hits music Only test",
+  "manifest" : {
+    "short_name": "Joujma FM",
+    "orientation": "portrait",
+    "display": "standalone",
+    "start_url": "/?utm_source=pwa_homescreen",
+    "prompt_message": "Add a Home screen icon for easy access to our player",
+    "background_color": "#222336",
+    "theme_color": "#222336"
+  },
+  "player": {
+    "showLyrics": true
+  },
+  "showPlaylist" : false,
+  "socialBtn" : false,
+  "meta": {
+    "url" : "https://player.jelliti.me",
+    "image" : "https://player.jelliti.me/img/icon.png",
+    "locale" : "US_en"
+  },
+  "twitter" : {
+    "username" : null
+  },
+  "facebook" : {
+    "page_id" : null
+  },
+  "stationsFilterById": [6]
+}

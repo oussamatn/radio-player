@@ -32,6 +32,9 @@ export default {
     ...mapState('nowplaying',{
       songs : state => state.songs,
     }),
+    config(){
+      return this.$store.getters["playerConfig/getConfig"];
+    },
     hasSongs: (songs) => {
       return (!!Array(songs).length);
     }

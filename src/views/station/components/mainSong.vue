@@ -70,21 +70,16 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex';
+import {mapState} from 'vuex';
 import favBtn from "@/views/components/favBtn";
-import config from 'config';
+
 
 export default {
   name: "mainSong",
   components: {
     favBtn
   },
-  data: () => {
-    return {
-      config: config,
 
-    }
-  },
   computed: {
     ...mapState('nowplaying', {
       track: 'currentSong',
@@ -95,6 +90,9 @@ export default {
       //channels : state => state.stations, //errors
 
     }),
+    config(){
+      return this.$store.getters["playerConfig/getConfig"];
+    },
     hasNextSong() {
       if (this.nextSong != null) return true;
       return false;

@@ -25,7 +25,6 @@
 
 <script>
 
-    import config from 'config';
 
     import _audio from '../../js/audio';
     import favBtn from "@/views/components/favBtn";
@@ -47,7 +46,6 @@
         },
         data: () => {
             return {
-                config:config,
                 // toggles
                 visible: false,
                 playing: false,
@@ -85,12 +83,13 @@
                 nextSong : state => state.nextSong,
                 station : state => state.currentStation,
                 songs : state => state.songs,
-                //channels : state => state.stations, //errors
-
             }),
             // check if there are tracks loaded
             ...mapGetters('nowplaying',['hasSongs','getIDfromShortcode']),
-
+            //...mapGetters('playerConfig',['getConfig']),
+            config(){
+              return this.$store.getters["playerConfig/getConfig"];
+            },
             // check if audio can be played
             canPlay() {
                 return (this.stationId && !this.loading) ? true : false;
@@ -246,6 +245,7 @@
             },
         },
         beforeCreate(){
+          this.$store.dispatch('playerConfig/fetchConfig');
             console.log("beforeCreate Station.vue");
         },
         // on app Created

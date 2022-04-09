@@ -92,6 +92,9 @@
             }),
             ...mapGetters('nowplaying',[
             ]),
+          config(){
+            return this.$store.getters["playerConfig/getConfig"];
+          },
         },
 
         // custom methods
