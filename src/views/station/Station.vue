@@ -4,108 +4,16 @@
             <section class="flex-1" :key="stationId" v-if="visible">
                 <div class="flex-autorow flex-top flex-stretch player-channel">
                     <!-- station details -->
-                    <div class="flex-item flex-1">
-                        <!-- station -->
-                        <div class="push-bottom" v-if="station">
-                            <div class="fx fx-slide-left fx-delay-2">
-<!--                                <img class="img-round fx fx-drop-in fx-delay-1"
-                                     v-if ="station"
-                                     :src=" station.image "
-                                     :alt="station.name "
-                                     @error="station.image='/img/icon.png'"
-                                     width="80"
-                                     height="80"/>-->
-                                <div class="flex-row flex-middle flex-space ">
-                                    <h4 class="pad-left text-clip">{{ station.name.toUpperCase() | toText }}</h4>
-                                    <favBtn class="pad-right" :id="station.id" style="font-size: x-large"></favBtn>
-                                </div>
-<!--                             <div class="text-nowrap">
-                                  <p class="text-clip text-uppercase" style="width: 200px">a {{ station.description  | toText }} &nbsp;</p>
-                                </div>-->
-                            </div>
-                        </div>
 
-
-                        <div class="card push-bottom fx fx-slide-up fx-delay-3" v-if="config.showPlaylist" >
-                            <div class="text-secondary" v-if="currentsong">
-                                <span class="text-faded">Playlist:</span> {{track.playlist}}
-                            </div>
-                        </div>
-
-                      <div class="push-bottom ">
-                      <div class="card flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1">
-
-                          <div class="track-artwork"><img class="fx fx-fade-in"
-                                                    :src="currentsong.art"
-                                                    :alt="currentsong.title"
-                                                    id="coverArt" /></div>
-                          <div class="pad-bottom current-song">
-                              <h3 class="text-secondary">{{ currentsong.title }}</h3>
-                              <h5 class="text-bright text-faded">{{ currentsong.artist }}</h5>
-                          </div>
-
-                      </div>
-                      <div class="next-song" v-if="hasNextSong">
-                        <div class="card fx flex-row flex-middle flex-space fx-slide-left fx-delay-2">
-
-                          <div class="pad-right"> {{$t('nextTrack')}} :
-                            <span class="text-secondary">{{ nextSong.title   }}</span><br>
-                            <span class="text-bright">   {{ nextSong.artist   }}</span>
-
-                          </div>
-                          <div class="pad-left"><img width="70" height="70"
-                                                     :alt="nextSong.title"
-                                                     :src="nextSong.art"/></div>
-                        </div>
-                      </div>
-                      </div>
-                        <!-- buttons -->
-                        <div class="push-bottom text-nowrap" v-if="config.socialBtn">
-                            <a class="cta-btn text-nowrap fx fx-slide-up fx-delay-5" title="Channel page">
-                                    <span class="fx fx-notx fx-ibk fx-drop-in" ><i
-                                            class="fa fa-comments"></i></span>
-                            </a> &nbsp;
-                            <a v-if="station" class="cta-btn text-nowrap fx fx-slide-up fx-delay-6" :href="station.twitter"
-                               title="Twitter page" rel="noreferrer" target="_blank">
-                                <i class="fab fa-twitter"></i>
-                            </a> &nbsp;
-                        </div>
-
-                    </div>
-
+                    <main-song></main-song>
                     <!-- songs list -->
-                    <div class="flex-item flex-1">
-                        <div class="push-bottom">
-                            <h4 class="text-nowrap fx fx-slide-left fx-delay-1">{{$t('recent_tracks')}}</h4>
-                        </div>
-                        <div class="card push-bottom" v-if="!hasSongs">
-                            There are no songs loaded yet for this station.
-                        </div>
-                        <ul class="player-tracklist push-bottom" v-if="hasSongs">
-
-                            <li v-for="( s, i ) of songs" :key="s.played_at"
-                                class="card fx flex-row flex-top flex-stretch"
-                                :class="'fx-slide-left fx-delay-' + ( i + 2 )">
-                                <div><img width="70" height="70"
-                                          :alt="s.song.title"
-                                          :src="s.song.art"/></div>
-                                <div class="pad-left">
-                                    <div><span
-                                            class="text-secondary">{{ s.song.title   }}</span>
-                                    </div>
-                                    <div><span class="text-bright">{{ s.song.artist   }}</span>
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ul>
-                    </div>
+                    <songs-history></songs-history>
 
                 </div>
-              <!--                        <div class="card push-bottom fx fx-slide-up fx-delay-3" v-if="config.showLyrics" >-->
-              <div class="card push-bottom fx fx-slide-up fx-delay-3" >
-                <syncLyrics :song="currentsong" :playedAt="track.played_at"></syncLyrics>
-              </div>
+
+
+                <syncLyrics></syncLyrics>
+
             </section>
         </main>
         <!-- player footer with controls -->
@@ -119,16 +27,20 @@
 
     import config from 'config';
 
-    import _audio from '../js/audio';
+    import _audio from '../../js/audio';
     import favBtn from "@/views/components/favBtn";
-    import syncLyrics from '@/views/components/syncLyrics'
-    import footerPlayer from '@/views/components/footerPlayer'
+    import syncLyrics from '@/views/station/components/syncLyrics'
+    import footerPlayer from '@/views/station/components/footerPlayer'
 
     import { mapGetters, mapState  } from 'vuex';
+    import SongsHistory from "@/views/station/components/songsHistory";
+    import MainSong from "@/views/station/components/mainSong";
 
     export default {
         name: 'station',
         components: {
+          MainSong,
+          SongsHistory,
             favBtn,
             syncLyrics,
             footerPlayer,
@@ -158,11 +70,7 @@
             },
             //route change
             $route(to, from) {
-
-                //this.stationId = to.params.id;
             },
-
-
             // update player volume
 
         },
@@ -187,20 +95,16 @@
             canPlay() {
                 return (this.stationId && !this.loading) ? true : false;
             },
-            hasNextSong(){
-              if(this.nextSong != null) return true;
-              return false;
-            },
-            // check if a channel is selected
-            hasChannel() {
-                return this.stationId ? true : false;
-            },
-            // check for errors that would affect playback
-            hasError() {
-                if (this.errors.channels && !this.channels.length) return true;
-                if (this.errors.stream) return true;
-                return false;
-            },
+            // // check if a channel is selected
+            // hasChannel() {
+            //     return this.stationId ? true : false;
+            // },
+            // // check for errors that would affect playback
+            // hasError() {
+            //     if (this.errors.channels && !this.channels.length) return true;
+            //     if (this.errors.stream) return true;
+            //     return false;
+            // },
         },
 
         // custom methods

@@ -98,7 +98,7 @@
     import './registerServiceWorker'
     import config from 'config';
     import favBtn from "@/views/components/favBtn";
-    import audioVisualizations from "@/views/audioVisualizations";
+    import audioVisualizations from "@/views/station/components/audioVisualizations";
     import { mapGetters, mapState  } from 'vuex';
     import { debounce } from "debounce";
 

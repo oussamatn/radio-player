@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import _scene from '../js/scene'
-import HALO from '../js/lib/vanta.halo.min'
-import TRUNK from '../js/lib/vanta.trunk.min'
-import WAVES from '../js/lib/vanta.waves.min'
-import CLOUD from '../js/lib/vanta.clouds.min'
-import _audio from '../js/audio';
-import { trunkNum } from '../js/utils'
+import _scene from '../../../js/scene'
+import HALO from '../../../js/lib/vanta.halo.min'
+import TRUNK from '../../../js/lib/vanta.trunk.min'
+import WAVES from '../../../js/lib/vanta.waves.min'
+import CLOUD from '../../../js/lib/vanta.clouds.min'
+import _audio from '../../../js/audio';
+import { trunkNum } from '../../../js/utils'
 const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES','_CLOUD']
 const _TRUNK  = Symbol("TRUNK")
 const _SPHERE = Symbol("SPHERE")

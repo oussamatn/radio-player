@@ -11,6 +11,9 @@
     "background_color": "#222336",
     "theme_color": "#222336"
   },
+  "player": {
+    "showLyrics": true
+  },
   "showPlaylist" : false,
   "socialBtn" : false,
   "meta": {

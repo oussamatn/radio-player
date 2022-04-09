@@ -41,7 +41,7 @@
 <script>
 import config from 'config';
 import animationSelection from '@/views/components/animationSelection'
-import _audio from '../../js/audio';
+import _audio from '../../../js/audio';
 export default {
   name: "footerPlayer",
   components: {

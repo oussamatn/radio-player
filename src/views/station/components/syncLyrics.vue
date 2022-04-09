@@ -1,20 +1,27 @@
 <template>
-  <div>
+  <div class="card push-bottom fx fx-slide-up fx-delay-3" v-if=" hasLyrics ">
+
     <p class="text-bright" v-if="(activeLyric-1)>0">  {{lyrics[activeLyric-1].lyrics }}</p>
     <p class="text-bright"> >  {{currentLyrics}}</p>
     <p class="text-bright" v-if="(activeLyric+1)<lyrics.length">  {{lyrics[activeLyric+1].lyrics }}</p>
-  </div>
 
+  </div>
 </template>
 
 <script>
-import { mapGetters, mapState  } from 'vuex';
+import { mapState  } from 'vuex';
 import lyricsService from "@/services/lyricsService";
 export default {
   name: "syncLyrics",
-  props: {
-    song: { type: Object, default: '', required: true },
-    playedAt: { type: Number, default: 0, required: true }
+  computed: {
+    ...mapState('nowplaying',{
+      song : state => state.currentSong.song,
+      track : 'currentSong',
+    }),
+    hasLyrics(){
+      if(this.lyrics.length>0) return true;
+      return false;
+    }
   },
   data : () => {
     return {
@@ -27,6 +34,7 @@ export default {
       refreshHandler:null,
     }
   },
+
   methods: {
     startTimer(){
       this.timerID = setInterval(() => { this.incrementTimer(); }, 1000);
@@ -48,12 +56,13 @@ export default {
     async pullLyrics(){
       this.currentSong = this.song
       this.lyrics = await lyricsService.getLyrics(this.currentSong.text)
-      this.setupLyricMaint()
+      clearInterval(this.refreshHandler)
+      if(this.hasLyrics) this.setupLyricMaint()
 
     },
     setupLyricMaint(){
-      clearInterval(this.refreshHandler)
-      this.elapsedtime = Math.round(+new Date()/1000) - this.playedAt
+
+      this.elapsedtime = Math.round(+new Date()/1000) - this.track.played_at
       console.log("elapsedtime="+this.elapsedtime)
       this.refreshHandler = setInterval(this.updateLyrics,this.timer* 1000)
     },
@@ -69,14 +78,18 @@ export default {
           break;
         }
       }
-      this.elapsedtime=Math.round(+new Date()/1000) - this.playedAt
+      this.elapsedtime=Math.round(+new Date()/1000) - this.track.played_at
       //
     },
   },
+
   mounted() {
     console.log("mounted : syncLyrics")
     this.pullLyrics();
 
+  },
+  beforeDestroy() {
+    clearInterval(this.refreshHandler)
   },
   watch : {
     song(){
