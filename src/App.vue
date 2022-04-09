@@ -96,7 +96,7 @@
     import './scss/app.scss';
     import './js/filters';
     import './registerServiceWorker'
-    import config from 'config';
+
     import favBtn from "@/views/components/favBtn";
     import audioVisualizations from "@/views/station/components/audioVisualizations";
     import { mapGetters, mapState  } from 'vuex';
@@ -173,6 +173,9 @@
             ...mapGetters('nowplaying',[
                 'getBackground',
             ]),
+            config(){
+              return this.$store.getters["playerConfig/getConfig"];
+            },
 
         },
         // on app mounted
