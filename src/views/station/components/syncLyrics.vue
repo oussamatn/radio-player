@@ -2,7 +2,7 @@
   <div class="card push-bottom fx fx-slide-up fx-delay-3" v-if=" hasLyrics ">
 
     <p class="text-bright" v-if="(activeLyric-1)>0">  {{lyrics[activeLyric-1].lyrics }}</p>
-    <p class="text-bright"> >  {{currentLyrics}}</p>
+    <p class="text-bright"> >  {{lyrics[activeLyric].lyrics }}</p>
     <p class="text-bright" v-if="(activeLyric+1)<lyrics.length">  {{lyrics[activeLyric+1].lyrics }}</p>
 
   </div>
@@ -25,8 +25,7 @@ export default {
   },
   data : () => {
     return {
-      currentLyrics:"",
-      currentSong:null,
+      currentSongId:0,
       lyrics : [],
       activeLyric:0,
       timer:1,
@@ -54,8 +53,8 @@ export default {
       }
     },
     async pullLyrics(){
-      this.currentSong = this.song
-      this.lyrics = await lyricsService.getLyrics(this.currentSong.text)
+      this.currentSongId = this.song.id
+      this.lyrics = await lyricsService.getLyrics(this.song.text)
       clearInterval(this.refreshHandler)
       if(this.hasLyrics) this.setupLyricMaint()
 
@@ -71,12 +70,11 @@ export default {
       for(let i=this.activeLyric;i<=this.lyrics.length;i++){
           let item  = this.lyrics[i];
           if(item==null) break;
-        if(item.seconds >= this.elapsedtime ) {
-          console.log(item.seconds+" - "+ this.elapsedtime +" "+item.lyrics)
-          this.currentLyrics= item.lyrics
-          this.activeLyric = i;
-          break;
-        }
+          if(item.seconds >= this.elapsedtime ) {
+            console.log(item.seconds+" - "+ this.elapsedtime +" "+item.lyrics)
+            this.activeLyric = i;
+            break;
+          }
       }
       this.elapsedtime=Math.round(+new Date()/1000) - this.track.played_at
       //
@@ -94,7 +92,7 @@ export default {
   watch : {
     song(){
       console.log("watch song : pullLyrics()->"+this.song.title)
-      if(this.song.id !== this.currentSong.id )
+      if(this.song.id !== this.currentSongId )
         this.pullLyrics()
 
     }
