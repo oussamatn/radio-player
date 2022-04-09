@@ -4,12 +4,32 @@
 import axios from 'axios';
 import config from 'config';
 
+axios.interceptors.request.use( x => {
+    // to avoid overwriting if another interceptor
+    // already defined the same object (meta)
+    x.meta = x.meta || {}
+    x.meta.requestStartedAt = new Date().getTime();
+    return x;
+})
+
+axios.interceptors.response.use( x => {
+        console.log(`Execution time for: ${x.config.url} - ${ new Date().getTime() - x.config.meta.requestStartedAt} ms`)
+        return x;
+    },
+    // Handle 4xx & 5xx responses
+    x => {
+        console.error(`Execution time for: ${x.config.url} - ${new Date().getTime() - x.config.meta.requestStartedAt} ms`)
+        throw x;
+    }
+)
+
 export default {
     // get now playing response
     get(){
         let apiurl = config.api_url+'/nowplaying';
         //let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
         return axios.get( apiurl ).then( res => {
+            console.log(res.headers)
             const list = this._parseChannels( res.data );
             console.log("Nowplaying Service :  get : ",list)
             return list;
