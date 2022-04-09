@@ -36,5 +36,8 @@ module.exports = {
         ],
     },
     productionSourceMap : (process.env.NODE_ENV === 'production'),
-    transpileDependencies: ["axios","standardized-audio-context"]
+    transpileDependencies: ["axios","standardized-audio-context"],
+    devServer: {
+        proxy: 'https://api.textyl.co/',
+    }
 };

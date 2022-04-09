@@ -16,7 +16,7 @@
                                      width="80"
                                      height="80"/>-->
                                 <div class="flex-row flex-middle flex-space ">
-                                    <h4 class="pad-left text-clip">{{ station.name | toText }}</h4>
+                                    <h4 class="pad-left text-clip">{{ station.name.toUpperCase() | toText }}</h4>
                                     <favBtn class="pad-right" :id="station.id" style="font-size: x-large"></favBtn>
                                 </div>
 <!--                             <div class="text-nowrap">
@@ -25,28 +25,26 @@
                             </div>
                         </div>
 
+
                         <div class="card push-bottom fx fx-slide-up fx-delay-3" v-if="config.showPlaylist" >
                             <div class="text-secondary" v-if="currentsong">
-                                <span class="text-faded">Playlist:</span> {{
-                                track.playlist
-                                  }}.
+                                <span class="text-faded">Playlist:</span> {{track.playlist}}
                             </div>
-
-
                         </div>
 
-                        <div class="card push-bottom flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1">
+                      <div class="push-bottom ">
+                      <div class="card flex-item flex-top flex-stretch fx fx-slide-up fx-delay-4 flex-1">
 
-                            <div class="track-artwork"><img class="fx fx-fade-in"
-                                                      :src="currentsong.art"
-                                                      :alt="currentsong.title"
-                                                      id="coverArt" /></div>
-                            <div class="pad-bottom current-song">
-                                <h3 class="text-secondary">{{ currentsong.title }}</h3>
-                                <h5 class="text-bright text-faded">{{ currentsong.artist }}</h5>
-                            </div>
+                          <div class="track-artwork"><img class="fx fx-fade-in"
+                                                    :src="currentsong.art"
+                                                    :alt="currentsong.title"
+                                                    id="coverArt" /></div>
+                          <div class="pad-bottom current-song">
+                              <h3 class="text-secondary">{{ currentsong.title }}</h3>
+                              <h5 class="text-bright text-faded">{{ currentsong.artist }}</h5>
+                          </div>
 
-                        </div>
+                      </div>
                       <div class="next-song" v-if="hasNextSong">
                         <div class="card fx flex-row flex-middle flex-space fx-slide-left fx-delay-2">
 
@@ -59,6 +57,7 @@
                                                      :alt="nextSong.title"
                                                      :src="nextSong.art"/></div>
                         </div>
+                      </div>
                       </div>
                         <!-- buttons -->
                         <div class="push-bottom text-nowrap" v-if="config.socialBtn">
@@ -103,6 +102,10 @@
                     </div>
 
                 </div>
+              <!--                        <div class="card push-bottom fx fx-slide-up fx-delay-3" v-if="config.showLyrics" >-->
+              <div class="card push-bottom fx fx-slide-up fx-delay-3" >
+                <syncLyrics :song="currentsong" :playedAt="track.played_at"></syncLyrics>
+              </div>
             </section>
         </main>
         <!-- player footer with controls -->
@@ -118,15 +121,17 @@
 
     import _audio from '../js/audio';
     import favBtn from "@/views/components/favBtn";
-
+    import syncLyrics from '@/views/components/syncLyrics'
     import footerPlayer from '@/views/components/footerPlayer'
+
     import { mapGetters, mapState  } from 'vuex';
 
     export default {
         name: 'station',
         components: {
             favBtn,
-            footerPlayer
+            syncLyrics,
+            footerPlayer,
         },
         data: () => {
             return {
@@ -205,7 +210,7 @@
             setupMaintenance() {
                 let remainingtime =  Math.floor(this.track.remaining ) || 30;
                 console.log("remainingtime:",remainingtime);
-                console.log("setupMaintenance : for ",this.stationId);
+                //console.log("setupMaintenance : for ",this.stationId);
                 this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
             },
             // set an error message

@@ -116,7 +116,7 @@ export default {
       }
     },
     updateSize(){
-      if (this._isSphere()) return;
+      if (this._isSphere() || this.audioVizu==null) return;
       this._box = this._wrap.getBoundingClientRect();
       this.audioVizu.setOptions({
         minHeight: this._box.height,
