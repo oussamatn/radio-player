@@ -44,9 +44,5 @@ module.exports = {
     pluginOptions: {
       cordovaPath: 'src-cordova'
     }
-
-    devServer: {
-        proxy: 'https://api.textyl.co/',
-    }
 };
 
