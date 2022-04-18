@@ -19,6 +19,7 @@ module.exports = {
 
         }
     },
+
     configureWebpack: {
         // resolve: {
         //     alias: {
@@ -35,9 +36,13 @@ module.exports = {
 
         ],
     },
+
     productionSourceMap : (process.env.NODE_ENV === 'production'),
     transpileDependencies: ["axios","standardized-audio-context"],
-    devServer: {
-        proxy: 'https://api.textyl.co/',
+    publicPath: '',
+
+    pluginOptions: {
+      cordovaPath: 'src-cordova'
     }
 };
+
