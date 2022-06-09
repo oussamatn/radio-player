@@ -6,7 +6,7 @@ export default {
     async getConfig() {
 
         let configName = "/config.json";
-        let apiurl = "http://"+ location.host+configName;
+        let apiurl = "https://"+ location.host+configName;
         //let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
 
         const response = await fetch(apiurl); // Generate the Response object
