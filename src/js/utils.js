@@ -1,17 +1,47 @@
-export function trunkNum(toMin, toMax, value) {
+/**
+ * Common utils
+ */
+export function trunkNum(toMin, toMax, value,min = 0, max = 255) {
     //Trunk frequency values;
     if (isNaN(value)) return toMax;
-    const max = 255, min = 0
+
     const x = (toMax - toMin) / (max - min)
     return (value * x + min);
 
 }
+export function parseParam(param) {
+    return Object.keys(param).map(k => `${k}=${encodeURIComponent(param[k] + '')}`).join('&')
+}
+export function decodeBase64(data) {
+    if (typeof atob === "function") {
+        return atob(data);
+    } else if (typeof Buffer === "function") {
+        return Buffer.from(data, "base64").toString("utf-8");
+    } else {
+        throw new Error("Failed to determine the platform specific decoder");
+    }
+}
+export function stringeq(str, sub, offset) {
+    let eq = true
+    if (sub.length + offset > str.length) return false
+    for (let i = 0; i < sub.length; i++) {
+        if (sub[i] != str[i + offset]) return false
+    }
+    return eq
+}
 
-/**
- * Common utils
- */
+export function time2ms(time) {
+    const [m, s] = time.split(/:/).map(s => parseInt(s.trim()))
+    if (isNaN(m) || isNaN(s)) throw new Error('time format error')
+    return (m * 60 + s) * 1000
+}
+
 export default {
 
+chunkArray(arr, size) {
+    Array.from({ length: Math.ceil(arr.length / size) },
+        (v, i) => arr.slice(i * size, i * size + size));
+},
 // get search results off a list for an obj key
 search(list, key, search)
 {

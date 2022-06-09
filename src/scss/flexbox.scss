@@ -139,7 +139,7 @@
 .flex-grid {
   display: grid;
   grid-gap: $padSpace;
-  grid-template-columns: repeat( auto-fill, minmax( 140px, 1fr ) );
+  grid-template-columns: repeat( auto-fill, minmax( 160px, 1fr ) );
 
   &.flex-grid-sm {
     grid-template-columns: repeat( auto-fill, minmax( 200px, 1fr ) );

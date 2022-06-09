@@ -245,7 +245,6 @@
             },
         },
         beforeCreate(){
-          this.$store.dispatch('playerConfig/fetchConfig');
             console.log("beforeCreate Station.vue");
         },
         // on app Created

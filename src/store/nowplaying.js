@@ -86,7 +86,7 @@ export const getters = {
         console.log(state.currentSong);
         if(state.currentSong.song)
             return state.currentSong.song.art
-        else return "/img/icon.png" ;
+        else return "img/icon.png" ;
     },
     getStations : (state) => {
         let stations = [];

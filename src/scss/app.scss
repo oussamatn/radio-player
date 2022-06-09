@@ -22,7 +22,12 @@
 
   @media #{$screenLarge} {
     //height: 15em;
-    width: 63%;
+    width: 80%;
+    margin: auto;
+  }
+  @media #{$screenXLarge} {
+    //height: 15em;
+    width: 60%;
     margin: auto;
   }
 
@@ -197,6 +202,7 @@
 // player greeting message
 .player-greet {
   flex: 0.2;
+  padding: 2em;
   @media #{$screenMedium} { flex: .3; }
 }
 

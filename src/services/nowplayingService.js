@@ -29,7 +29,6 @@ export default {
         let apiurl = config.api_url+'/nowplaying';
         //let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
         return axios.get( apiurl ).then( res => {
-            console.log(res.headers)
             const list = this._parseChannels( res.data );
             console.log("Nowplaying Service :  get : ",list)
             return list;

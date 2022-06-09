@@ -13,15 +13,15 @@
                 </div>
         </div>
         <ul class="flex-grid home-station-list">
-            <router-link tag="li" class="card fx flex-grid-sm flex-1 " id="station"
+            <router-link tag="li" class="card fx flex-grid-sm flex-1" id="station"
                          v-for="(c,i) of channels"
                          :class="'fx-slide-left fx-delay-' + ( i + 2 )"
                          :key="c.station.id"
                          :to="{ name: 'station',params: { id: c.station.id, shortcode : c.station.shortcode }}" >
 
-                <!--<figure id="player-bg" class="player-bg"
-                        v-bind:style="{ 'background-image' : `url(  ${ c.now_playing.song.art } )` }">
-                </figure>-->
+<!--                <figure id="player-bg" class="player-bg"-->
+<!--                        v-bind:style="{ 'background-image' : `url(  ${ c.now_playing.song.art } )` }">-->
+<!--                </figure>-->
               <div class="flex-row flex-middle flex-space">
                 <div class="player-stations-list-title text-bright text-clip">{{ c.station.name }}</div>
                 <div class="text-nowrap">

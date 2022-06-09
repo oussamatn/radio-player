@@ -95,7 +95,6 @@
 <script>
     import './scss/app.scss';
     import './js/filters';
-    import './registerServiceWorker'
 
     import favBtn from "@/views/components/favBtn";
     import audioVisualizations from "@/views/station/components/audioVisualizations";
@@ -180,6 +179,7 @@
         // on app mounted
         mounted() {
             console.log("App : mounted");
+            this.$store.dispatch('playerConfig/fetchConfig');
             this.$store.dispatch('nowplaying/fetchNowplaying').then(()=>{
                 this.initView();
             })
