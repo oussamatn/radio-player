@@ -1,9 +1,9 @@
 <template >
 <!--  -->
-  <div class="player-canvas" v-if="_isPlayerVisible()">
+  <div class="player-canvas" v-if="_isPlayerVisible">
 
     <canvas id="player-canvas"></canvas>
-    <div id="player-vanta"  style="position: absolute"></div>
+    <div id="canvas-animation" style="position: absolute"></div>
   </div>
 
 </template>
@@ -13,7 +13,7 @@ import _scene from '../../../js/scene'
 import HALO from '../../../js/lib/vanta.halo.min'
 import TRUNK from '../../../js/lib/vanta.trunk.min'
 import WAVES from '../../../js/lib/vanta.waves.min'
-import CLOUD from '../../../js/lib/vanta.clouds.min'
+import CLOUDS2 from '../../../js/lib/vanta.clouds2.min'
 import _audio from '../../../js/audio';
 import { trunkNum } from '../../../js/utils'
 const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES','_CLOUD']
@@ -41,11 +41,11 @@ export default {
 
   },
   mounted() {
-    console.log("audioVisualizationm: mounted _isPlayerVisible:"+this._isPlayerVisible())
-    //if(this._isPlayerVisible()){
+
+    if(this._isPlayerVisible){
       this.setupCanvas();
       this.updateCanvas();
-    //}
+    }
     this.$root.$on('selectAnimationType', data => {
       console.log("on selectAnimationType:"+data);
       this.animationTypeSelect(data)
@@ -53,7 +53,11 @@ export default {
 
     
   },
-
+  computed:{
+    _isPlayerVisible(){
+      return !(document.querySelector( '#player-wrap' ))
+    },
+  },
   methods:{
     animationTypeSelect (animationTypeSel) {
       // if(!animationsType.includes(animationTypeSel)) return;
@@ -62,9 +66,6 @@ export default {
       console.log("animationTypeSelect:" ); console.log(animationTypeSel)
       this.setupCanvas();
       this.updateCanvas();
-    },
-    _isPlayerVisible(){
-      return !(document.querySelector( '#player-wrap' ))
     },
     _isSphere(){
       return (this.animationType === _SPHERE )
@@ -83,17 +84,19 @@ export default {
     },
     setupAnimation(type){
       let vantaOptions = {
-        el: document.querySelector( '#player-vanta' ),
-        backgroundAlpha: 0,
+        el: document.querySelector( '#canvas-animation' ),
         mouseControls: true,
         touchControls: true,
         gyroControls: false,
         minHeight: this._box.height ,
         minWidth: this._box.width,
         color: 0x1496dc,
-        amplitudeFactor: 1.50,
-        xOffset: -0.02,
-        size: 2.00
+        scale: 1.00,
+        backgroundColor: 0,
+        cloudColor: 0xe1ca,
+        lightColor: 0xe69191,
+        texturePath: "img/noise.png",
+        speed: 2.30,
       };
       switch (type){
         default:
@@ -107,7 +110,7 @@ export default {
           this.audioVizu = WAVES(vantaOptions)
           break;
         case '_CLOUD' :
-          this.audioVizu = CLOUD(vantaOptions)
+          this.audioVizu = CLOUDS2(vantaOptions)
           break;
         case '_SPHERE':
           //this.audioVizu = _scene
@@ -166,13 +169,18 @@ export default {
       //Halo
       let sunColor = ( Math.floor( freq[ 1 ] | 0 ) / 255 );
       let sunGlareColor  = Math.floor( freq[ 16 ] | 0 ) ;
-      let speed = ((Math.floor( freq[ 16 ] | 0 ) / 255)/2 ) ;
+      let speed = trunkNum(0,2.5,freq[ 16 ] | 0); ;
       let color = (Math.floor( freq[ 1 ] | 0 ) / 255 ) * (Math.floor( freq[ 16 ] | 0 ) / 255) * (Math.floor( freq[ 10] | 0 ) / 255) ;
 
       this.audioVizu.setOptions({
-        sunColor:color,
-        sunGlareColor:sunGlareColor,
-        //speed: speed
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        scale: 1.00,
+        texturePath: "img/noise.png",
+        skyColor: 0x287faa,
+        cloudColor: 0x46577a,
+        speed: 1.5
       });
      },
     
@@ -184,15 +192,10 @@ export default {
       return true;
     },
     updateCanvas(now) {
-
-      //this.anf = requestAnimationFrame( this.updateCanvas );
-      //if(this.frame_limit()) return;
-      if ( !this.visible ) return;
-      if(this.audioVizu === null) return;
+      if ( !this.visible || _audio._gain === 0 || this.audioVizu === null) return;
       this.anf = requestAnimationFrame( this.updateCanvas );
 
-      //const vol = _audio._gain;
-      if(_audio._gain == 0) return;
+
       const freq = _audio.getFreqData();
       // if(this._isSphere() ) {
       //   this.audioVizu.updateObjects( freq );
@@ -217,8 +220,6 @@ export default {
           return;
           break;
       }
-      //this.audioVizu.resize()
-
     },
     animationDestroy(){
       if (this.audioVizu) {
@@ -236,7 +237,7 @@ export default {
 </script>
 
 <style scoped>
-#player-vanta{
+#canvas-animation{
   position: absolute;
   top: 0px;
 }
