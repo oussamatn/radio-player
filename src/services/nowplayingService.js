@@ -2,7 +2,9 @@
  * Joujma  API handler
  */
 import axios from 'axios';
+
 import config from 'config';
+import { getters } from './../store/playerConfig'
 
 axios.interceptors.request.use( x => {
     // to avoid overwriting if another interceptor
@@ -25,9 +27,9 @@ axios.interceptors.response.use( x => {
 
 export default {
     // get now playing response
+    config : getters["playerConfig/getConfig"],
     get(){
         let apiurl = config.api_url+'/nowplaying';
-        //let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
         return axios.get( apiurl ).then( res => {
             const list = this._parseChannels( res.data );
             console.log("Nowplaying Service :  get : ",list)
