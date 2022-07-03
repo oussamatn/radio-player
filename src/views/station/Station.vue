@@ -277,7 +277,7 @@ export default {
   },
   beforeUpdate() {
     this.updateCurrentChannel()
-    this.selectChannel();
+    //this.selectChannel();
   },
   beforeRouteUpdate(to, from, next) {
 
