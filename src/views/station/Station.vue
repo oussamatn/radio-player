@@ -227,13 +227,11 @@ export default {
       if (short_code.length === 0) this.$router.push({name: "home"})
       if (isNaN(stationId)) stationId = this.getIDfromShortcode(short_code);
       if (isNaN(stationId)) this.$router.push({name: "home"})
-      console.log("mounted Station.vue");
       this.$store.dispatch('nowplaying/StationId', stationId);
     },
     // select a channel to play
     updateChannelData() {
       console.log("updateChannelData")
-
       this.$store.dispatch('nowplaying/fetchNowplaying', this.stationId).then(() => {
         console.log("updateChannelData  then fetchNowplaying")
         if (this.itv) clearInterval(this.itv);
@@ -261,10 +259,7 @@ export default {
   // on app Created
   created() {
     console.log("created Station.vue");
-
-
     //get station id from shortcode
-
     // Update state with current station id
     this.updateCurrentChannel()
 
@@ -278,6 +273,9 @@ export default {
   beforeUpdate() {
     this.updateCurrentChannel()
     //this.selectChannel();
+  },
+  updated() {
+    this.selectChannel();
   },
   beforeRouteUpdate(to, from, next) {
 
