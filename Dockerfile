@@ -1,7 +1,7 @@
 #JoujmaFM Player Build APP
 
 # build environment
-FROM node:14.0-alpine as build
+FROM node:14-alpine as build
 
 USER root
 RUN rm -rf /home/node/joujmafm
@@ -29,7 +29,7 @@ RUN npm run build
 
 RUN rm -rf ./node_modules
 
-FROM node:14.0-alpine as PROD
+FROM node:14-alpine as PROD
 
 RUN npm install -g serve
 
