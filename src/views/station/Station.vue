@@ -110,13 +110,6 @@ export default {
   // custom methods
   methods: {
 
-    // run maintenance tasks on a timer
-    setupMaintenance() {
-      let remainingtime = Math.floor(this.track.remaining) || 30;
-      console.log("remainingtime:", remainingtime);
-      //console.log("setupMaintenance : for ",this.stationId);
-      this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
-    },
     // set an error message
     setError(key, err) {
       let errors = Object.assign({}, this.errors);
@@ -211,7 +204,7 @@ export default {
     // play audio stream for a channel
     playChannel() {
       console.log('playChannel');
-      //if (this.playing || !channel ) return;
+      //if (this.playing ) return;
       this.loading = true;
       this.clearErrors();
       console.log(!!this.station)
@@ -238,10 +231,16 @@ export default {
         this.setupMaintenance();
       });
     },
+    // run maintenance tasks on a timer
+    setupMaintenance() {
+      let remainingtime = Math.floor(this.track.remaining) || 30;
+      console.log("remainingtime:", remainingtime);
+      //console.log("setupMaintenance : for ",this.stationId);
+      this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
+    },
     selectChannel() {
       this.closeAudio();
       this.initPlayer();
-
       this.playChannel();
       this.setupMaintenance();
 
@@ -272,23 +271,19 @@ export default {
   },
   beforeUpdate() {
     this.updateCurrentChannel()
-    //this.selectChannel();
-  },
-  updated() {
-    this.selectChannel();
+
   },
   beforeRouteUpdate(to, from, next) {
 
     console.log("beforeRouteUpdate : ", to.params.id);
     //Preload
-
     this.resetPlayer();
     if (to.params.id) {
       this.$store.dispatch('nowplaying/resetSongs')
       this.$store.dispatch('nowplaying/StationId', to.params.id)
 
     }
-
+    this.selectChannel();
     next();
   },
 
