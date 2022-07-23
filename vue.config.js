@@ -1,6 +1,6 @@
 'use strict';
 
-const devConfig = JSON.stringify(process.env.NODE_ENV === 'production' ? require('./public/assets/config.json') : require('./public/assets/config.json'))
+const devConfig = JSON.stringify(process.env.NODE_ENV === 'production' ? require('./public/config.json') : require('./public/config.json'))
 
 module.exports = {
     pwa: {

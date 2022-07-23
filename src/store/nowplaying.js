@@ -73,10 +73,8 @@ export const getters = {
         return state.nowplaying.find( (d) => (stationid) => (d.station.id === stationid)).songs ;
     },
     getIDfromShortcode : (state) => (shortcode) =>{
-        console.log("getIDfromShortcode",shortcode )
         let found = state.nowplaying.find( (d) => (d.station.shortcode === shortcode));
         if( !found )  return false;
-        console.log("getIDfromShortcode: found",found,"shortcode",shortcode )
         return found.station.id ;
     },
     hasSongs : (state) => {

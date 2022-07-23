@@ -134,6 +134,7 @@ export default {
     initPlayer() {
       window.addEventListener('keydown', this.onKeyboard);
       this.visible = true;
+      document.title = this.station.name +" - "+ this.config.title
     },
 
     // reset selected channel
@@ -177,7 +178,7 @@ export default {
       a.addEventListener('error', e => {
         this.closeAudio();
         console.log(e);
-        this.setError('stream', `The selected stream (${this.station.title}) could not load, or has stopped loading due to a network problem.`);
+        this.setError('stream', `The selected stream (${this.station.name}) could not load, or has stopped loading due to a network problem.`);
         this.playing = false;
         this.loading = false;
       });
@@ -234,8 +235,6 @@ export default {
     // run maintenance tasks on a timer
     setupMaintenance() {
       let remainingtime = Math.floor(this.track.remaining) || 30;
-      console.log("remainingtime:", remainingtime);
-      //console.log("setupMaintenance : for ",this.stationId);
       this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
     },
     selectChannel() {

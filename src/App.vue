@@ -179,7 +179,9 @@
         // on app mounted
         mounted() {
             console.log("App : mounted");
-            this.$store.dispatch('playerConfig/fetchConfig');
+            this.$store.dispatch('playerConfig/fetchConfig').then(()=>{
+              document.title = this.config.title
+            });
             this.$store.dispatch('nowplaying/fetchNowplaying').then(()=>{
                 this.initView();
             })
