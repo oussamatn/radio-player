@@ -1,0 +1,56 @@
+version: '3' # Version of the Docker Compose file format
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    restart: "always" # Always restart container
+    ports:
+      - "80:80" # Port mappings in format host:container
+      - "443:443"
+    networks:
+      - nginx-proxy # Name of the etwork these two containers will share
+    labels:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy" # Label needed for Let's Encrypt companion container
+    volumes: # Volumes needed for container to configure proixes and access certificates genereated by Let's Encrypt companion container
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - "nginx-conf:/etc/nginx/conf.d"
+      - "nginx-vhost:/etc/nginx/vhost.d"
+      - "html:/usr/share/nginx/html"
+      - "certs:/etc/nginx/certs:ro"
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    container_name: letsencrypt-nginx-proxy-companion
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "nginx-conf:/etc/nginx/conf.d"
+      - "nginx-vhost:/etc/nginx/vhost.d"
+      - "html:/usr/share/nginx/html"
+      - "certs:/etc/nginx/certs:rw"
+    depends_on: # Make sure we start nginx proxy container first
+      - nginx-proxy
+  radio-player:
+    restart: always
+    container_name: radio-player
+    build:
+      context: ./radio-player
+    hostname: hostname.ltd
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+    environment:
+      VIRTUAL_HOST : hostname.ltd
+      VIRTUAL_PORT : 8080
+      NODE_ENV : production
+      LETSENCRYPT_HOST : hostname.ltd
+      LETSENCRYPT_EMAIL : email@domaine.ltd
+    networks:
+      - nginx-proxy
+networks:
+  nginx-proxy: # Name of our shared network that containers will use
+volumes: # Names of volumes that out containers will share. Those will persist on docker's host machine.
+  nginx-conf:
+  nginx-vhost:
+  html:
+  certs:
