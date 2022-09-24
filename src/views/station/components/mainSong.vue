@@ -60,8 +60,8 @@
                                     <span class="fx fx-notx fx-ibk fx-drop-in"><i
                                         class="fa fa-comments"></i></span>
       </a> &nbsp;
-      <a v-if="station" :href="station.twitter" class="cta-btn text-nowrap fx fx-slide-up fx-delay-6"
-         rel="noreferrer" target="_blank" title="Twitter page">
+      <a v-if="currentsong" :href="twitterShare" class="cta-btn text-nowrap fx fx-slide-up fx-delay-6"
+         rel="noreferrer" target="_blank" title="Share on twitter">
         <i class="fab fa-twitter"></i>
       </a> &nbsp;
     </div>
@@ -97,6 +97,9 @@ export default {
       if (this.nextSong != null) return true;
       return false;
     },
+    twitterShare(){
+      return "https://twitter.com/share?text=" + this.$t('tw_listening_to') + this.currentsong.text + this.$t('live_on') + this.station.name + "&url=" + window.location.href ; // + "&hashtags=hashtag1,hashtag2,hashtag3"
+    }
   }
 }
 </script>

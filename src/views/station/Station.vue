@@ -18,7 +18,7 @@
     </main>
     <!-- player footer with controls -->
     <footer-player :canPlay="canPlay" :loading="loading" :playing="playing"
-                   v-on:togglePlay="togglePlay"></footer-player>
+                   v-on:togglePlay="togglePlay" :config="config"></footer-player>
 
 
   </div>

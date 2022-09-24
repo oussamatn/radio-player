@@ -10,4 +10,6 @@ export const en = {
     waves: 'WAVES',
     halo: 'HALO',
     trunk: 'TRUNK',
+    tw_listening_to : 'Entrain d\'écouter ',
+    live_on : 'LIVE ON '
 }

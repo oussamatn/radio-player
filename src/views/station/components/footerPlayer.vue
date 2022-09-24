@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import config from 'config';
 import animationSelection from '@/views/components/animationSelection'
 import _audio from '../../../js/audio';
 export default {
@@ -51,10 +50,10 @@ export default {
     canPlay: Boolean,
     playing: Boolean,
     loading: Boolean,
+    config : Object,
   },
   data: () => {
     return {
-      config:config,
       volume: 0.5,
       errors: {},
       timeStart: 0,
