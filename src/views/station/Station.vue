@@ -5,20 +5,20 @@
         <div class="flex-autorow flex-top flex-stretch player-channel">
           <!-- station details -->
 
-          <main-song></main-song>
+          <MainSong></MainSong>
           <!-- songs list -->
-          <songs-history></songs-history>
+          <SongsHistory></SongsHistory>
 
         </div>
 
 
-        <syncLyrics></syncLyrics>
+<!--        <syncLyrics></syncLyrics>-->
 
       </section>
     </main>
     <!-- player footer with controls -->
-    <footer-player :canPlay="canPlay" :loading="loading" :playing="playing"
-                   v-on:togglePlay="togglePlay" :config="config"></footer-player>
+    <footerPlayer :canPlay="canPlay" :loading="loading" :playing="playing"
+                   v-on:togglePlay="togglePlay" :config="config"></footerPlayer>
 
 
   </div>
@@ -26,15 +26,14 @@
 
 <script>
 
-
-import _audio from '../../js/audio';
-import favBtn from "@/views/components/favBtn";
-import syncLyrics from '@/views/station/components/syncLyrics'
-import footerPlayer from '@/views/station/components/footerPlayer'
-
 import {mapGetters, mapState} from 'vuex';
-import SongsHistory from "@/views/station/components/songsHistory";
-import MainSong from "@/views/station/components/mainSong";
+import _audio from '@/js/audio.js';
+import favBtn from "@/views/components/favBtn.vue";
+import syncLyrics from  '@/views/station/components/syncLyrics.vue'
+import footerPlayer from  '@/views/station/components/footerPlayer.vue'
+
+import SongsHistory from "@/views/station/components/songsHistory.vue";
+import MainSong from "@/views/station/components/mainSong.vue";
 
 export default {
   name: 'station',

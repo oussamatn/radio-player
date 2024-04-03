@@ -39,8 +39,10 @@
 </template>
 
 <script>
-import animationSelection from '@/views/components/animationSelection'
-import _audio from '../../../js/audio';
+import animationSelection from '@/views/components/animationSelection.vue'
+import _audio from '@/js/audio.js';
+import emitter from 'tiny-emitter/instance'
+
 export default {
   name: "footerPlayer",
   components: {
@@ -77,7 +79,7 @@ export default {
   },
   methods : {
     togglePlay() {
-      this.$emit('togglePlay')
+      emitter.emit('togglePlay')
     },
     volumeUp(){
       if (this.volume + 0.1 > 1) return;

@@ -1,9 +1,9 @@
 {
   "api_url" : "https://servidor.geracaoradios.com/api",
-  "title": "Joujma FM | Radio Station",
-  "description" : "Live Radio 24/7 Hits music Only test",
+  "title": "iCast FM | Radio Station",
+  "description" : "iCast FM Live Radio 24/7",
   "manifest" : {
-    "short_name": "Joujma FM",
+    "short_name": "iCastFM",
     "orientation": "portrait",
     "display": "standalone",
     "start_url": "/?utm_source=pwa_homescreen",
@@ -14,18 +14,18 @@
   "player": {
     "showLyrics": true
   },
-  "showPlaylist" : false,
-  "socialBtn" : false,
+  "showPlaylist" : true,
+  "socialBtn" : true,
   "meta": {
-    "url" : "https://player.jelliti.me",
-    "image" : "https://player.jelliti.me/img/icon.png",
+    "url" : "https://player.icast.world",
+    "image" : "https://player.icast.world/img/icon.png",
     "locale" : "US_en"
   },
   "twitter" : {
-    "username" : null
+    "username" : "@test2"
   },
   "facebook" : {
-    "page_id" : null
+    "page_id" : "test"
   },
-  "stationsFilterById": [6]
+  "stationsFilterById": []
 }

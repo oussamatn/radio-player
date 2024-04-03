@@ -1,4 +1,4 @@
-import _store from '../js/store';
+import _store from '@/js/store.js';
 
 const animation_key = 'animation_type'
 

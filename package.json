@@ -4,29 +4,35 @@
   "license": "GPL-3.0 License",
   "email": "contact@jelliti.me",
   "url": "https://oussama.jelliti.me",
+  "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "core-js": "^3.3.4",
     "debounce": "^1.2.0",
+    "eslint": "^8.48.0",
+    "eslint-plugin-vue": "^8.7.1",
     "register-service-worker": "^1.6.2",
     "serve": "^13.0.2",
     "standardized-audio-context": "^25.3.28",
-    "vue": "^2.6.10",
-    "vue-i18n": "^8.27.0",
-    "vue-router": "^3.1.3",
-    "vuex": "^3.1.3"
+    "tiny-emitter": "^2.1.0",
+    "vanta": "^0.5.24",
+    "vite-plugin-babel": "^1.2.0",
+    "vue": "^3.3.4",
+    "vue-i18n": "^9.10.2",
+    "vue-router": "^4.2.4",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.5",
-    "@vue/cli-plugin-pwa": "^4.0.5",
-    "@vue/cli-service": "^4.5.8",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "autoprefixer": "^10.4.15",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "sass": "^1.49.7",
-    "sass-loader": "^10.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "stylus": "^0.54.8",
+    "vite": "5.1.7"
   }
 }

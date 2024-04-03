@@ -5,7 +5,7 @@ export default {
     // serverTime :0,
     async getConfig() {
 
-        let configName = "/config.json";
+        let configName = "/src/config.json";
         let apiurl = "//"+ location.host+configName;
         //let error  = 'There was a problem fetching the Now Playing API from JoujmaFM.';
 

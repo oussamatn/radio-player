@@ -1,7 +1,5 @@
-<template >
-<!--  -->
+<template>
   <div class="player-canvas" v-if="_isPlayerVisible">
-
     <canvas id="player-canvas"></canvas>
     <div id="canvas-animation" style="position: absolute"></div>
   </div>
@@ -9,13 +7,15 @@
 </template>
 
 <script>
-import _scene from '../../../js/scene'
-import HALO from '../../../js/lib/vanta.halo.min'
-import TRUNK from '../../../js/lib/vanta.trunk.min'
-import WAVES from '../../../js/lib/vanta.waves.min'
-import CLOUDS2 from '../../../js/lib/vanta.clouds2.min'
-import _audio from '../../../js/audio';
-import { trunkNum } from '../../../js/utils'
+
+import emitter from 'tiny-emitter/instance'
+import HALO from "vanta/dist/vanta.halo.min.js"
+import TRUNK from 'vanta/dist/vanta.trunk.min.js'
+import WAVES from 'vanta/dist/vanta.waves.min.js'
+//import CLOUDS2 from "@/js/lib/vanta.clouds2.min.js"
+import _audio from "@/js/audio"
+import { trunkNum } from '@/js/utils'
+
 const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES','_CLOUD']
 const _TRUNK  = Symbol("TRUNK")
 const _SPHERE = Symbol("SPHERE")
@@ -25,7 +25,6 @@ const _CLOUD  = Symbol("CLOUD")
 
 
 export default {
-  name: "audioVisualizations",
   data:()=>{
     return{
       animationType: '_DISABLE',
@@ -46,12 +45,12 @@ export default {
       this.setupCanvas();
       this.updateCanvas();
     }
-    this.$root.$on('selectAnimationType', data => {
+    emitter.on('selectAnimationType', data => {
       console.log("on selectAnimationType:"+data);
       this.animationTypeSelect(data)
     });
 
-    
+
   },
   computed:{
     _isPlayerVisible(){
@@ -80,7 +79,7 @@ export default {
         this.visible = (document.visibilityState === 'visible')
       });
       window.addEventListener( 'resize', this.updateSize.bind( this ) );
-      
+
     },
     setupAnimation(type){
       let vantaOptions = {
@@ -183,7 +182,7 @@ export default {
         speed: 1.5
       });
      },
-    
+
     //TODO:  setup a timer to update fps count and drop it down to 10fps for devices with slow compute resources
     frame_limit(){
       this.fps_counter++;

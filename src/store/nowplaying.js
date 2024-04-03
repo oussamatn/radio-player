@@ -1,5 +1,5 @@
-import nowplayingService from '@/services/nowplayingService';
-import {isError} from "vue-router/src/util/errors";
+import { createStore } from 'vuex';
+import nowplayingService from '/src/services/nowplayingService.js';
 //import { FETCH_FAVORITES, FETCH_TAGS } from './actionTypes';
 //import { SET_FAVORITES, SET_TAGS } from './mutationTypes';
 
@@ -67,26 +67,26 @@ export const getters = {
         console.log("getters : CurrentSong",stationid)
         return state.nowplaying.find( (d) => (stationid) => (d.station.id === stationid)).now_playing.song;
     },*/
-    SongsByStation : (state) => {
-        let stationid = state.stationId
-        console.log("getters : SongsByStation",stationid)
-        return state.nowplaying.find( (d) => (stationid) => (d.station.id === stationid)).songs ;
-    },
+    // SongsByStation : (state) => {
+    //     let stationid = state.stationId
+    //     console.log("getters : SongsByStation",stationid)
+    //     return state.nowplaying.find( (d) => (stationid) => (d.station.id === stationid)).songs ;
+    // },
     getIDfromShortcode : (state) => (shortcode) =>{
         let found = state.nowplaying.find( (d) => (d.station.shortcode === shortcode));
         if( !found )  return false;
         return found.station.id ;
     },
-    hasSongs : (state) => {
-        return (!!Object.keys(state.songs).length);
+    hasSongs: (state) => () => { // Corrected to a function
+        return !!Object.keys(state.songs).length;
     },
-    getBackground : (state) =>{
+    getBackground : (state) => () => {
         console.log(state.currentSong);
         if(state.currentSong.song)
             return state.currentSong.song.art
         else return "img/icon.png" ;
     },
-    getStations : (state) => {
+    getStations : (state) => () => {
         let stations = [];
         for(let s in state.nowplaying ){
             stations.push(state.nowplaying[s].station);
@@ -142,7 +142,7 @@ export const mutations = {
 
 };
 
-export default {
+export default{
     namespaced: true,
     state,
     getters,

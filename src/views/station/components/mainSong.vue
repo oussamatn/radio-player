@@ -11,7 +11,7 @@
                                              width="80"
                                              height="80"/>-->
         <div class="flex-row flex-middle flex-space ">
-          <h4 class="pad-left text-clip">{{ station.name.toUpperCase() | toText }}</h4>
+          <h4 class="pad-left text-clip">{{ $toText(station.name.toUpperCase()) }}</h4>
           <favBtn :id="station.id" class="pad-right" style="font-size: x-large"></favBtn>
         </div>
         <!--                             <div class="text-nowrap">
@@ -71,7 +71,7 @@
 
 <script>
 import {mapState} from 'vuex';
-import favBtn from "@/views/components/favBtn";
+import favBtn from "@/views/components/favBtn.vue";
 
 
 export default {
@@ -94,8 +94,7 @@ export default {
       return this.$store.getters["playerConfig/getConfig"];
     },
     hasNextSong() {
-      if (this.nextSong != null) return true;
-      return false;
+      return this.nextSong != null;
     },
     twitterShare(){
       return "https://twitter.com/share?text=" + this.$t('tw_listening_to') + this.currentsong.text + this.$t('live_on') + this.station.name + "&url=" + window.location.href ; // + "&hashtags=hashtag1,hashtag2,hashtag3"

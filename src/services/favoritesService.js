@@ -1,4 +1,4 @@
-import _store from '../js/store';
+import _store from '/src/js/store';
 const favKey = "favorites_data"
 
 export default {

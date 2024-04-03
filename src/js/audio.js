@@ -1,12 +1,12 @@
 /**
  * Audio handler object
  */
-import { AudioContext } from 'standardized-audio-context';
+//import { AudioContext } from 'standardized-audio-context';
 
 export default {
     _audio: new Audio(),
     _context: new AudioContext(),
-    //_context: new (new AudioContext || (window.AudioContext || window.webkitAudioContext))(),
+    //_context: (new AudioContext() || (window.AudioContext || window.webkitAudioContext))(),
     _freq: new Uint8Array(),
     _source: null,
     _gain: null,
