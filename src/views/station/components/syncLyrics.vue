@@ -13,8 +13,8 @@
 
 <script>
 import {mapState} from 'vuex';
-import lyricsService from "@/services/lyricsService";
-import kugou from "@/services/lyrics/kugou/kugou";
+import lyricsService from "@/services/lyricsService.js";
+import kugou from "@/services/lyrics/kugou/kugou.js";
 export default {
   name: "syncLyrics",
   computed: {

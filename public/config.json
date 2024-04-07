@@ -22,10 +22,10 @@
     "locale" : "US_en"
   },
   "twitter" : {
-    "username" : null
+    "username" : ""
   },
   "facebook" : {
-    "page_id" : null
+    "page_id" : ""
   },
   "stationsFilterById": [6]
 }

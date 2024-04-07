@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from 'config';
+// import config from 'config';
 
 export default {
     api_url : "https://cors-anywhere.herokuapp.com/https://api.textyl.co/api/lyrics?q=",

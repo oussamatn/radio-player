@@ -11,7 +11,9 @@
 </template>
 
 <script>
-import animatinoService from "@/services/animatinoService";
+import animationService from "@/services/animationService.js";
+import emitter from 'tiny-emitter/instance'
+
 export default {
   name: "animationSelection",
   data: ()=>{
@@ -20,13 +22,13 @@ export default {
     }
   },
   async created() {
-    this.animationTypeSelect = await animatinoService.get();
+    this.animationTypeSelect = await animationService.get();
     console.log("created : " + this.animationTypeSelect);
   },
   watch: {
     animationTypeSelect() {
-      animatinoService.set(this.animationTypeSelect);
-      this.$root.$emit('selectAnimationType', this.animationTypeSelect);
+      animationService.set(this.animationTypeSelect);
+      emitter.emit('selectAnimationType', this.animationTypeSelect);
     }
   },
 }

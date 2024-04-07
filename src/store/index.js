@@ -1,17 +1,14 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-
+import { createStore } from 'vuex';
 import favorites from './Favorites';
-import nowplaying from "./nowplaying";
-import playerConfig from "./playerConfig";
+import nowplaying from './nowplaying';
+import playerConfig from './playerConfig';
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+const store = createStore({
     modules: {
-        favorites:favorites,
-        nowplaying:nowplaying,
-        playerConfig:playerConfig
-
-    },
+        favorites,
+        nowplaying,
+        playerConfig
+    }
 });
+
+export default store;

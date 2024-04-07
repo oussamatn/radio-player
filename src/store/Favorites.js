@@ -1,4 +1,4 @@
-import FavoritesService from '@/services/favoritesService';
+import FavoritesService from '/src/services/favoritesService.js';
 //import { FETCH_FAVORITES, FETCH_TAGS } from './actionTypes';
 //import { SET_FAVORITES, SET_TAGS } from './mutationTypes';
 

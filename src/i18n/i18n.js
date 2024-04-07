@@ -1,20 +1,20 @@
+import { createI18n } from 'vue-i18n';
+import { en } from './en.js';
+import { fr } from './fr.js';
+import { pt } from './pt.js';
 
-import {en} from './en'
-import Vue from 'vue'
-import {fr} from './fr'
-import {pt} from './pt'
-import VueI18n from 'vue-i18n'
-export const messages  = {
+const messages = {
     en: en,
     pt: pt,
-    fr:fr
-}
-Vue.use(VueI18n)
+    fr: fr
+};
 
-let locale = (navigator.userLanguage || navigator.language).split("-")[0]
-
-export default new VueI18n({
-    locale: locale,
+const i18n = createI18n({
+    legacy: false, // VueI18n v9 requires this to be false
+    allowComposition: true,
+    locale: navigator.language.split('-')[0],
     fallbackLocale: 'en',
     messages: messages
-})
+});
+
+export default i18n;

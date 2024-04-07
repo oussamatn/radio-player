@@ -252,7 +252,7 @@
 
     @media #{$screenSmall} {
       right: -420px;
-      width: 420px;
+      width: 350px;
     }
 
     .player-stations-header,
@@ -275,6 +275,7 @@
         padding: $padSpace;
         background-color: rgba( black, 0.1 );
         cursor: pointer;
+        text-decoration: none;
 
         &:nth-child( odd ) {
           background-color: rgba( black, 0.18 );

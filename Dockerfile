@@ -1,7 +1,7 @@
 #JoujmaFM Player Build APP
 
 # build environment
-FROM node:14-alpine as build
+FROM node:20-alpine as build
 
 USER root
 RUN rm -rf /home/node/joujmafm

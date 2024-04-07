@@ -1,25 +1,24 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from './views/Home.vue';
+import Station from './views/station/Station.vue';
 
-const Station = () => import('./views/station/Station')
-const Home =  () => import('./views/Home')
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: Home
+  },
+  {
+    path: '/station/:shortcode',
+    name: 'station',
+    component: Station
+  }
+];
 
-Vue.use(Router);
+const router = createRouter({
+  history: createWebHistory(),
+  linkActiveClass: 'active',
+  routes
+});
 
-export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  linkActiveClass: "active",
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/station/:shortcode',
-      name: 'station',
-      component: Station
-    }
-  ]
-})
+export default router;

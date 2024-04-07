@@ -3,7 +3,7 @@
  */
 import axios from 'axios';
 
-import config from 'config';
+import config from "./../../public/config.json";
 import { getters } from './../store/playerConfig'
 
 axios.interceptors.request.use( x => {

@@ -1,4 +1,4 @@
-import ConfigService from "@/services/configService";
+import ConfigService from "/src/services/configService.js";
 
 export const state = {
     playerConfig: []
