@@ -17,8 +17,7 @@
       </section>
     </main>
     <!-- player footer with controls -->
-    <footerPlayer :canPlay="canPlay" :loading="loading" :playing="playing"
-                   v-on:togglePlay="togglePlay" :config="config"></footerPlayer>
+    <footerPlayer :streamUrl="station.listen_url" :config="config"></footerPlayer>
 
 
   </div>
@@ -27,13 +26,15 @@
 <script>
 
 import {mapGetters, mapState} from 'vuex';
-import _audio from '@/js/audio.js';
+import { useRoute } from "vue-router";
 import favBtn from "@/views/components/favBtn.vue";
 import syncLyrics from  '@/views/station/components/syncLyrics.vue'
 import footerPlayer from  '@/views/station/components/footerPlayer.vue'
 
 import SongsHistory from "@/views/station/components/songsHistory.vue";
 import MainSong from "@/views/station/components/mainSong.vue";
+import router from "@/router.js";
+
 
 export default {
   name: 'station',
@@ -48,8 +49,6 @@ export default {
     return {
       // toggles
       visible: false,
-      playing: false,
-      loading: true,
       volume: 0.5,
       // errors stuff
       errors: {},
@@ -91,9 +90,7 @@ export default {
       return this.$store.getters["playerConfig/getConfig"];
     },
     // check if audio can be played
-    canPlay() {
-      return !!(this.stationId && !this.loading);
-    },
+
     // // check if a channel is selected
     // hasChannel() {
     //     return this.stationId ? true : false;
@@ -129,65 +126,6 @@ export default {
       });
     },
 
-
-    initPlayer() {
-      window.addEventListener('keydown', this.onKeyboard);
-      this.visible = true;
-      document.title = this.station.name +" - "+ this.config.title
-    },
-
-    // reset selected channel
-    resetPlayer() {
-      this.visible = false
-      this.closeAudio();
-      this.clearErrors();
-    },
-
-
-    // try resuming stream problem if possible
-    tryAgain() {
-      this.clearErrors();
-      this.playChannel();
-    },
-    // toggle stream playback for current selected channel
-    togglePlay() {
-      if (this.loading) return;
-      if (this.playing) return this.closeAudio();
-      return this.playChannel();
-    },
-
-    // setup audio routing and stream events
-    setupAudio() {
-
-      const a = _audio.setupAudio();
-
-      a.addEventListener('waiting', e => {
-        this.playing = false;
-        this.loading = true;
-      });
-      a.addEventListener('playing', e => {
-        this.setError('stream', '');
-        this.playing = true;
-        this.loading = false;
-      });
-      a.addEventListener('ended', e => {
-        this.playing = false;
-        this.loading = false;
-      });
-      a.addEventListener('error', e => {
-        this.closeAudio();
-        console.log(e);
-        this.setError('stream', `The selected stream (${this.station.name}) could not load, or has stopped loading due to a network problem.`);
-        this.playing = false;
-        this.loading = false;
-      });
-    },
-
-    // close active audio
-    closeAudio() {
-      _audio.stopAudio();
-      this.playing = false;
-    },
     //Update navigator media session data
     updateMediaSession() {
       console.log("%c updateMediaSession", 'color: green', this.currentsong)
@@ -201,25 +139,15 @@ export default {
         });
       }
     },
-    // play audio stream for a channel
-    playChannel() {
-      console.log('playChannel');
-      //if (this.playing ) return;
-      this.loading = true;
-      this.clearErrors();
-      console.log(!!this.station)
 
-      //if(!!this.station)
-      _audio.playSource(this.station.listen_url);
-      _audio.setVolume(this.volume);
-    },
     updateCurrentChannel() {
-      let stationId = this.$route.params.id;
+      const route = useRoute();
+      let stationId = route.params.id;
       console.log("stationId", stationId);
-      let short_code = this.$route.params.shortcode
-      if (short_code.length === 0) this.$router.push({name: "home"})
+      let short_code = route.params.shortcode
+      if (short_code.length === 0) router.push({name: "home"})
       if (isNaN(stationId)) stationId = this.getIDfromShortcode(short_code);
-      if (isNaN(stationId)) this.$router.push({name: "home"})
+      if (isNaN(stationId)) router.push({name: "home"})
       this.$store.dispatch('nowplaying/StationId', stationId);
     },
     // select a channel to play
@@ -237,18 +165,20 @@ export default {
       this.itv = setInterval(this.updateChannelData, remainingtime * 1000);
     },
     selectChannel() {
-      this.closeAudio();
+
+      //this.closeAudio(); //TODO
       this.initPlayer();
-      this.playChannel();
+      //this.playChannel();
       this.setupMaintenance();
 
     },
 
-    // on keyboard events
-    onKeyboard(e) {
-      const k = e.key || '';
-      if (k === ' ' && this.stationId) return this.togglePlay();
+    initPlayer() {
+      window.addEventListener('keydown', this.onKeyboard);
+      this.visible = true;
+      document.title = this.station.name +" - "+ this.config.title
     },
+
   },
   beforeCreate() {
     console.log("beforeCreate Station.vue");
@@ -263,7 +193,6 @@ export default {
   },
   mounted() {
 
-    this.setupAudio();
     this.selectChannel();
 
   },
@@ -285,10 +214,7 @@ export default {
     next();
   },
 
-  // on app destroyed
-  beforeDestroy() {
-    this.closeAudio();
-  },
+
   destroyed() {
     this.$store.dispatch('nowplaying/resetSongs')
   }
