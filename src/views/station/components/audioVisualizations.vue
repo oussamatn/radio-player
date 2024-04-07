@@ -14,80 +14,79 @@ import TRUNK from 'vanta/dist/vanta.trunk.min.js'
 import WAVES from 'vanta/dist/vanta.waves.min.js'
 //import CLOUDS2 from "@/js/lib/vanta.clouds2.min.js"
 import _audio from "@/js/audio"
-import { trunkNum } from '@/js/utils'
+import {trunkNum} from '@/js/utils'
 
-const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES','_CLOUD']
-const _TRUNK  = Symbol("TRUNK")
+const animationsType = ['_TRUNK', '_SPHERE', '_HALO', '_WAVES', '_CLOUD']
+const _TRUNK = Symbol("TRUNK")
 const _SPHERE = Symbol("SPHERE")
-const _HALO   = Symbol("HALO")
-const _WAVES  = Symbol("WAVES")
-const _CLOUD  = Symbol("CLOUD")
+const _HALO = Symbol("HALO")
+const _WAVES = Symbol("WAVES")
+const _CLOUD = Symbol("CLOUD")
 
 
 export default {
-  data:()=>{
-    return{
+  data: () => {
+    return {
       animationType: '_DISABLE',
       visible: true,
-      audioVizu:null,
-      _box:null,
-      _wrap:null,
+      audioVizu: null,
+      _box: null,
+      _wrap: null,
       anf: null,
       fps_counter: 0,
     }
   },
-  watch: {
-
-  },
+  watch: {},
   mounted() {
 
-    if(this._isPlayerVisible){
+    if (this._isPlayerVisible) {
       this.setupCanvas();
       this.updateCanvas();
     }
     emitter.on('selectAnimationType', data => {
-      console.log("on selectAnimationType:"+data);
+      console.log("on selectAnimationType:" + data);
       this.animationTypeSelect(data)
     });
 
 
   },
-  computed:{
-    _isPlayerVisible(){
-      return !(document.querySelector( '#player-wrap' ))
+  computed: {
+    _isPlayerVisible() {
+      return !(document.querySelector('#player-wrap'))
     },
   },
-  methods:{
-    animationTypeSelect (animationTypeSel) {
+  methods: {
+    animationTypeSelect(animationTypeSel) {
       // if(!animationsType.includes(animationTypeSel)) return;
       this.animationDestroy()
       this.animationType = animationTypeSel;
-      console.log("animationTypeSelect:" ); console.log(animationTypeSel)
+      console.log("animationTypeSelect:");
+      console.log(animationTypeSel)
       this.setupCanvas();
       this.updateCanvas();
     },
-    _isSphere(){
-      return (this.animationType === _SPHERE )
+    _isSphere() {
+      return (this.animationType === _SPHERE)
     },
     // setup animation canvas
     setupCanvas() {
-      this._wrap = document.querySelector( '#player-wrap' );
+      this._wrap = document.querySelector('#player-wrap');
       this._box = this._wrap.getBoundingClientRect();
 
       this.setupAnimation(this.animationType)
       document.addEventListener('visibilitychange', e => {
         this.visible = (document.visibilityState === 'visible')
       });
-      window.addEventListener( 'resize', this.updateSize.bind( this ) );
+      window.addEventListener('resize', this.updateSize.bind(this));
 
     },
-    setupAnimation(type){
+    setupAnimation(type) {
       let vantaOptions = {
-        el: document.querySelector( '#canvas-animation' ),
+        el: document.querySelector('#canvas-animation'),
         mouseControls: true,
         touchControls: true,
         gyroControls: false,
-        minHeight: this._box.height ,
+        minHeight: this._box.height,
         minWidth: this._box.width,
         color: 0x1496dc,
         scale: 1.00,
@@ -97,7 +96,7 @@ export default {
         texturePath: "img/noise.png",
         speed: 2.30,
       };
-      switch (type){
+      switch (type) {
         default:
         case '_HALO':
           this.audioVizu = HALO(vantaOptions)
@@ -117,8 +116,8 @@ export default {
           break;
       }
     },
-    updateSize(){
-      if (this._isSphere() || this.audioVizu==null) return;
+    updateSize() {
+      if (this._isSphere() || this.audioVizu == null) return;
       this._box = this._wrap.getBoundingClientRect();
       this.audioVizu.setOptions({
         minHeight: this._box.height,
@@ -127,49 +126,50 @@ export default {
       this.audioVizu.resize()
     },
     // audio visualizer animation loop
-    updateCanvasTrunk(freq){
+    updateCanvasTrunk(freq) {
       //Trunk
-      let chaos  = trunkNum(0.5,10,freq[ 1 ]|0)
-      // let chaos  = trunkNum(0.5,10,freq[ 1 ]|0)
-      let spacing  =trunkNum(0.2,7,freq[ 16 ]|0)
+      let chaos = trunkNum(0.5, 10, freq[1] | 0)
+      let spacing = trunkNum(0, 2, freq[16] | 0)
       this.audioVizu.setOptions({
-         spacing:spacing,
-         chaos:chaos,
-         //color:color
-     });
-      },
-     updateCanvasWaves(freq){
+        spacing: spacing,
+        chaos: chaos,
+        //color:color
+      });
+    },
 
-     let waveHeight  = trunkNum(2,40,freq[ 1 ]|0);
-     let shininess = trunkNum(3,100,freq[ 16 ]|0)
-     let waveSpeed = trunkNum(0.2,1.7,freq[ 3 ]|0)
-     let zoom = trunkNum(0.7,1.8,freq[ 16 ]|0)
+    updateCanvasWaves(freq) {
 
-     this.audioVizu.setOptions({
-       shininess: shininess,
-       waveHeight: waveHeight,
-       waveSpeed: waveSpeed,
-       zoom: zoom,
-     });
-     },
-    updateCanvaHalo(freq){
-      //Halo
-      let size = trunkNum(0.2,2,freq[ 1 ]|0);
-      let amplitudeFactor  = trunkNum(0,3,freq[ 50 ]|0);
-      let xOffset = trunkNum(-0.4,0.3,freq[ 200 ]|0);
+      let waveHeight = trunkNum(2, 40, freq[1] | 0);
+      let shininess = trunkNum(3, 100, freq[16] | 0)
+      let waveSpeed = trunkNum(0.2, 1.7, freq[3] | 0)
+      let zoom = trunkNum(0.7, 1.8, freq[16] | 0)
 
       this.audioVizu.setOptions({
-        size:size,
-        amplitudeFactor:amplitudeFactor,
+        shininess: shininess,
+        waveHeight: waveHeight,
+        waveSpeed: waveSpeed,
+        zoom: zoom,
+      });
+    },
+    updateCanvaHalo(freq) {
+      // Halo
+      let size = trunkNum(0.2, 2, freq[1] | 0);
+      let amplitudeFactor = trunkNum(0, 3, freq[50] | 0);
+      let xOffset = trunkNum(-0.4, 0.3, freq[200] | 0);
+
+      this.audioVizu.setOptions({
+        size: size,
+        amplitudeFactor: amplitudeFactor,
         xOffset: xOffset
       });
-     },
-    updateCanvaCloud(freq){
-      //Halo
-      let sunColor = ( Math.floor( freq[ 1 ] | 0 ) / 255 );
-      let sunGlareColor  = Math.floor( freq[ 16 ] | 0 ) ;
-      let speed = trunkNum(0,2.5,freq[ 16 ] | 0); ;
-      let color = (Math.floor( freq[ 1 ] | 0 ) / 255 ) * (Math.floor( freq[ 16 ] | 0 ) / 255) * (Math.floor( freq[ 10] | 0 ) / 255) ;
+    },
+    updateCanvaCloud(freq) {
+      // Cloud
+      let sunColor = (Math.floor(freq[1] | 0) / 255);
+      let sunGlareColor = Math.floor(freq[16] | 0);
+      let speed = trunkNum(0, 2.5, freq[16] | 0);
+
+      let color = (Math.floor(freq[1] | 0) / 255) * (Math.floor(freq[16] | 0) / 255) * (Math.floor(freq[10] | 0) / 255);
 
       this.audioVizu.setOptions({
         mouseControls: true,
@@ -181,18 +181,18 @@ export default {
         cloudColor: 0x46577a,
         speed: 1.5
       });
-     },
+    },
 
     //TODO:  setup a timer to update fps count and drop it down to 10fps for devices with slow compute resources
-    frame_limit(){
+    frame_limit() {
       this.fps_counter++;
-      if(this.fps_counter < 25 ) return false;
+      if (this.fps_counter < 25) return false;
       this.fps_counter = 0;
       return true;
     },
     updateCanvas(now) {
-      if ( !this.visible || _audio._gain === 0 || this.audioVizu === null) return;
-      this.anf = requestAnimationFrame( this.updateCanvas );
+      if (!this.visible || _audio._gain === 0 || this.audioVizu === null) return;
+      this.anf = requestAnimationFrame(this.updateCanvas);
 
 
       const freq = _audio.getFreqData();
@@ -215,12 +215,12 @@ export default {
         case '_DISABLE':
         default:
           this.animationDestroy()
-           this.audioVizu =null;
+          this.audioVizu = null;
           return;
           break;
       }
     },
-    animationDestroy(){
+    animationDestroy() {
       if (this.audioVizu) {
         this.audioVizu.destroy()
         this.audioVizu = null
@@ -236,7 +236,7 @@ export default {
 </script>
 
 <style scoped>
-#canvas-animation{
+#canvas-animation {
   position: absolute;
   top: 0px;
 }
