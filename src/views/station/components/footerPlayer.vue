@@ -53,7 +53,6 @@ export default {
   },
   data: () => {
     return {
-      visible: false,
       playing: false,
       loading: false,
       volume: 0.5,
@@ -91,7 +90,7 @@ export default {
 
     // reset selected channel
     resetPlayer() {
-      this.visible = false
+      this.$parent.visible = false
       this.closeAudio();
 
     },
@@ -180,6 +179,9 @@ export default {
 
   mounted() {
     this.setupAudio();
+    emitter.on('resetPlayer', () => {
+      this.resetPlayer();
+    });
   },
   beforeDestroy() {
     this.closeAudio();

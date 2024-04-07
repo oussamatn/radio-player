@@ -8,9 +8,9 @@
       <section class="player-layout" v-if="init">
         <!-- player top header -->
         <header class="player-header flex-row flex-middle flex-stretch">
-          <h2 class="text-clip flex-1">
-            <i class="fa fa-headphones"></i>
-            <router-link to="/" custom  >
+          <h2 class="text-clip flex-1 ">
+            <router-link  :to="{name: 'home'}" style="text-decoration: none">
+              <i class="fa fa-headphones"></i>&nbsp;
               <span role="link"> {{ config.title }}</span>
             </router-link>
           </h2>

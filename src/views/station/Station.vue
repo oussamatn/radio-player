@@ -10,8 +10,6 @@
           <SongsHistory></SongsHistory>
 
         </div>
-
-
 <!--        <syncLyrics></syncLyrics>-->
 
       </section>
@@ -24,7 +22,7 @@
 </template>
 
 <script>
-
+import emitter from 'tiny-emitter/instance'
 import {mapGetters, mapState} from 'vuex';
 import { useRoute } from "vue-router";
 import favBtn from "@/views/components/favBtn.vue";
@@ -202,14 +200,15 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
 
-
+    console.log("beforeRouteUpdate");
     //Preload
-    this.resetPlayer();
+    emitter.emit('resetPlayer');
     if (to.params.id) {
       this.$store.dispatch('nowplaying/resetSongs')
       this.$store.dispatch('nowplaying/StationId', to.params.id)
 
     }
+
     console.log("beforeRouteUpdate : ", to.params.id);
     this.selectChannel();
     next();

@@ -1,5 +1,5 @@
 {
-  "api_url" : "https://demo.azuracast.com/api",
+  "api_url" : "https://servidor.geracaoradios.com/api",
   "title": "Joujma FM | Radio Station",
   "description" : "Live Radio 24/7 Hits music Only test",
   "manifest" : {
@@ -22,10 +22,10 @@
     "locale" : "US_en"
   },
   "twitter" : {
-    "username" : null
+    "username" : ""
   },
   "facebook" : {
-    "page_id" : null
+    "page_id" : ""
   },
   "stationsFilterById": [6]
 }
