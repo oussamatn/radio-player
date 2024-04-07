@@ -202,7 +202,7 @@ export default {
   },
   beforeRouteUpdate(to, from, next) {
 
-    console.log("beforeRouteUpdate : ", to.params.id);
+
     //Preload
     this.resetPlayer();
     if (to.params.id) {
@@ -210,6 +210,7 @@ export default {
       this.$store.dispatch('nowplaying/StationId', to.params.id)
 
     }
+    console.log("beforeRouteUpdate : ", to.params.id);
     this.selectChannel();
     next();
   },

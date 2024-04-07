@@ -2,7 +2,7 @@
     <!-- app player container -->
     <main id="player-wrap" class="player-wrap" :style="{ opacity: init ? 1 : 0 }">
       <!-- bg absolute elements -->
-      <figure id="player-bg" class="player-bg" :style="{ 'background-image': `url(${getBackground})` }"></figure>
+      <figure id="player-bg" class="player-bg" :style="{ 'background-image':  `url(  ${ getBackground} )` }"></figure>
       <audio-visualizations></audio-visualizations>
       <!-- main player layout -->
       <section class="player-layout" v-if="init">
@@ -35,7 +35,7 @@
           </header>
           <!-- sidebar stations list -->
           <ul class="player-stations-list">
-            <router-link tag="li" class="player-stations-list-item flex-row flex-top flex-stretch" v-for="c of filteredStations" :key="c.station.id" :to="{ name: 'station', params: { id: c.station.id, shortcode: c.station.shortcode }}">
+            <router-link tag="li" class="player-stations-list-item flex-row flex-top flex-stretch" v-for="c of filteredStations" :key="c.station.id" :to="{ name: 'station', params: { shortcode: c.station.shortcode }}">
               <!--<figure id="player-bg" class="player-bg" v-bind:style="{ 'background-image': `url(${c.now_playing.song.art})` }"></figure>-->
               <figure class="push-right">
                 <img class="img-round" width="70" height="70" :src="c.now_playing.song.art" :alt="c.station.name" @error="c.station.image='/img/icon.png'"/>
